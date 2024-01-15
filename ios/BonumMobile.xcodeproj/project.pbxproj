@@ -42,6 +42,22 @@
 		5709B34CF0A7D63546082F79 /* Pods-BonumMobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonumMobile.release.xcconfig"; path = "Target Support Files/Pods-BonumMobile/Pods-BonumMobile.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-BonumMobile-BonumMobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonumMobile-BonumMobileTests.debug.xcconfig"; path = "Target Support Files/Pods-BonumMobile-BonumMobileTests/Pods-BonumMobile-BonumMobileTests.debug.xcconfig"; sourceTree = "<group>"; };
 		687AF8E42B55D8560096C6BE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		687AF9432B55F5E30096C6BE /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
+		687AF9442B55F5E30096C6BE /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
+		687AF9452B55F5E30096C6BE /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
+		687AF9462B55F5E30096C6BE /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
+		687AF9472B55F5E30096C6BE /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Brands.ttf; sourceTree = "<group>"; };
+		687AF9482B55F5E30096C6BE /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
+		687AF9492B55F5E30096C6BE /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AntDesign.ttf; sourceTree = "<group>"; };
+		687AF94A2B55F5E30096C6BE /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Foundation.ttf; sourceTree = "<group>"; };
+		687AF94B2B55F5E30096C6BE /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
+		687AF94C2B55F5E30096C6BE /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Solid.ttf; sourceTree = "<group>"; };
+		687AF94D2B55F5E30096C6BE /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Regular.ttf; sourceTree = "<group>"; };
+		687AF94E2B55F5E30096C6BE /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
+		687AF94F2B55F5E30096C6BE /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
+		687AF9502B55F5E30096C6BE /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
+		687AF9512B55F5E30096C6BE /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
+		687AF9522B55F5E30096C6BE /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = BonumMobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-BonumMobile-BonumMobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BonumMobile-BonumMobileTests.release.xcconfig"; path = "Target Support Files/Pods-BonumMobile-BonumMobileTests/Pods-BonumMobile-BonumMobileTests.release.xcconfig"; sourceTree = "<group>"; };
 		C7FBADDAD77A94B8CFCCA15A /* Pods_BonumMobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BonumMobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +124,29 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		687AF9422B55F5E30096C6BE /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				687AF9432B55F5E30096C6BE /* Fontisto.ttf */,
+				687AF9442B55F5E30096C6BE /* Octicons.ttf */,
+				687AF9452B55F5E30096C6BE /* Feather.ttf */,
+				687AF9462B55F5E30096C6BE /* Entypo.ttf */,
+				687AF9472B55F5E30096C6BE /* FontAwesome5_Brands.ttf */,
+				687AF9482B55F5E30096C6BE /* MaterialCommunityIcons.ttf */,
+				687AF9492B55F5E30096C6BE /* AntDesign.ttf */,
+				687AF94A2B55F5E30096C6BE /* Foundation.ttf */,
+				687AF94B2B55F5E30096C6BE /* Ionicons.ttf */,
+				687AF94C2B55F5E30096C6BE /* FontAwesome5_Solid.ttf */,
+				687AF94D2B55F5E30096C6BE /* FontAwesome5_Regular.ttf */,
+				687AF94E2B55F5E30096C6BE /* FontAwesome.ttf */,
+				687AF94F2B55F5E30096C6BE /* Zocial.ttf */,
+				687AF9502B55F5E30096C6BE /* EvilIcons.ttf */,
+				687AF9512B55F5E30096C6BE /* SimpleLineIcons.ttf */,
+				687AF9522B55F5E30096C6BE /* MaterialIcons.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +157,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				687AF9422B55F5E30096C6BE /* Fonts */,
 				687AF8E42B55D8560096C6BE /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* BonumMobile */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
