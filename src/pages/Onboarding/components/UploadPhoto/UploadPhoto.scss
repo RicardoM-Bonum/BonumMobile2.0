@@ -1,0 +1,36 @@
+.UploadPhoto {
+  display: grid;
+  place-items: center;
+
+  &__card {
+    width: 30ch !important;
+    display: grid;
+    place-items: center;
+  }
+
+  &__photo {
+    width: 12ch;
+    aspect-ratio: 1;
+  }
+
+  &__hint {
+    font-size: 0.8em;
+    margin: 2em;
+    margin-top: 1rem;
+    text-align: center;
+    color: $gray;
+    max-width: 35ch;
+  }
+
+  .Button {
+    width: 60% !important;
+    margin-top: 4em;
+    display: none;
+  }
+
+  @media (max-width: 920px) {
+    .Button {
+      display: block;
+    }
+  }
+}

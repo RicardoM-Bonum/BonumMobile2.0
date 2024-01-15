@@ -1,0 +1,79 @@
+.WorkSchedule {
+  text-align: center;
+
+  &__subtitle {
+    font-size: 0.9em;
+    margin: 0.5em 0 1em;
+    color: $gray;
+  }
+
+  &__schedule {
+    &_day {
+      font-size: 0.85em !important;
+    }
+    display: grid;
+    grid-template-columns: 16% 60% 10%;
+    gap: 1em;
+    align-items: center;
+    margin: 1.5em auto;
+    margin-bottom: 1em;
+
+    &_checkbox {
+      width: 2em;
+      margin-left: 1em;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    &_input {
+      border-radius: 0.8em !important;
+      font-size: 0.9em !important;
+      height: 3.5em !important;
+      text-align: center;
+    }
+  }
+
+  &__buttons {
+    margin: 2em auto 0;
+    display: grid;
+    grid-template-columns: 16% 30% 30% 10%;
+    gap: 1em;
+    button {
+      min-width: unset !important;
+      width: 100% !important;
+      height: 2.6em !important;
+
+      &:first-of-type {
+        place-self: flex-end;
+      }
+    }
+  }
+
+  @media (max-width: 912px) {
+    padding-right: 0.5em !important;
+    padding-left: 0.5em !important;
+
+    &__schedule {
+      width: 100% !important;
+      &_checkbox {
+        margin-left: 0;
+      }
+    }
+
+    &__buttons {
+      width: 100%;
+      button {
+        width: 100% !important;
+        text-align: center;
+      }
+    }
+  }
+
+  @media (max-width: 1366px) {
+    &__schedule {
+      width: 60%;
+    }
+  }
+}

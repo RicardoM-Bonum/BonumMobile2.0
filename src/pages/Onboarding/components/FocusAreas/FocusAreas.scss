@@ -1,0 +1,74 @@
+.FocusAreas {
+  text-align: center;
+  width: 80%;
+
+  button.chakra-button {
+    width: 26rem;
+    display: none;
+  }
+
+  &__title {
+    font-size: 1.1em !important;
+    margin: 0.8em 0;
+  }
+
+  &__subtitle {
+    font-size: 0.9em;
+    color: $gray;
+    margin-bottom: 2em;
+  }
+
+  &__error {
+    margin-top: -1em;
+    margin-bottom: 1.5em;
+    font-size: 0.9em;
+    color: $error;
+  }
+
+  &__grid {
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 3fr));
+    gap: 3em;
+    grid-auto-flow: row;
+    margin-bottom: 3em;
+    place-items: center;
+
+    &_area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: $background-primary;
+      border-radius: 1.5em;
+      padding: 0 !important;
+      justify-content: space-around;
+      width: 90%;
+      box-shadow: 0px 4px 3px 2px rgba(0, 0, 0, 0.1);
+      border: 2px solid transparent;
+      aspect-ratio: 1;
+
+      &--selected {
+        border: 2px solid $blue-bonum;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &_icon {
+        width: 7em;
+        margin: 1em 0.5em;
+      }
+
+      &_title {
+        font-size: 0.9em;
+        color: $gray !important;
+        font-weight: 400 !important;
+      }
+    }
+  }
+
+  @media (max-width: 920px) {
+    button.chakra-button {
+      display: block;
+    }
+  }
+}

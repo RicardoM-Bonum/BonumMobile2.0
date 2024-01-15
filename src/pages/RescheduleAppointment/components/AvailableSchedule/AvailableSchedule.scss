@@ -1,0 +1,22 @@
+.AvailableSchedule {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1em;
+  margin-bottom: 3em;
+  border: 2px solid transparent;
+
+  &__button.Button.chakra-button {
+    background-color: white;
+    box-shadow: 0px 4px 3px 2px rgba(0, 0, 0, 0.1);
+    min-width: 10em;
+    border-radius: 1em;
+    color: $gray-light;
+    font-weight: 400;
+    margin: 0.7em;
+  }
+
+  &__button--selected {
+    border: 2px solid $new-blue-bonum;
+  }
+}

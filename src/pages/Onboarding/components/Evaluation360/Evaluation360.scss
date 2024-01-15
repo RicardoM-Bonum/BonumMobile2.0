@@ -1,0 +1,78 @@
+.Evaluation360 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: static;
+
+  &__form {
+    padding: 1.5em !important;
+    padding-top: 0 !important;
+    width: 18em !important;
+    margin: 2rem 0;
+  }
+
+  &__title {
+    margin-bottom: 1rem;
+  }
+
+  &__subtitle {
+    color: $gray;
+    font-size: 0.9em;
+    max-width: 38ch;
+    text-align: center;
+  }
+
+  &__button {
+    background-color: transparent !important;
+    color: $blue-bonum !important;
+    text-decoration: underline;
+  }
+
+  &__form {
+    & .NoData {
+      height: 8em;
+      &__title {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  &__formcontrol {
+    &_name {
+      display: flex;
+      gap: 0.5em;
+    }
+  }
+
+  &__input {
+    margin: 0.5em 0;
+  }
+
+  &__label {
+    font-size: 0.8em !important;
+    color: #1e2843;
+    font-weight: 400 !important;
+    margin: 1.5em 0;
+  }
+
+  button.chakra-button {
+    width: 24rem;
+    height: 2.5em;
+    margin-top: 1rem;
+  }
+  .Button--next {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .Button--next {
+      display: block;
+    }
+    &__subtitle {
+      font-size: 0.8em;
+      width: 38ch;
+      text-align: center;
+    }
+  }
+}

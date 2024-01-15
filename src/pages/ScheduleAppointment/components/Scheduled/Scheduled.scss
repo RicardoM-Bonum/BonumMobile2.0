@@ -1,0 +1,106 @@
+.Card.Scheduled {
+  text-align: center;
+  background-color: $background-primary;
+  width: 30%;
+  aspect-ratio: initial;
+  padding: 2em 0;
+  padding-bottom: 4em;
+  box-shadow: 0px 0px 8px -3px rgba($color: $gray, $alpha: 0.4);
+
+  @media (max-width: 820px) {
+    width: 90%;
+  }
+}
+
+.Scheduled {
+  &__subtitle {
+    font-size: 0.9em;
+    color: $gray;
+    margin: 0.5em 0;
+  }
+
+  &__hour {
+    color: $new-blue-bonum;
+    margin-bottom: 1em;
+  }
+
+  &__calendar-schedule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &_description {
+      font-size: 1em;
+      color: $gray;
+      margin-right: 1em;
+    }
+
+    &_switch {
+      .chakra-switch {
+        &__track {
+          &[data-checked] {
+            background-color: $new-blue-bonum;
+          }
+        }
+      }
+    }
+  }
+
+  &__remember {
+    text-align: left;
+    margin: 0 auto;
+    margin-top: 1em;
+    width: 70%;
+
+    &_title {
+      font-size: 1.1em;
+      font-weight: 400;
+      margin-bottom: 0.5em;
+    }
+
+    &_advice {
+      font-size: 0.9em;
+      color: $gray;
+      margin-bottom: 1em;
+      text-align: center;
+
+      &_bold {
+        font-size: 1.1em;
+        color: $font;
+        text-align: center;
+      }
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+
+    &_one-day {
+      margin-bottom: 0.5em;
+    }
+
+    &_one-day,
+    &_one-hour {
+      display: flex;
+      align-items: center;
+
+      p {
+        color: $gray;
+        margin-left: 0.8em;
+      }
+
+      .chakra-checkbox {
+        width: 1em;
+        height: 1em;
+        &__control {
+          width: 100%;
+          height: 100%;
+
+          &[data-checked] {
+            background-color: $new-blue-bonum;
+          }
+        }
+      }
+    }
+  }
+}

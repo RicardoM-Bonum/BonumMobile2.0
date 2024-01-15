@@ -1,0 +1,33 @@
+.CreateYourAccount {
+  text-align: center;
+
+  & > * {
+    margin: 0.5em 0;
+  }
+
+  &__form.Card {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    padding: 2em 1em;
+    aspect-ratio: initial;
+    margin: 1em 0;
+    padding-bottom: 3em;
+
+    & > * {
+      margin: 0.5em auto;
+      width: fit-content;
+    }
+    .chakra-form__error-message {
+      max-width: 30ch;
+      text-align: center;
+    }
+  }
+
+  &__form {
+    input {
+      font-size: 1em;
+      width: 18em !important;
+    }
+  }
+}

@@ -1,0 +1,57 @@
+.AddEvaluator {
+  padding: 0 100%;
+  background-color: $steps;
+  z-index: 1000;
+  &__title,
+  &__subtitle {
+    text-align: center;
+    max-width: 38ch;
+    margin: 1em 0;
+  }
+
+  &__subtitle {
+    font-size: 0.8em;
+  }
+
+  &__form {
+    width: fit-content !important;
+    aspect-ratio: initial !important;
+    padding: 1.5em 1em !important;
+  }
+
+  &__select.chakra-select {
+    margin-bottom: 0.7em;
+
+    &_icon {
+      color: $gray !important;
+    }
+  }
+
+  .chakra-select__icon-wrapper {
+    top: 40%;
+
+    .chakra-select__icon {
+      color: $gray !important;
+    }
+  }
+
+  &__input {
+    width: 20em !important;
+    margin: 0.7em 0;
+  }
+
+  &__actions {
+    display: flex;
+    margin-top: 2em;
+
+    :first-child {
+      margin-right: 1em;
+    }
+
+    & > * {
+      min-width: initial !important;
+      width: 50% !important;
+      height: 2.5em !important;
+    }
+  }
+}

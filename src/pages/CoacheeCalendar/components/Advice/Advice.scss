@@ -1,0 +1,76 @@
+.Advice {
+  &__legend {
+    margin-top: 3em;
+    font-size: 0.8em !important;
+    background-color: $background-primary;
+    box-shadow: $box-shadow-card-2;
+    border-radius: 1em;
+    padding: 1em;
+    color: $gray;
+    width: 100%;
+  }
+
+  &__messages {
+    width: 80%;
+  }
+
+  &__advice {
+    align-self: center;
+
+    &__message {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.9em;
+      color: $gray;
+      margin-bottom: 1em;
+
+      &::after {
+        content: '';
+        width: 1.2em;
+        height: 1.2em;
+        background-color: red;
+        border-radius: 50%;
+        display: block;
+        margin-left: 1em;
+      }
+
+      &--today {
+        &::after {
+          background-color: $yellow;
+        }
+      }
+
+      &--selected {
+        &::after {
+          background-color: #1087ff;
+        }
+      }
+
+      &--nonworking {
+        &::after {
+          background-color: $nonworking;
+        }
+      }
+
+      &--executed {
+        &::after {
+          background-color: $green;
+        }
+      }
+    }
+
+    @media (max-width: 820px) {
+      margin-bottom: 2em;
+      width: 75%;
+      margin-right: auto;
+      margin-left: auto;
+
+      margin-top: 1.5em;
+
+      &__message {
+        justify-content: space-between;
+      }
+    }
+  }
+}

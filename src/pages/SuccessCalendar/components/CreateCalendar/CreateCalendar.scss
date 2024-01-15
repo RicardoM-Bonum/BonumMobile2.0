@@ -1,0 +1,50 @@
+.CreateCalendar {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
+  padding: 2em !important;
+
+  &__subtitle {
+    color: $gray;
+    font-size: 0.9em;
+    max-width: 50ch;
+    text-align: center;
+    margin: 0.5em 0 1.5em;
+  }
+
+  &__form {
+    width: 100% !important;
+    aspect-ratio: initial !important;
+  }
+
+  .chakra-form-control {
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  .chakra-form__error-message {
+    margin: 0 0 1em;
+  }
+
+  &__icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .chakra-icon {
+      margin-right: 1em;
+    }
+  }
+}
+
+.IconOption {
+  display: flex !important;
+  justify-content: left;
+  align-items: center;
+
+  &__icon {
+    margin-right: 1em;
+  }
+}

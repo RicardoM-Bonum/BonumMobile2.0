@@ -1,0 +1,140 @@
+@import 'react-big-calendar/lib/sass/styles';
+
+$event-padding: 4px 10px !default;
+
+.DayCalendar {
+  width: 55%;
+  margin: 0 auto;
+
+  &__card {
+    background-color: $future-transparent;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1em;
+
+    & .rbc-event-label {
+      color: #ffffffbf;
+    }
+
+    &--executed {
+      background-color: $executed-transparent;
+
+      & .rbc-event-label {
+        color: white;
+      }
+    }
+  }
+
+  &__calendar {
+    > * {
+      border: none !important;
+    }
+
+    .rbc {
+      &-time {
+        &-header {
+          display: none;
+        }
+
+        &-content {
+          border: none;
+        }
+
+        &-gutter {
+          display: none;
+        }
+      }
+
+      &-timeslot-group {
+        display: none;
+      }
+
+      &-events-container {
+        position: relative !important;
+        top: inherit !important;
+        bottom: inherit !important;
+        height: fit-content !important;
+        margin: 0;
+        border: none;
+      }
+
+      &-event {
+        flex-flow: initial;
+        flex-direction: column-reverse;
+        box-shadow: $box-shadow-card-2;
+        background-color: transparent !important;
+        border: none;
+        padding: 0.6em;
+        top: inherit !important;
+        left: inherit !important;
+        min-height: 70px !important;
+        position: relative !important;
+        cursor: inherit;
+
+        &-content {
+          font-size: 1em;
+        }
+      }
+
+      &-timeslot-group {
+        min-height: 4em;
+      }
+
+      &-today {
+        background-color: #fff;
+      }
+
+      &-label {
+        font-weight: 500;
+        color: $gray;
+        text-align: center;
+      }
+
+      &-agenda {
+        &-empty {
+          display: none;
+        }
+
+        &-view,
+        &-table {
+          border: none !important;
+        }
+
+        &-table {
+          thead {
+            tr {
+              th {
+                color: $gray;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 912px) {
+    width: 100%;
+
+    .rbc {
+      &-event {
+        background-color: $blue-bonum;
+        flex-flow: initial;
+        flex-direction: column-reverse;
+        box-shadow: $box-shadow-card-2;
+        border: none;
+        padding: 0.2em;
+      }
+
+      &-agenda {
+        &-time-cell {
+          white-space: initial;
+        }
+      }
+
+      &-header {
+        white-space: initial;
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+.PickTimezone {
+  text-align: center;
+
+  &__subtitle {
+    color: $gray;
+    font-size: 0.9em;
+    margin: 0.5em auto;
+  }
+
+  &__picker {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 1.5em;
+    text-align: center;
+    border-radius: 1.5em;
+    background-color: $blue-light;
+    box-shadow: 4px 4px 6px 0px rgba(0, 0, 0, 0.1);
+    padding: 2em 2em 1em;
+  }
+
+  &__icon {
+    margin: 0 auto 2rem;
+    width: 65px;
+  }
+
+  &__open {
+    background-color: transparent !important;
+    color: $blue-bonum !important;
+    text-decoration: underline;
+  }
+}
+
+.MuiBox-root {
+  svg {
+    width: 1400px;
+  }
+}

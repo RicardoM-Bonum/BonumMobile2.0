@@ -1,0 +1,39 @@
+.UploadVideo {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  width: 100%;
+
+  h5 {
+    max-width: 25ch;
+  }
+
+  & > * {
+    margin-bottom: 1em;
+  }
+
+  &__card {
+    width: 30ch !important;
+    display: grid;
+    padding: 1em !important;
+  }
+
+  &__icon {
+    place-self: center;
+    width: 12ch;
+  }
+
+  &__video {
+    align-self: center;
+
+    video {
+      aspect-ratio: 1;
+      object-fit: cover;
+    }
+
+    &_replace {
+      margin-top: 1em;
+      color: $gray;
+    }
+  }
+}

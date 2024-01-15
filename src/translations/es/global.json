@@ -1,0 +1,658 @@
+{
+  "components": {
+    "auth": {
+      "login": {
+        "title": "Hola!",
+        "description": "Introduce tus credenciales para continuar.",
+        "cardTitle": "Inciar Sesión",
+        "fieldEmail": "Correo Electrónico",
+        "fieldPassword": "Contraseña",
+        "forgotPassword": "¿Olvidaste tu contraseña?",
+        "recover": "Recuperala",
+        "button": "Aceptar",
+        "validations": {
+          "emailValid": "Su correo debe ser válido",
+          "emailRequire": "El email es requerido",
+          "passRequire": "La contraseña es requerida",
+          "noExists": "El usuario no existe"
+        }
+      },
+      "forgotPassword": {
+        "title": "A veces sucede...",
+        "description": "Introduce tu email para recuperar tu contraseña",
+        "title2": "Olvide mi contraseña",
+        "placeholder": "Correo Electrónico",
+        "button": "Reestablecer contraseña",
+        "remember": "¿La recordaste?",
+        "button2": "Inicia sesión"
+      }
+    },
+    "dayCalendar": {
+      "title": "Sesión de coaching con {{ name }} {{ lastname }}",
+      "date": "Fecha",
+      "time": "Hora",
+      "event": "Detalles de evento"
+    },
+    "evaluation": {
+      "errorGet": "Error al obtener autoevaluaciones",
+      "error360": "Error al obtener evaluaciones 360",
+      "loading": "Cargando evaluaciones",
+      "start": "Inicial",
+      "end": "Final",
+      "noData": "El Coachee aun no tiene ninguna evaluación",
+      "noSubject": "No hay temas para mostrar"
+    },
+    "menu": {
+      "home": "Inicio",
+      "preferences": "Preferencias",
+      "myEvaluations": "Mis Evaluaciones",
+      "signOut": "Cerrar Sesión",
+      "closeSession": "Cerrar Sesión",
+      "myCoachees": "Mis Coachees",
+      "myCalendar": "Mi Calendario",
+      "mySessions": "Mis Sesiones",
+      "myCoach": "Mi Coach"
+    }
+  },
+  "pages": {
+    "preferences": {
+      "sidebar": {
+        "profile": "Perfil",
+        "timezone": "Zona Horaria",
+        "calendars": "Calendarios",
+        "alternateCall": "Llamada Alterna",
+        "howDoYouWork": "¿Cómo trabajas?",
+        "video": "Video",
+        "calendar": "Calendário",
+        "language": "Idioma",
+        "changePw": "Cambiar Contraseña",
+        "changeTZ": "Cambiar Zona Horaria",
+        "editProfile": "Editar Perfil"
+      },
+      "profile": {
+        "changePassword": "Cambiar Contraseña",
+        "currentPassword": "Contraseña Actual",
+        "newPassword": "Nueva Contraseña",
+        "confirmPassword": "Confirmar Contraseña",
+        "confirmNewPassword": "Confirmar nueva contraseña",
+        "buttonChangePassword": "Cambiar contraseña",
+        "name": "Nombre",
+        "lastname": "Apellido",
+        "email": "Correo Eléctronico",
+        "paypalEmail": "Correo Eléctronico asociado con Paypal",
+        "phone": "Telefono",
+        "address": "Direccion",
+        "resume": "Resumen como Coach",
+        "howWork": "Como trabajo",
+        "changeVideo": "Cambiar video",
+        "save": "Guardar",
+        "loadingVideo": "Video esta cargando",
+        "noVideo": "Aun no has cargado tu video"
+      },
+      "calendar": {
+        "title": "Calendarios",
+        "subtitle": "Estos son tus calendarios, elige cuales te gustaría usar para tu disponibilidad en Bonum",
+        "connectButton": "Conectar proveedor",
+        "saveButton": "Guardar"
+      },
+      "language": {
+        "title": "Cambiar idioma de la aplicación"
+      },
+      "alternateCall": {
+        "title": "Llamada Alterna",
+        "subtitle": "Aquí puedes configurar el link hacia tu llamada alterna",
+        "linkPlaceholder": "Link de llamada alterna",
+        "saveButton": "Guardar Link"
+      },
+      "howDoYouWork": {
+        "title": "Como trabajas",
+        "summary": "Resumen",
+        "howDoYouWork": "Como trabajas",
+        "saveButton": "Guardar cambios"
+      }
+    },
+    "autoevaluation": {
+      "messages": {
+        "getAuto": "Error al obtener Autoevaluación",
+        "sendAuto": "Aún hay preguntas sin contestar",
+        "sendError": "Error al enviar autoevaluación",
+        "loading": "Cargando Autoevaluación",
+        "noData": "No se encontró ninguna autoevaluación"
+      },
+      "title": "Autoevaluación",
+      "description": "Como parte del proceso de coaching de {{ name }} {{ lastname }}, solicitamos tu colaboración para responder las siguientes preguntas. Recuerda que la información que nos proporciones es confidencial, solo {{ name }} {{ lastname }} y su coach tendrán acceso a ella.",
+      "dataUser": "Datos de usuario evaluado",
+      "fieldName": "Nombre",
+      "fieldDepartment": "Departamento",
+      "instructions": "Por favor selecciona el valor correspondiente para cada pregunta de acuerdo a los comportamientos de {{ name }} {{ lastname }}.",
+      "fieldQuestion": "Preguntas",
+      "button": "Enviar autoevaluación",
+      "components": {
+        "congratulations": {
+          "description": "Gracias por contestar tu autoevaluación",
+          "description2": "ahora estas un paso más cerca de lograr tus objetivos...",
+          "button": "Ir al inicio"
+        },
+        "question": {
+          "value1": "Deficiente",
+          "value2": "Regular",
+          "value3": "Bueno",
+          "value4": "Muy Bueno",
+          "value5": "Excelente"
+        }
+      }
+    },
+    "onboarding": {
+      "title": "¡Ya casi terminas! para continuar debes completar los siguientes campos",
+      "focusAreas": {
+        "continuousImprovement": "Mejora continua",
+        "strategicThinking": "Pensamiento estratégico",
+        "problemResolution": "Resolución de problemas",
+        "managementOfEmotions": "Manejo de emociones",
+        "teamwork": "Trabajo en equipo",
+        "communication": "Comunicación"
+      },
+      "hooks": {
+        "errorLenguage": "Debes seleccionar al menos un idioma",
+        "lenguageTitle": "Idiomas",
+        "errorPhoto": "Necesitamos tu foto",
+        "photoTitle": "Muéstranos tu sonrisa",
+        "errorFocusAreas": "Debes seleccionar {{coacheeAreasByProgram}} áreas",
+        "focusAreasTile": "Áreas de Foco",
+        "errorTimezone": "Necesitamos tu zona horaria",
+        "timezoneTitle": "Zona Horaria",
+        "errorVideo": "Necesitamos tu video de presentación",
+        "videoTitle": "Compártenos un video de presentación",
+        "errorCoach": "Debes seleccionar 3 áreas"
+      },
+      "components": {
+        "createYourAccount": {
+          "title": "Bienvenido/a",
+          "subtitle": "Crea tu cuenta",
+          "fieldName": "Nombre",
+          "fieldLastname": "Apellidos",
+          "fieldPassword": "Contraseña actual",
+          "fieldNewPassword": "Nueva contraseña",
+          "button": "Siguiente",
+          "validation": {
+            "lastnameRequire": "El apellido es requerido",
+            "lastnameMin": "Debe ser mayor a 2 caracteres",
+            "passRequire": "La contraseña es requerida",
+            "passMatch": "Debe contener 8 caracteres o más, Una mayúscula, Una minúscula y un número",
+            "oldPass": "La contraseña actual es requerida",
+            "nameRequire": "Necesitamos tu nombre",
+            "nameMin": "El nombre debe tener minimo 2 carácteres"
+          }
+        },
+        "uploadPhoto": {
+          "title": "Muéstranos tu sonrisa",
+          "dragMessage": "Suelta la imagen aquí",
+          "description": "Por favor haz click en el icono para subir tu foto o arrastra una imagen. Esta foto será parte de tu perfil público.",
+          "button": "Siguiente"
+        },
+        "pickTimezone": {
+          "messages": {
+            "validation": "Zona horaria no válida",
+            "required": "Necesitamos tu proveedor de calendario",
+            "auto": "Se ha tomado tu zona horaria automaticamente."
+          },
+          "title": "Zona Horaria",
+          "subtitle": "Elige tu zona horaria",
+          "textHelper": "Puedes buscar dando click y comenzando a escribir o abrir el mapa para seleccionar la zona horaria",
+          "openMap": "Abrir mapa",
+          "selectDialog": {
+            "title": "Escoge tu zona horaria",
+            "description": "Seleccione una zona horaria en el mapa o en la lista",
+            "cancelButton": "Cancelar"
+          },
+          "saveButton": "Guardar"
+        },
+        "steps": {
+          "step": "Paso {{ no }} de 4"
+        },
+        "languages": {
+          "title": "Idiomas",
+          "coachText": "Selecciona los idiomas en que puedes impartir tus sesiones de coaching",
+          "coacheeText": "Selecciona los idiomas para recibir tus sesiones de coaching",
+          "placeholder": "Seleccionar idiomas",
+          "textHelper": "Puedes buscar dando click y comenzando a escribir"
+        },
+        "evaluation360": {
+          "title": "Evaluación 360",
+          "subtitle": "Si deseas que más personas te evalúen, las puedes agregar aquí:",
+          "addEvaluator": "Agregar Evaluador",
+          "labelSupervisor": "Supervisores",
+          "labelColab": "Colaboradores",
+          "labelPartner": "Compañeros",
+          "button": "Siguiente"
+        },
+        "evaluationFieldArray": {
+          "noData": "No tienes evaluadores"
+        },
+        "addEvaluator": {
+          "title": "Evaluación 360",
+          "subtitle": "Si deseas que más personas te evalúen, las puedes agregar aquí:",
+          "value1": "Supervisor",
+          "value2": "Colaborador",
+          "value3": "Compañero",
+          "fieldName": "Nombre",
+          "fieldLastname": "Apellido",
+          "fieldEmail": "Correo Electrónico",
+          "buttonCancel": "Cancelar",
+          "buttonSave": "Guardar",
+          "validation": {
+            "oneOf": "El tipo de evaluador debe ser válido",
+            "evoRequire": "Necesitamos tu tipo de evaluador",
+            "nameRequire": "Necesitamos su nombre",
+            "nameMin": "Deben ser mínimo 2 caracteres",
+            "lastnameRequire": "Necesitamos su apellido",
+            "lastnameMin": "Deben ser mínimo 2 caracteres",
+            "emailValid": "Su email debe ser válido",
+            "emailRequire": "Necesitamos su email"
+          }
+        },
+        "focusAreas": {
+          "messages": {
+            "area": "Solo puedes seleccionar {{coacheeAreasByProgram}} áreas",
+            "min": "Debes seleccionar minimo 3 áreas"
+          },
+          "titleCoachee": "Selecciona {{coacheeAreasByProgram}} áreas de foco",
+          "titleCoach": "Selecciona tus areas de foco",
+          "subtitleCoachee": "Usaremos estas áreas de foco para encontrar a tu coach ideal",
+          "subtitleCoach": "Usaremos estas areas de foco para que los coachees te encuentren",
+          "button": "Siguiente"
+        },
+        "chooseCoach": {
+          "title": "Selecciona tu coach",
+          "subtitle1": "¡Ya casi estás listo!",
+          "subtitle2": "Selecciona tu coach y agenda tu primera sesión",
+          "noData": "No pudimos encontrar Coaches para ti ",
+          "loading": "Buscando el coach perfecto",
+          "span": "Leer más"
+        },
+        "aboutYouCoach": {
+          "title": "Cuéntanos Acerca de ti:",
+          "fieldResume": "Resumen",
+          "fieldWork": "Cómo trabajas",
+          "button": "Siguiente",
+          "validation": {
+            "resumeRequire": "Necesitamos tu resumen",
+            "resumeMin": "Deben ser minimo 100 caracteres",
+            "workRequire": "Necesitamos saber como trabajas",
+            "workMin": "Deben ser minimo 100 caracteres"
+          }
+        },
+        "uploadVideo": {
+          "errorUpload": "Ups! hubo un error al subir tu video",
+          "title": "Compártenos un video de presentación",
+          "subtitle": "Cargando Video",
+          "replace": "Reemplazar",
+          "buttonNext": "Siguiente",
+          "buttonNextTime": "Lo subiré despúes"
+        },
+        "workSchedule": {
+          "title": "Horarios de trabajo",
+          "subtitle": "Recuerda, es un formato de 24 horas,",
+          "description": "Si necesitas inhabilitar un día, puedes desmarcarlo en el recuadro derecho",
+          "days": {
+            "monday": "Lunes",
+            "tuesday": "Martes",
+            "wednesday": "Miércoles",
+            "thursday": "Jueves",
+            "friday": "Viernes",
+            "saturday": "Sábado",
+            "sunday": "Domingo"
+          }
+        },
+        "congratulations": {
+          "title": "Has tomado una gran decisión",
+          "description": "es tu nuevo coach, será quien te acompañe en este gran camino y te ayude a lograr tus objetivos...",
+          "button1": "Agendar Primera Sesión",
+          "button2": "Agendar Despues"
+        },
+        "selectedCoach": {
+          "calendar": "Ver Calendario",
+          "dataFocus": "Superación Personal",
+          "focusArea": "Áreas de Foco",
+          "buttonSelect": "Seleccionar Coach",
+          "howWork": "Como trabajo"
+        }
+      }
+    },
+    "updateLanguages": {
+      "title": "Hola",
+      "subtitle": "Hemos añadido una nueva funcionalidad,",
+      "textCoach": "Ahora podrás impartir tus sesiones en diferentes idiomas",
+      "textCoachee": "ahora podrás tomar tus sesiones en los idiomas de tu preferencia",
+      "selectCoach": "Selecciona los idiomas en que puedes impartir tus sesiones de coaching",
+      "selectCoachee": "Selecciona los idiomas para recibir tus sesiones de coaching",
+      "placeholder": "Seleccionar idiomas",
+      "helperText": "Puedes buscar dando click y comenzando a escribir",
+      "buttonSave": "Guardar"
+    },
+    "mySessions": {
+      "title": "Sesiones de Coaching",
+      "subtitle": "{{ orderedSessions }} de {{ cohort }} sesiones",
+      "noData": "Aún no tienes sesiones agendadas",
+      "pendingSession": "Sesiones pendientes",
+      "completedSessions": "Sesiones completadas",
+      "canceledSession": "Sesiones canceladas",
+      "components": {
+        "assignations": {
+          "error": "Error al actualizar la asignación",
+          "title": "Asignaciones",
+          "subtitle": "Al dar click en el switch izquierdo las asignaciones se moverán a",
+          "noCompleted": "asignaciones no completadas",
+          "completed": "asignaciones completadas",
+          "noData": "No tienes asignaciones"
+        },
+        "session": {
+          "session": "Sesión ",
+          "points": "Puntos Tratados",
+          "assignationsP": "Asignaciones Pendientes",
+          "assignationsC": "Asignaciones Completadas",
+          "evaluate": "Evaluar",
+          "cancelSession": "Cancelar Sesión",
+          "reschedule": "Reagendar Sesión",
+          "popConfirmMsg1": "No pudes reagendar la sesion con menos de 12 horas de anticipacion, si cancelas perderas la sesion",
+          "popConfirmMsg2": "¿Estás seguro de cancelar la sesión? se te llevará a otra pantalla para reagenderla.",
+          "accept": "Aceptar",
+          "no": "no",
+          "cancel": "Cancelar"
+        },
+        "treatedSubject": {
+          "title": "Puntos Tratados",
+          "noData": "No hay puntos tratados"
+        }
+      }
+    },
+    "coacheeCalendar": {
+      "title": "Este es el calendario de",
+      "executed": "Sesiones ya ejecutadas",
+      "future": "Futuras próxima sesión",
+      "nonWorking": "Horario no laborable coach",
+      "blocked": "Horario bloqueado por el coach",
+      "cancelled": "Sesión cancelada"
+    },
+    "reschedule": {
+      "eventTitle": "Sesión con tu coachee {{ name }} {{ lastname }}",
+      "description": "Sesión de bonum",
+      "errorDate": "Hace falta seleccionar una fecha",
+      "errorHour": "Hace falta seleccionar un horario",
+      "buttonOk": "Aceptar",
+      "title": " Este es el calendario de",
+      "available": "Horario disponible",
+      "handleSchedule": "Agendar",
+      "noData": "No hay sesión para reagendar",
+      "noSchedule": "No hay horario disponible en esta fecha.",
+      "components": {
+        "advice": {
+          "today": "Hoy",
+          "selected": "Fecha seleccionada",
+          "noWorking": "Horario no laborable coach",
+          "lastSession": "Ultima Sesión Agendada",
+          "legend": "Para agendar una sesión, esta tiene que ser al menos 10 días después de la ultima agendada."
+        },
+        "availableSchedule": {
+          "errorCoach": "Error obteniendo la disponibilidad del coach",
+          "loading": "Obteniendo horarios de tu coach"
+        },
+        "noMoreSessions": {
+          "title": "¡Lo sentimos,",
+          "description": "! Ya has agendado todas tus sesiones, si te gustaría tener más, contacta a tu empresa para sesiones adicionales.",
+          "button": "Ir al inicio"
+        },
+        "scheduled": {
+          "name": "¡Genial, {{ name }} {{ lastname }}!",
+          "subtitle": "Tu cita ha sido confirmada",
+          "remember": "Te haremos llegar un correo para que puedas agendar la sesión en tu calendario personal.",
+          "remember2": "Tambien te notificaremos via correo 1 hora y 10 minutos antes.",
+          "rememberBold": "¡No olvides, tu sesión!"
+        }
+      }
+    },
+    "sessionEvaluation": {
+      "thanks": "¡Gracias! {{ name }}",
+      "title": "Y entonces",
+      "subtitle": "¿Cómo te fue?",
+      "placeholder": "¿Alguna sugerencia para tu {{ type }} ?",
+      "button": "Enviar",
+      "close": "Cerrar",
+      "warningModal": "Por favor llena todos los campos",
+      "finalModal": {
+        "asignLater": "Asignar después",
+        "scheduleLater": "Prefiero agendar después",
+        "title": "Tu evaluacion ha sido enviada",
+        "coachOption": "Crear asignaciones y puntos tratados",
+        "coacheeOption": "Agenda tu proxima cita"
+      }
+    },
+    "coachCalendar": {
+      "errorGet": "Error obteniendo tu horario de trabajo",
+      "title": "Mi Calendario",
+      "workingHours": "Horarios de Trabajo",
+      "blockSchedule": "Horarios Bloqueados",
+      "executed": "Sesiones ya ejecutadas",
+      "future": "Futuras próxima sesión",
+      "nonWorking": "Horario no laborable coach",
+      "blocked": "Horario bloqueado por el coach",
+      "cancelled": "Sesión cancelada",
+      "sucessSave": "Tu horario de trabajo se ha guardado",
+      "errorSave": "Error guardando tu horario de trabajo",
+      "subtitle": "Recuerda, es un formato de 24 horas",
+      "buttonCancel": "Cancelar",
+      "buttonSave": "Guardar",
+      "components": {
+        "blockSchedule": {
+          "sucessBlock": "Este horario se ha bloqueado correctamente.",
+          "title": "Bloquear Horario",
+          "subtitle": "Seleccione el tiempo a bloquear",
+          "from": "Desde",
+          "until": "Hasta",
+          "date": "Fecha",
+          "time": "Hora",
+          "loadingText": "Guardando...",
+          "notBloquedYet": "Aún no tienes ningún horario bloqueado"
+        },
+        "validationErrors": {
+          "dateValid": "Debe ser una fecha válida",
+          "dateRequire": "Se requiere la fecha de inicio",
+          "dateFinal": "Se requiere la fecha final",
+          "dateDiff": "La fecha final no puede ser antes que la inicial",
+          "timeValid": "Debe ser una hora válida",
+          "timeRequire": "Se requiere la hora de inicio",
+          "timeFinal": "Se requiere la hora final",
+          "timeDiff": "La hora final no puede ser antes que la hora inicial"
+        },
+        "nextSession": {
+          "title": "Próxima sesión",
+          "alterneCall": "Llamada Alterna"
+        }
+      }
+    },
+    "home": {
+      "components": {
+        "nextSession": {
+          "errorAlternal": "El enlace para acceder a la llamada alterna no esta configurado.",
+          "await": "Tu coach { {name }} {{ lastname} } aún no se une a la reunión",
+          "title": "Próxima sesión",
+          "subtitle": "No hay sesión agendada",
+          "schedule": "Agendar sesión",
+          "alternateCall": "Llamada Alterna",
+          "signOff": "Cerrar Sesión"
+        },
+        "buttons": {
+          "myCoachees": "Coachees",
+          "myCoach": "Coach",
+          "myCalendar": "Calendario",
+          "myEvaluations": "Evaluaciones",
+          "myCourses": "Cursos para coaches",
+          "mySessions": "Sesiones",
+          "myAssignations": "Asignaciones"
+        }
+      }
+    },
+    "coachEvaluation": {
+      "title": "Evaluación de {{ titletText }}",
+      "noData": "Aún no tienes evaluaciones",
+      "titleEvaluations": "Evaluación sesiones",
+      "titleCoach": "Evaluación Coach",
+      "evaluationTitle": "Mis Evaluaciones",
+      "button": "Ver Más"
+    },
+    "evaluation360": {
+      "errorGet": "Error al obtener evaluación 360",
+      "partner": "Compañero/a",
+      "supervisor": "Supervisor/a",
+      "colaborator": "Colaborador/a",
+      "handleSend": "Aún hay preguntas sin contestar",
+      "errorSend": "Error al enviar autoevaluación",
+      "loading": "Cargando evaluación 360",
+      "noData": "No se encontró ninguna evaluación 360",
+      "title": "Evaluación 360",
+      "description": "Como parte del proceso de coaching de {{ coacheeName }}, solicitamos tu colaboración para responder las siguientes preguntas. Recuerda que la información que nos proporciones es confidencial, solo {{ coacheeName }} y su coach tendrán acceso a ella.",
+      "dataUser": "Datos de usuario evaluado",
+      "fieldName": "Nombre:",
+      "fieldDepartment": "Departamento:",
+      "dataEva": "Datos del evaluador",
+      "fieldRelation": "Relación con usuario evaluado: ",
+      "subtitle": "Por favor selecciona el valor correspondiente para cada pregunta de acuerdo a los comportamientos de ",
+      "questionsTitle": "Preguntas",
+      "commentsTitle": "Comentarios",
+      "commentsSubtitle": "Recuerda estos comentarios son anónimos.",
+      "buttonSave": "Enviar Evaluación",
+      "congratulations": {
+        "thanks": "¡Gracias,",
+        "connection": "!, por contestar la evaluación de",
+        "description": "estamos seguros que tu retroalimentación sera de gran ayuda para que logre sus objetivos.",
+        "button": "Conocer Bonum Coaching"
+      }
+    },
+    "myEvaluations": {
+      "tabAutoevaluation": "Autoevaluación",
+      "tab360": "Evaluación 360",
+      "tabComments": "Comentarios",
+      "tabInitialComments": "Comentarios Iniciales",
+      "tabFinalComments": "Comentarios Finales",
+      "noData": "No tienes comentarios"
+    },
+    "myAssignations": {
+      "errorChange": "Error al cambiar asignación",
+      "title": "Asignaciones",
+      "subtitle": "Al dar click en el switch izquierdo las asignaciones se moveran a ",
+      "noCompleted": "asignaciones no completadas",
+      "completed": "asignaciones completadas",
+      "getError": "Error al obtener tus asignaciones",
+      "tabPendings": "Asignaciones Pendientes",
+      "tabComplete": "Asignaciones Completadas"
+    },
+    "myCoach": {
+      "viewCalendar": "Ver Horarios de Trabajo",
+      "dataFocus": "Superación Personal",
+      "focusAreasTile": "Áreas de Foco",
+      "howWork": "Como trabajo"
+    },
+    "myCoachees": {
+      "placeholder": "Buscar Coachee",
+      "components": {
+        "tabSessions": "Sesiones de Coaching",
+        "tabAuto": "Autoevaluación",
+        "tab360": "Evaluación 360",
+        "tab360s": "Evaluaciones 360",
+        "errorHandle": "No se pueden asignar puntos tratados ni asignaciones a una sesión aún no terminada",
+        "loading": "Cargando las sesiones de tu coachee",
+        "noData": "El coachee no tiene sesiones aún",
+        "company": "Empresa",
+        "errorUpdate": "Error actualizando la asignación",
+        "deleteSucess": "Asignación eliminada con éxito",
+        "saveComments": "Comentarios guardados con éxito",
+        "errorComments": "Error al actualizar comentarios",
+        "advice": "Aqui puedes ingresar notas sobre ésta sesión que solo tú podrás ver",
+        "button": "Guardar",
+        "tabSubject": "Puntos tratados",
+        "tabAssignation": "Asignaciones",
+        "tabComments": "Comentarios privados",
+        "errorDelete": "Error eliminando la asignación",
+        "of": "de",
+        "sessions": "sesiones",
+        "session": "Sesión",
+        "evaluateSession": "Evaluar Sesión",
+        "signOff": "Cerrar Sesión",
+        "Cancelled": "Cancelada"
+      }
+    }
+  },
+  "lastTranslations": {
+    "sessions": {
+      "noSessions": "El coachee aún no tiene sesiones"
+    },
+    "cancelModal": {
+      "alternateCall": "La llamada se hizo por llamada alterna",
+      "noPresent": "El coachee no se presentó",
+      "noAssist": "No podré asistir",
+      "confirm": "¿Estás seguro de terminar esta reunión?",
+      "success": "La sessión fue cerrada correctamente",
+      "error": "Hubo un error al tratar de cerrar la llamada"
+    },
+    "menu": {
+      "mHome": "Inicio",
+      "mCalendar": "Calendario",
+      "mSessions": "Sesiones",
+      "mAssignments": "Asignaciones"
+    },
+    "assignments": {
+      "noAssignments": "you don't have assignments ",
+      "pending": "'pending'",
+      "completed": "'completed'"
+    },
+
+    "calendar": {
+      "monthName": {
+        "January": "Enero",
+        "February": "Febrero",
+        "March": "Marzo",
+        "April": "Abril",
+        "May": "Mayo",
+        "June": "Junio",
+        "July": "Julio",
+        "August": "Agosto",
+        "September": "Septiembre",
+        "October": "Octubre",
+        "November": "Noviembre",
+        "December": "Diciembre"
+      },
+      "monthShortName": {
+        "Jan": "Ene",
+        "Feb": "Feb",
+        "Mar": "Mar",
+        "Apr": "Abr",
+        "May": "May",
+        "Jun": "Jun",
+        "Jul": "Jul",
+        "Aug": "Ago",
+        "Sep": "Sep",
+        "Oct": "Oct",
+        "Nov": "Nov",
+        "Dec": "Dic"
+      },
+      "dayName": {
+        "Sunday": "Domingo",
+        "Monday": "Lunes",
+        "Tuesday": "Martes",
+        "Wednesday": "Miércoles",
+        "Thursday": "Jueves",
+        "Friday": "Viernes",
+        "Saturday": "Sábado"
+      },
+      "dayShortName": {
+        "Sun": "Dom",
+        "Mon": "Lun",
+        "Tue": "Mar",
+        "Wed": "Mié",
+        "Thu": "Jue",
+        "Fri": "Vie",
+        "Sat": "Sáb"
+      }
+    }
+  }
+}

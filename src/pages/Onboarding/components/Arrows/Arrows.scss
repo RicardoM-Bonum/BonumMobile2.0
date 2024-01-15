@@ -1,0 +1,52 @@
+.Arrows {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  margin-bottom: 2.5em;
+
+  &__button--disable {
+    opacity: 0.5;
+    pointer-events: none;
+    & img {
+      cursor: not-allowed;
+    }
+  }
+
+  &__Left {
+    position: absolute !important;
+    right: 10em;
+  }
+
+  &__Right {
+    position: absolute !important;
+    left: 10em;
+  }
+
+  button {
+    background-color: transparent;
+    border-radius: 50%;
+    width: 1.7em;
+    height: 1.7em;
+    border: 1px solid transparent;
+    font-size: 2.5em;
+    text-align: center;
+    color: $gray-300;
+  }
+
+  @media (max-width: 768px) {
+    position: initial;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 22vw;
+
+    &__Left,
+    &__Right {
+      position: initial !important;
+    }
+
+    button {
+      background-color: transparent;
+    }
+  }
+}

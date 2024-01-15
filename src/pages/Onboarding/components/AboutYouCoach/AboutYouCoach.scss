@@ -1,0 +1,37 @@
+.AboutYouCoach {
+  text-align: center;
+  width: 50%;
+
+  h4 {
+    margin-bottom: 2em;
+  }
+
+  .chakra-form-control {
+    margin-bottom: 2em;
+  }
+
+  .chakra-form__error-message {
+    margin-left: 2em;
+  }
+
+  &__textarea.chakra-textarea {
+    background-color: $background-primary;
+    border-radius: 2em;
+    height: 10em;
+    box-shadow: 0px 2px 10px -3px rgba(0, 0, 0, 0.2);
+    padding: 1em 2em;
+    scrollbar-width: thin;
+    font-size: 0.9em;
+
+    &:focus {
+      border-color: $new-blue-bonum;
+    }
+    &::placeholder {
+      color: $font;
+    }
+  }
+
+  @media (max-width: 820px) {
+    width: 100%;
+  }
+}

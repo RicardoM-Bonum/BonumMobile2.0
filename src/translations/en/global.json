@@ -1,0 +1,657 @@
+{
+  "components": {
+    "auth": {
+      "login": {
+        "title": "Hello!",
+        "description": "Please enter your credentials to continue.",
+        "cardTitle": "Login",
+        "fieldEmail": "Email",
+        "fieldPassword": "Password",
+        "forgotPassword": "Did you forget your password?",
+        "recover": "Recover",
+        "button": "Submit",
+        "validations": {
+          "emailValid": "Your email must be valid",
+          "emailRequire": "Email is required",
+          "passRequire": "Password is required",
+          "noExists": "User does not exist"
+        }
+      },
+      "forgotPassword": {
+        "title": "Sometimes it happens...",
+        "description": "Enter your email to recover your password",
+        "title2": "I forgot my password",
+        "placeholder": "Email",
+        "button": "Reset password",
+        "remember": "Did you remember?",
+        "button2": "Login"
+      }
+    },
+    "dayCalendar": {
+      "title": "Coaching session with {{ name }} {{ lastname }}",
+      "date": "Date",
+      "time": "Time",
+      "event": "Event details"
+    },
+    "evaluation": {
+      "errorGet": "Error getting autoevaluations",
+      "error360": "Error getting 360 evaluations",
+      "loading": "Loading evaluations",
+      "start": "Initial",
+      "end": "Final",
+      "noData": "The Coachee does not have any evaluation yet",
+      "noSubject": "There are no topics to show"
+    },
+    "menu": {
+      "home": "Home",
+      "preferences": "Preferences",
+      "myEvaluations": "My Evaluations",
+      "signOut": "Sign out",
+      "closeSession": "Close Session",
+      "myCoachees": "My Coachees",
+      "myCalendar": "My Calendar",
+      "mySessions": "My Sessions",
+      "myCoach": "My Coach"
+    }
+  },
+  "pages": {
+    "preferences": {
+      "sidebar": {
+        "profile": "Profile",
+        "timezone": "Time zone",
+        "calendars": "Calendars",
+        "alternateCall": "Alternate Call",
+        "howDoYouWork": "How do you work",
+        "video": "Video",
+        "calendar": "Calendar",
+        "language": "Language",
+        "changePw": "Change Password",
+        "changeTZ": "Change Time Zone",
+        "editProfile": "Edit Profile"
+      },
+      "profile": {
+        "changePassword": "Change Password",
+        "currentPassword": "Current password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm Password",
+        "confirmNewPassword": "Confirm New Password",
+        "buttonChangePassword": "Change Password",
+        "name": "Name",
+        "lastname": "Lastname",
+        "email": "Email",
+        "paypalEmail": "Email Associated with Paypal",
+        "phone": "Phone",
+        "address": "Address",
+        "resume": "Summary as a Coach",
+        "howWork": "How i do work",
+        "changeVideo": "Change Video",
+        "save": "Save",
+        "loadingVideo": "Video is loading",
+        "noVideo": "You haven't loaded your video yet"
+      },
+      "calendar": {
+        "title": "Calendars",
+        "subtitle": "These are your calendars, choose which ones you would like to use for your availability in Bonum",
+        "connectButton": "Connect Provider",
+        "saveButton": "Save"
+      },
+      "language": {
+        "title": "Change app language"
+      },
+      "alternateCall": {
+        "title": "Alternate Call",
+        "subtitle": "Here you can configure the link to your alternate call",
+        "linkPlaceholder": "Alternate Call Link",
+        "saveButton": "Save Link"
+      },
+      "howDoYouWork": {
+        "title": "How do you work",
+        "summary": "Summary",
+        "howDoYouWork": "How do you work",
+        "saveButton": "Save Changes"
+      }
+    },
+    "autoevaluation": {
+      "messages": {
+        "getAuto": "Failed to get Autoevaluation",
+        "sendAuto": "There are still unanswered questions",
+        "sendError": "Error sending Autoevaluation",
+        "loading": "Loading Autoevaluation",
+        "noData": "No Autoevaluation found"
+      },
+      "title": "Autoevaluation",
+      "description": "As part of the {{ name }} {{ lastname }} coaching process, we request your collaboration to answer the following questions. Remember that the information you provide us is confidential, only {{ name }} {{ lastname }} and their coach will have access to it.",
+      "dataUser": "Evaluated user data",
+      "fieldName": "Name",
+      "fieldDepartment": "Department",
+      "instructions": "Please select the corresponding value for each question according to the behaviors of {{ name }} {{ lastname }}.",
+      "fieldQuestion": "Questions",
+      "button": "Send Autoevaluation",
+      "components": {
+        "congratulations": {
+          "description": "Thank you for answering your autoevaluation",
+          "description2": "now you are one step closer to achieving your goals...",
+          "button": "Go to home"
+        },
+        "question": {
+          "value1": "Deficient",
+          "value2": "Regular",
+          "value3": "Okay",
+          "value4": "Very good",
+          "value5": "Excellent"
+        }
+      }
+    },
+    "onboarding": {
+      "title": "You're almost done! To continue you must complete the following fields",
+      "focusAreas": {
+        "continuousImprovement": "Continuous improvement",
+        "strategicThinking": "Strategic thinking",
+        "problemResolution": "Problem resolution",
+        "managementOfEmotions": "Management of emotions",
+        "teamwork": "Teamwork",
+        "communication": "Communication"
+      },
+      "hooks": {
+        "errorLenguage": "You must select at least one language",
+        "lenguageTitle": "Languages",
+        "errorPhoto": "We need your photo",
+        "photoTitle": "Show us your smile",
+        "errorFocusAreas": "You must select {{coacheeAreasByProgram}} areas",
+        "focusAreasTile": "Focus Areas",
+        "errorTimezone": "We need your time zone",
+        "timezoneTitle": "Time Zone",
+        "errorVideo": "We need your presentation video",
+        "videoTitle": "Share a presentation video with us",
+        "errorCoach": "You must select 3 areas"
+      },
+      "components": {
+        "createYourAccount": {
+          "title": "Welcome",
+          "subtitle": "Create your account",
+          "fieldName": "Name",
+          "fieldLastname": "Last Name",
+          "fieldPassword": "Current password",
+          "fieldNewPassword": "New password",
+          "button": "Next",
+          "validation": {
+            "lastnameRequire": "Last name is required",
+            "lastnameMin": "Must be greater than 2 characters",
+            "passRequire": "Password is required",
+            "passMatch": "Must contain 8 characters or more, One uppercase, One lowercase and one number",
+            "oldPass": "The current password is required",
+            "nameRequire": "We need your name",
+            "nameMin": "The name must have at least 2 characters"
+          }
+        },
+        "uploadPhoto": {
+          "title": "Show us your smile",
+          "dragMessage": "Drop the image here",
+          "description": "Please click on the icon to upload your photo or drag an image. This photo will be part of your public profile.",
+          "button": "Next"
+        },
+        "pickTimezone": {
+          "messages": {
+            "validation": "Invalid time zone",
+            "required": "We need your calendar provider",
+            "auto": "Your time zone has been taken automatically."
+          },
+          "title": "Time Zone",
+          "subtitle": "Choose your time zone",
+          "textHelper": "You can search by clicking and starting to write or open the map to select the time zone",
+          "openMap": "Open Map",
+          "selectDialog": {
+            "title": "Choose your time zone",
+            "description": "Select a time zone on the map or from the list",
+            "cancelButton": "Cancel"
+          },
+          "saveButton": "Save"
+        },
+        "steps": {
+          "step": "Step {{ no }} of 4"
+        },
+        "languages": {
+          "title": "Languages",
+          "coachText": "Select the languages ​​in which you can deliver your coaching sessions",
+          "coacheeText": "Select the languages ​​to receive your coaching sessions",
+          "placeholder": "Select languages",
+          "textHelper": "You can search by clicking and starting to write"
+        },
+        "evaluation360": {
+          "title": "Evaluation 360",
+          "subtitle": "If you want more people to rate you, you can add them here:",
+          "addEvaluator": "Add Evaluator",
+          "labelSupervisor": "Supervisors",
+          "labelColab": "Collaborators",
+          "labelPartner": "Partners",
+          "button": "Next"
+        },
+        "evaluationFieldArray": {
+          "noData": "You don't have evaluators"
+        },
+        "addEvaluator": {
+          "title": "Evaluation 360",
+          "subtitle": "If you want more people to rate you, you can add them here:",
+          "value1": "Supervisor",
+          "value2": "Collaborator",
+          "value3": "Partner",
+          "fieldName": "Name",
+          "fieldLastname": "Last Name",
+          "fieldEmail": "Email",
+          "buttonCancel": "Cancel",
+          "buttonSave": "Save",
+          "validation": {
+            "oneOf": "Evaluator type must be valid",
+            "evoRequire": "We need your type of evaluator",
+            "nameRequire": "We need your name",
+            "nameMin": "Must be at least 2 characters",
+            "lastnameRequire": "We need your last name",
+            "lastnameMin": "Must be at least 2 characters",
+            "emailValid": "Your email must be valid",
+            "emailRequire": "We need your email"
+          }
+        },
+        "focusAreas": {
+          "messages": {
+            "area": "You can only select {{coacheeAreasByProgram}} areas",
+            "min": "You must select a minimum of 3 areas"
+          },
+          "titleCoachee": "Select {{coacheeAreasByProgram}} focus areas",
+          "titleCoach": "Select your focus areas",
+          "subtitleCoachee": "We will use these focus areas to find your ideal coach",
+          "subtitleCoach": "We will use these focus areas for coachees to find you",
+          "button": "Next"
+        },
+        "chooseCoach": {
+          "title": "Select your coach",
+          "subtitle1": "You are almost ready!",
+          "subtitle2": "Select your coach and schedule your first session",
+          "noData": "We couldn't find Coaches for you ",
+          "loading": "Looking for the perfect coach",
+          "span": "Read more"
+        },
+        "aboutYouCoach": {
+          "title": "Tell us about you:",
+          "fieldResume": "Resume",
+          "fieldWork": "How do you work?",
+          "button": "Next",
+          "validation": {
+            "resumeRequire": "We need your resume",
+            "resumeMin": "Must be at least 100 characters",
+            "workRequire": "We need to know how you work",
+            "workMin": "Must be at least 100 characters"
+          }
+        },
+        "uploadVideo": {
+          "errorUpload": "Oops! there was an error uploading your video",
+          "title": "Share a presentation video with us",
+          "subtitle": "Loading Video",
+          "replace": "Replace",
+          "buttonNext": "Next",
+          "buttonNextTime": "I'll upload it later"
+        },
+        "workSchedule": {
+          "title": "Work Schedule",
+          "subtitle": "Remember, it is a 24 hour format,",
+          "description": "If you need to disable a day, you can uncheck it in the right box",
+          "days": {
+            "monday": "Monday",
+            "tuesday": "Tuesday",
+            "wednesday": "Wednesday",
+            "thursday": "Thursday",
+            "friday": "Friday",
+            "saturday": "Saturday",
+            "sunday": "Sunday"
+          }
+        },
+        "congratulations": {
+          "title": "You have made a great decision",
+          "description": "is your new coach, he will be the one to accompany you on this great path and help you achieve your goals...",
+          "button1": "Schedule First Session",
+          "button2": "Schedule After"
+        },
+        "selectedCoach": {
+          "calendar": "See calendar",
+          "dataFocus": "Personal growth",
+          "focusArea": "Focus Areas",
+          "buttonSelect": "Select Coach",
+          "howWork": "How i do work"
+        }
+      }
+    },
+    "updateLanguages": {
+      "title": "Hello",
+      "subtitle": "We have added a new functionality,",
+      "textCoach": "Now you can give your sessions in different languages",
+      "textCoachee": "now you can take your sessions in the languages ​​of your choice",
+      "selectCoach": "Select the languages ​​in which you can deliver your coaching sessions",
+      "selectCoachee": "Select the languages ​​to receive your coaching sessions",
+      "placeholder": "Select languages",
+      "helperText": "You can search by clicking and starting to write",
+      "buttonSave": "Save"
+    },
+    "mySessions": {
+      "title": "Coaching sessions",
+      "subtitle": "{{ orderedSessions }} of {{ cohort }} sessions",
+      "noData": "You still do not have scheduled sessions",
+      "pendingSession": "Pending sessions",
+      "completedSessions": "Completed sessions",
+      "canceledSession": "Canceled sessions",
+      "components": {
+        "assignations": {
+          "error": "Failed to update the assignment",
+          "title": "Assignments",
+          "subtitle": "Clicking the left switch will move the assignments to",
+          "noCompleted": "uncompleted assignments",
+          "completed": "completed assignments",
+          "noData": "You haven't assignments"
+        },
+        "session": {
+          "session": "Session ",
+          "points": "Treated Subjects",
+          "assignationsP": "Pending Assignments",
+          "assignationsC": "Completed Assignments",
+          "evaluate": "Evaluate",
+          "cancelSession": "Cancel Session",
+          "reschedule": "Reschedule Session",
+          "popConfirmMsg1": "You cannot reschedule the session with less than 12 hours notice, if you cancel you will lose the session",
+          "popConfirmMsg2": "Are you sure to cancel the session? You will be taken to another screen to reschedule.",
+          "accept": "Accept",
+          "no": "no",
+          "cancel": "Cancel"
+        },
+        "treatedSubject": {
+          "title": "Treated Subjects",
+          "noData": "There are no treated subjects"
+        }
+      }
+    },
+    "coacheeCalendar": {
+      "title": "This is the calendar of",
+      "executed": "Sessions already executed",
+      "future": "Future next session",
+      "nonWorking": "Coach non-working hours",
+      "blocked": "Schedule blocked by the coach",
+      "cancelled": "Session canceled"
+    },
+    "reschedule": {
+      "eventTitle": "Session with your coachee {{ name }} {{ lastname }}",
+      "description": "Bonum session",
+      "errorDate": "You need to select a date",
+      "errorHour": "You need to select a time",
+      "buttonOk": "Accept",
+      "title": "This is the calendar of",
+      "available": "Available Hours",
+      "handleSchedule": "Schedule",
+      "noData": "There is no session to reschedule",
+      "noSchedule": "No schedule available on this date.",
+      "components": {
+        "advice": {
+          "today": "Today",
+          "selected": "Selected date",
+          "noWorking": "Coach non-working hours",
+          "lastSession": "Last Scheduled Session",
+          "legend": "To schedule an appointment, it must be at least 10 days after the last scheduled"
+        },
+        "availableSchedule": {
+          "errorCoach": "Error getting coach availability",
+          "loading": "Getting schedules from your coach"
+        },
+        "noMoreSessions": {
+          "title": "We're sorry,",
+          "description": "You have already scheduled all your sessions, if you would like to have more, contact your company for additional sessions.",
+          "button": "Go to home"
+        },
+        "scheduled": {
+          "name": "Great, {{ name }} {{ lastname }}!",
+          "subtitle": "Your appointment has been confirmed",
+          "remember": "We will send you an email so you can schedule the session on your personal calendar.",
+          "remember2": "We will also notify you via email 1 hour and 10 minutes before.",
+          "rememberBold": "Don't forget your session!"
+        }
+      }
+    },
+    "sessionEvaluation": {
+      "thanks": "Thank you {{ name }} !",
+      "title": "And so",
+      "subtitle": "How did it go?",
+      "placeholder": "Any suggestions for your {{ type }} ?",
+      "button": "Send",
+      "close": "Close",
+      "warningModal": "Please fill in all the fields",
+      "finalModal": {
+        "asignLater": "Assign after",
+        "scheduleLater": "I prefer to schedule later",
+        "title": "Your evaluation has been sent",
+        "coachOption": "Create assignments and treated subjects",
+        "coacheeOption": "Schedule your next appointment"
+      }
+    },
+    "coachCalendar": {
+      "errorGet": "Error getting your work schedule",
+      "title": "My Calendar",
+      "workingHours": "Work Hours",
+      "blockSchedule": "Blocked Schedules",
+      "executed": "Sessions already executed",
+      "future": "Future next session",
+      "nonWorking": "Coach non-working hours",
+      "blocked": "Schedule blocked by the coach",
+      "cancelled": "Session canceled",
+      "sucessSave": "Your work schedule has been saved",
+      "errorSave": "Error saving your work schedule",
+      "subtitle": "Remember, it is a 24 hour format",
+      "buttonCancel": "Cancel",
+      "buttonSave": "Save",
+      "components": {
+        "blockSchedule": {
+          "sucessBlock": "This schedule has been successfully blocked.",
+          "title": "Block Schedule",
+          "subtitle": "Select the time to block",
+          "from": "From",
+          "until": "Until",
+          "date": "Date",
+          "time": "Time",
+          "loadingText": "Saving...",
+          "notBloquedYet": "You don't have any blocked times yet"
+        },
+        "validationErrors": {
+          "dateValid": "Must be a valid date",
+          "dateRequire": "Start date is required",
+          "dateFinal": "End date is required",
+          "dateDiff": "End date cannot be earlier than start date",
+          "timeValid": "Must be a valid time",
+          "timeRequire": "Start time is required",
+          "timeFinal": "End time is required",
+          "timeDiff": "End time cannot be earlier than start time"
+        },
+        "nextSession": {
+          "title": "Next Session",
+          "alterneCall": "Alternate Call"
+        }
+      }
+    },
+    "home": {
+      "components": {
+        "nextSession": {
+          "errorAlternal": "The link to access the alternate call is not configured.",
+          "await": "Your Coach { {name }} {{ lastname} } hasn't joined the meeting yet",
+          "title": "Next session",
+          "subtitle": "There is no scheduled session",
+          "schedule": "Schedule session",
+          "alternateCall": "Alternate Call",
+          "signOff": "Sign off"
+        },
+        "buttons": {
+          "myCoachees": "My Coachees",
+          "myCoach": "My Coach",
+          "myCalendar": "My Calendar",
+          "myEvaluations": "My Evaluations",
+          "myCourses": "Coach courses",
+          "mySessions": "My Sessions",
+          "myAssignations": "My Assignments"
+        }
+      }
+    },
+    "coachEvaluation": {
+      "title": "Evaluation of {{ titletText }}",
+      "noData": "You don't have evaluations yet",
+      "titleEvaluations": "Evaluation sessions",
+      "titleCoach": "Coach Evaluation",
+      "evaluationTitle": "My Evaluations",
+      "button": "See more"
+    },
+    "evaluation360": {
+      "errorGet": "Error getting 360 evaluation",
+      "partner": "Partner",
+      "supervisor": "Supervisor",
+      "colaborator": "Collaborator",
+      "handleSend": "There are still unanswered questions",
+      "errorSend": "Error sending autoevaluation",
+      "loading": "Loading 360 evaluation",
+      "noData": "No 360 evaluations found",
+      "title": "360 Evaluation",
+      "description": "As part of the coaching process of {{ coacheeName }}, we request your collaboration to answer the following questions. Remember that the information you provide us is confidential, only {{ coacheeName }} and your coach will have access to it.",
+      "dataUser": "Evaluated user data",
+      "fieldName": "Name:",
+      "fieldDepartment": "Department",
+      "dataEva": "Evaluator Data",
+      "fieldRelation": "Relationship with evaluated user: ",
+      "subtitle": "Please select the corresponding value for each question according to the behaviors of ",
+      "questionsTitle": "Questions",
+      "commentsTitle": "Comments",
+      "commentsSubtitle": "Remember these comments are anonymous.",
+      "buttonSave": "Submit Evaluation",
+      "congratulations": {
+        "thanks": "Thank you,",
+        "connection": "!, for answering the evaluation of",
+        "description": "we are sure that your feedback will be of great help to achieve your goals.",
+        "button": "Get to know Bonum Coaching"
+      }
+    },
+    "myEvaluations": {
+      "tabAutoevaluation": "Autoevaluation",
+      "tab360": "360 Evaluation",
+      "tabComments": "Comments",
+      "noData": "You have no comments",
+      "tabInitialComments": "Initial Comments",
+      "tabFinalComments": "Final Comments"
+    },
+    "myAssignations": {
+      "errorChange": "Failed to change assignment",
+      "title": "Assignments",
+      "subtitle": "Clicking the left switch will move the assignments to ",
+      "noCompleted": "uncompleted assignments",
+      "completed": "completed assignments",
+      "getError": "Error getting your assignments",
+      "tabPendings": "Pending Assignments",
+      "tabComplete": "Completed Assignments"
+    },
+    "myCoach": {
+      "viewCalendar": "See Calendar",
+      "dataFocus": "Personal growth",
+      "focusAreasTile": "Focus Areas",
+      "howWork": "How i do work"
+    },
+    "myCoachees": {
+      "placeholder": "Search Coachee",
+      "components": {
+        "tabSessions": "Coaching sessions",
+        "tabAuto": "Autoevaluation",
+        "tab360": "360 Evaluation",
+        "tab360s": "360 Evaluations",
+        "errorHandle": "It is not possible to assign treated points or assignments to a session not yet finished",
+        "loading": "Loading your coachee sessions",
+        "noData": "The coachee has no sessions yet",
+        "company": "Company",
+        "errorUpdate": "Error updating assignment",
+        "deleteSucess": "Assignment removed successfully",
+        "saveComments": "Comments saved successfully",
+        "errorComments": "Error updating comments",
+        "advice": "Here you can enter notes about this session that only you can see",
+        "button": "Save",
+        "tabSubject": "Treated Subjects",
+        "tabAssignation": "Assignments",
+        "tabComments": "Private Comments",
+        "errorDelete": "Error deleting assignment",
+        "of": "of",
+        "sessions": "sessions",
+        "session": "Session",
+        "evaluateSession": "Evaluate Session",
+        "signOff": "Sign off",
+        "Cancelled": "Cancelled"
+      }
+    }
+  },
+  "lastTranslations": {
+    "sessions": {
+      "noSessions": "El coachee aún no tiene sesiones"
+    },
+    "cancelModal": {
+      "alternateCall": "The call was made by alternate call",
+      "noPresent": "The coachee did not show up",
+      "noAssist": "I will not be able to attend",
+      "confirm": "Are you sure to end this meeting?",
+      "success": "The session was successfully closed",
+      "error": "There was an error trying to close the call"
+    },
+    "menu": {
+      "mHome": "Home",
+      "mCalendar": "Calendar",
+      "mSessions": "Sessions",
+      "mAssignments": "Assignments"
+    },
+    "assignments": {
+      "noAssignments": "No tienes asignaciones",
+      "pending": "pendientes",
+      "completed": "completadas"
+    },
+    "calendar": {
+      "monthName": {
+        "January": "January",
+        "February": "February",
+        "March": "March",
+        "April": "April",
+        "May": "May",
+        "June": "June",
+        "July": "July",
+        "August": "August",
+        "September": "September",
+        "October": "October",
+        "November": "November",
+        "December": "December"
+      },
+      "monthShortName": {
+        "Jan": "Jan",
+        "Feb": "Feb",
+        "Mar": "Mar",
+        "Apr": "Apr",
+        "May": "May",
+        "Jun": "Jun",
+        "Jul": "Jul",
+        "Aug": "Aug",
+        "Sep": "Sep",
+        "Oct": "Oct",
+        "Nov": "Nov",
+        "Dec": "Dec"
+      },
+      "dayName": {
+        "Sunday": "Sunday",
+        "Monday": "Monday",
+        "Tuesday": "Tuesday",
+        "Wednesday": "Wednesday",
+        "Thursday": "Thursday",
+        "Friday": "Friday",
+        "Saturday": "Saturday"
+      },
+      "dayShortName": {
+        "Sun": "Sun",
+        "Mon": "Mon",
+        "Tue": "Tue",
+        "Wed": "Wed",
+        "Thu": "Thu",
+        "Fri": "Fri",
+        "Sat": "Sat"
+      }
+    }
+  }
+}

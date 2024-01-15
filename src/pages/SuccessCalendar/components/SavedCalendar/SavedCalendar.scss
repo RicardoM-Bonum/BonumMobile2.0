@@ -1,0 +1,9 @@
+.SavedCalendar {
+  text-align: left;
+  margin-bottom: .5em;
+  &__checkbox {
+    span {
+      font-size: 1em !important;
+    }
+  }
+}
