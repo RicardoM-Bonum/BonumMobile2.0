@@ -12,7 +12,7 @@ import {RootSiblingParent} from 'react-native-root-siblings';
 import {NativeBaseProvider} from 'native-base';
 import {I18nextProvider} from 'react-i18next';
 import i18next from 'i18next';
-// import './src/intecerptors/axios.interceptor';
+import './src/intecerptors/axios.interceptor';
 import global_es from './src/translations/es/global.json';
 import global_en from './src/translations/en/global.json';
 import global_pt from './src/translations/pt/global.json';

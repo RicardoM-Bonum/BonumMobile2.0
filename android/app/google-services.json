@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "257283497244",
+    "project_id": "bonum-web-production",
+    "storage_bucket": "bonum-web-production.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257283497244:android:179dc75ba10fcd2d0f2ed9",
+        "android_client_info": {
+          "package_name": "com.bonummobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257283497244-nvvooej1g7meqpq4rp21l2r20vnk1vfl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bonummobile",
+            "certificate_hash": "700d421ac62e149d1f468557d5067ae5d20d08e7"
+          }
+        },
+        {
+          "client_id": "257283497244-v2v29m8tm650k3mp1quppma8jnula8lq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiJNc3JrfvB1kp1_5-d94R6lwHQF1beH0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257283497244-v2v29m8tm650k3mp1quppma8jnula8lq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "257283497244-3e3jtf0ke63urc9q1ji39m9mk6iqeqvo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bonumcoaching.bonummobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
