@@ -1,17 +1,17 @@
-import { View, Text, Image } from 'react-native';
+import {View, Text, Image} from 'react-native';
 import React from 'react';
-import { Rating } from 'react-native-elements';
+import {Rating} from '@rneui/themed';
 import tw from 'twrnc';
-import { mongoDateToLongDate } from '../../../../../utilities';
+import {mongoDateToLongDate} from '../../../../../utilities';
 
-export default function EvaluationContent({ evaluation, isSession }) {
-  const { image, name, date, value, comment } = evaluation;
+export default function EvaluationContent({evaluation, isSession}) {
+  const {image, name, date, value, comment} = evaluation;
   return (
     <View style={tw.style('bg-white shadow-md rounded-2xl px-6 py-4 mb-4')}>
       <View style={tw.style('flex-row')}>
         <View style={tw.style('mr-4')}>
           <Image
-            source={{ uri: image }}
+            source={{uri: image}}
             style={tw.style('w-12 h-12 rounded-full')}
           />
         </View>

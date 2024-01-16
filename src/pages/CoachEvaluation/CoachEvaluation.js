@@ -1,15 +1,15 @@
-import { Text, View, TouchableOpacity, Image } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import {Text, View, TouchableOpacity, Image} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import tw from 'twrnc';
-import { Rating } from 'react-native-elements';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { filter } from 'lodash';
+import {Rating} from '@rneui/themed';
+import {useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
+import {filter} from 'lodash';
 
-export default function CoachEvaluation({ navigation }) {
-  const { t } = useTranslation('global');
-  const { ratingSessionsCoach, ratingCoach, sessions } = useSelector(
-    (state) => state.user
+export default function CoachEvaluation({navigation}) {
+  const {t} = useTranslation('global');
+  const {ratingSessionsCoach, ratingCoach, sessions} = useSelector(
+    state => state.user,
   );
 
   const [evaluations, setEvaluations] = useState([
@@ -17,14 +17,14 @@ export default function CoachEvaluation({ navigation }) {
       id: 1,
       title: t('pages.coachEvaluation.titleEvaluations'),
       ratingValue: 5,
-      redirect: 'sessions'
+      redirect: 'sessions',
     },
     {
       id: 2,
       title: t('pages.coachEvaluation.titleCoach'),
       ratingValue: 5,
-      redirect: 'coach'
-    }
+      redirect: 'coach',
+    },
   ]);
 
   const getAverage = () => {
@@ -39,13 +39,15 @@ export default function CoachEvaluation({ navigation }) {
 
     if (ratingCoach.length > 0) {
       const rating = ratingCoach
-        .map((evaluation) => {
-          const session = filter(sessions, { _id: evaluation.SessionId });
-          if (session.length < 1) return false;
+        .map(evaluation => {
+          const session = filter(sessions, {_id: evaluation.SessionId});
+          if (session.length < 1) {
+            return false;
+          }
 
           return evaluation.Score;
         })
-        .filter((evaluation) => evaluation);
+        .filter(evaluation => evaluation);
 
       averageRatingCoach = rating.reduce((a, b) => a + b, 0) / rating.length;
     }
@@ -55,14 +57,14 @@ export default function CoachEvaluation({ navigation }) {
         id: 1,
         title: t('pages.coachEvaluation.titleEvaluations'),
         ratingValue: averageSessionsRating,
-        redirect: 'sessions'
+        redirect: 'sessions',
       },
       {
         id: 2,
         title: t('pages.coachEvaluation.titleCoach'),
         ratingValue: averageRatingCoach,
-        redirect: 'coach'
-      }
+        redirect: 'coach',
+      },
     ]);
   };
 
@@ -80,7 +82,7 @@ export default function CoachEvaluation({ navigation }) {
         {t('components.menu.myEvaluations')}
       </Text>
       <View>
-        {evaluations.map((evaluation) => {
+        {evaluations.map(evaluation => {
           const redirect =
             evaluation.redirect === 'sessions'
               ? 'Evaluations'
@@ -89,9 +91,8 @@ export default function CoachEvaluation({ navigation }) {
             <View key={evaluation.id} style={tw.style('mb-6')}>
               <View
                 style={tw.style(
-                  'bg-white shadow-md rounded-2xl px-6 py-4 mb-2'
-                )}
-              >
+                  'bg-white shadow-md rounded-2xl px-6 py-4 mb-2',
+                )}>
                 <Text style={tw.style('text-lg text-[#60636A]')}>
                   {evaluation && evaluation.title}
                 </Text>

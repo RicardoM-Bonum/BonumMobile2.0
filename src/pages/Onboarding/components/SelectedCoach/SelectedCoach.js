@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import useFetchAndLoad from '../../../../hooks/useFetchAndLoad';
-import { updateCoacheeOnboarding } from '../../../../services/coachee.service';
+import {updateCoacheeOnboarding} from '../../../../services/coachee.service';
 import Congratulations from '../Congratulations';
 import leftArrow from '../../../../assets/icons/boton-anterior.png';
 import ViewCoachCalendar from '../../../../components/ViewCoachCalendar';
 import displayToast from '../../../../utilities/toast.utility';
-import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, TouchableOpacity, View, Image } from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {ScrollView, Text, TouchableOpacity, View, Image} from 'react-native';
 import tw from 'twrnc';
 import Video from 'react-native-video';
-import { Rating } from 'react-native-elements';
+import {Rating} from '@rneui/themed';
 import FocusAreaItem from '../../../../components/FocusAreaItem';
-import { PrimaryButton } from '../../../../components/Buttons';
+import {PrimaryButton} from '../../../../components/Buttons';
 import CoachStars from '../../../../components/CoachStars';
-import { setCoach } from '../../../../redux/slices/user';
+import {setCoach} from '../../../../redux/slices/user';
 
 function SelectedCoach(props) {
-  const { coach, setSelectedCoach, setShowArrows, navigation } = props;
-  const onboarding = useSelector((state) => state.onboarding);
-  const user = useSelector((state) => state.user);
+  const {coach, setSelectedCoach, setShowArrows, navigation} = props;
+  const onboarding = useSelector(state => state.onboarding);
+  const user = useSelector(state => state.user);
   const [isMyCoach, setIsMyCoach] = useState(false);
-  const { loading, callEndpoint } = useFetchAndLoad();
+  const {loading, callEndpoint} = useFetchAndLoad();
   const [viewCalendar, setViewCalendar] = useState(false);
-  const { t } = useTranslation('global');
+  const {t} = useTranslation('global');
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,9 +33,7 @@ function SelectedCoach(props) {
 
   const handleSelectCoach = async () => {
     try {
-      await callEndpoint(
-        updateCoacheeOnboarding(onboarding, { ...user, coach })
-      );
+      await callEndpoint(updateCoacheeOnboarding(onboarding, {...user, coach}));
       dispatch(setCoach(coach));
       setIsMyCoach(true);
     } catch (error) {
@@ -55,8 +53,7 @@ function SelectedCoach(props) {
         <View>
           <TouchableOpacity
             onPress={() => setSelectedCoach(false)}
-            style={tw.style('px-8 py-4 rounded-full ml--20px')}
-          >
+            style={tw.style('px-8 py-4 rounded-full ml--20px')}>
             <Image
               source={leftArrow}
               style={tw.style('w-10 h-10')}
@@ -67,13 +64,12 @@ function SelectedCoach(props) {
             <View style={tw.style('items-center')}>
               <Image
                 source={{
-                  uri: coach?.urlImgCoach
+                  uri: coach?.urlImgCoach,
                 }}
                 style={tw.style('w-50 h-50 rounded-full')}
               />
               <Text
-                style={tw.style('text-xl font-semibold text-[#7F7C82] mt-4')}
-              >
+                style={tw.style('text-xl font-semibold text-[#7F7C82] mt-4')}>
                 {coach?.name} {coach?.lastname}
               </Text>
               <Text style={tw.style('text-3xl')}>
@@ -95,7 +91,7 @@ function SelectedCoach(props) {
                   {coach &&
                     Array.isArray(coach.focusAreas) &&
                     coach.focusAreas.length > 1 &&
-                    coach.focusAreas.map((area) => (
+                    coach.focusAreas.map(area => (
                       <FocusAreaItem focusArea={area} key={area._id} />
                     ))}
                 </View>
@@ -106,7 +102,7 @@ function SelectedCoach(props) {
 
         {coach?.urlVideoCoach && coach.urlVideoCoach !== 'pending' ? (
           <Video
-            source={{ uri: coach.urlVideoCoach }}
+            source={{uri: coach.urlVideoCoach}}
             paused={true}
             controls={true}
             resizeMode={'contain'}

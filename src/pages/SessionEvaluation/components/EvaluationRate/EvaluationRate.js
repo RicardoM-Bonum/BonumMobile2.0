@@ -1,17 +1,17 @@
-import React, { useContext, useEffect } from 'react';
-import { View, Text } from 'react-native';
-import { Rating } from 'react-native-elements';
+import React, {useContext, useEffect} from 'react';
+import {View, Text} from 'react-native';
+import {Rating} from '@rneui/themed';
 import tw from 'twrnc';
 import SessionEvaluationContext from '../../context/SessionEvaluationContext';
 
-function EvaluationRate({ question }) {
-  const { setQuestions } = useContext(SessionEvaluationContext);
+function EvaluationRate({question}) {
+  const {setQuestions} = useContext(SessionEvaluationContext);
 
-  const onRate = (rating) => {
-    setQuestions((prev) => {
-      const newQuestions = prev.map((oldQuestion) => {
+  const onRate = rating => {
+    setQuestions(prev => {
+      const newQuestions = prev.map(oldQuestion => {
         if (question.id !== oldQuestion.id) return oldQuestion;
-        return { ...oldQuestion, ratingValue: rating };
+        return {...oldQuestion, ratingValue: rating};
       });
       return newQuestions;
     });
@@ -22,9 +22,8 @@ function EvaluationRate({ question }) {
   return (
     <View
       style={tw.style(
-        'bg-white shadow-md rounded-3xl px-4 py-5 my-3 items-start'
-      )}
-    >
+        'bg-white shadow-md rounded-3xl px-4 py-5 my-3 items-start',
+      )}>
       <Text style={tw.style('text-base')}>{question && question.title}</Text>
       <Rating
         onFinishRating={onRate}
