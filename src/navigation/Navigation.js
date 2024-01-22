@@ -1,9 +1,5 @@
-import React, {useContext, useEffect, useState, useRef} from 'react';
-import {
-  NavigationContainer,
-  DefaultTheme,
-  useNavigation,
-} from '@react-navigation/native';
+import React, {useState, useRef} from 'react';
+import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 
 //pages
 import Login from '../pages/Auth';
@@ -25,13 +21,12 @@ import ConnectCalendar from '../pages/ConnectCalendar';
 import CoachCalendar from '../pages/CoachCalendar';
 import SuccessCalendar from '../pages/SuccessCalendar';
 import Session from '../pages/MySessions/components/Session';
-import Meeting from '../pages/Meeting';
-import MeetingTest from '../streaming/App';
+import Meeting from '../pages/Meeting/Meeting';
 import {
   createDrawerNavigator,
   DrawerToggleButton,
 } from '@react-navigation/drawer';
-import {Button, View} from 'react-native';
+import {View} from 'react-native';
 import CustomDrawer from '../components/CustomDrawer';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -39,9 +34,7 @@ import IconFont from 'react-native-vector-icons/FontAwesome';
 import Preferences from '../pages/Preferences';
 import {useSelector} from 'react-redux';
 import MyEvaluations from '../pages/MyEvaluations';
-import {CoacheeCalendar} from '../pages';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {ScreenStackHeaderBackButtonImage} from 'react-native-screens';
 import RescheduleAppointment from '../pages/RescheduleAppointment';
 import {verifyRoutes} from '../utilities/verifyRoutes';
 import {UpdateLanguages} from '../pages/UpdateLanguages';
@@ -282,7 +275,12 @@ function Navigation() {
         <Drawer.Screen
           name="Meeting"
           component={Meeting}
-          options={{drawerItemStyle: {display: 'none'}}}
+          options={{
+            drawerItemStyle: {display: 'none'},
+            headerStyle: {
+              backgroundColor: 'black',
+            },
+          }}
         />
 
         <Drawer.Screen

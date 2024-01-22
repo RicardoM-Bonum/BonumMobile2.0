@@ -35,6 +35,7 @@
     "formik": "^2.4.5",
     "i18next": "^23.7.16",
     "luxon": "^3.4.4",
+    "moment-duration-format": "^2.3.2",
     "native-base": "^3.4.28",
     "qs": "^6.11.2",
     "react": "18.2.0",

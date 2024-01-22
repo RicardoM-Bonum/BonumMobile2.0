@@ -1,18 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {useState, useEffect, useRef} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import useFetchAndLoad from '../../hooks/useFetchAndLoad';
-import { EndSession } from '../../services/sessions.service';
-import { modifySession } from '../../redux/slices/session';
-import { UpdateMeeting } from '../../services/meeting.service';
+import {EndSession} from '../../services/sessions.service';
+import {modifySession} from '../../redux/slices/session';
+import {UpdateMeeting} from '../../services/meeting.service';
 import adaptedSession from '../../adapters/sessionsAdapter.adapter';
 import WebView from 'react-native-webview';
 import displayToast from '../../utilities/toast.utility';
-import { AppState, BackHandler } from 'react-native';
+import {AppState, BackHandler} from 'react-native';
 
-const VideoPlayer = ({ navigation, route }) => {
+const VideoPlayer = ({navigation, route}) => {
   const dispatch = useDispatch();
-
-  const { loading, callEndpoint } = useFetchAndLoad();
+  const {loading, callEndpoint} = useFetchAndLoad();
 
   const [meetingURL, setMeetingURL] = useState('');
   const [currentUrl, setCurrentUrl] = useState(''); // Move this hook outside the condition
@@ -26,7 +25,7 @@ const VideoPlayer = ({ navigation, route }) => {
   useEffect(() => {
     if (session?.callSession) {
       setMeetingURL(
-        `https://main.d37mzia3o099g8.amplifyapp.com/meeting/${session?.callSession}/${user?.role}/${user?.name}/${user?.lastname}/${user?.languages[0]}`
+        `https://main.d37mzia3o099g8.amplifyapp.com/meeting/${session?.callSession}/${user?.role}/${user?.name}/${user?.lastname}/${user?.languages[0]}`,
       );
     }
   }, [session]);
@@ -37,8 +36,8 @@ const VideoPlayer = ({ navigation, route }) => {
         await callEndpoint(
           EndSession({
             _id: session._id || session.id,
-            MeetingId: session.callSession
-          })
+            MeetingId: session.callSession,
+          }),
         );
       }
     } catch (error) {
@@ -49,15 +48,15 @@ const VideoPlayer = ({ navigation, route }) => {
       modifySession(
         adaptedSession({
           ...session,
-          status: true
-        })
-      )
+          status: true,
+        }),
+      ),
     );
 
     navigation.navigate('SessionEvaluation');
   };
 
-  const handleNavigationStateChange = (newState) => {
+  const handleNavigationStateChange = newState => {
     const newURL = newState.url;
     setCurrentUrl(newURL);
   };
@@ -72,9 +71,9 @@ const VideoPlayer = ({ navigation, route }) => {
       await callEndpoint(
         EndSession({
           _id: session._id || session.id,
-          MeetingId: session.callSession
+          MeetingId: session.callSession,
           // coachPrivateComments: anotations
-        })
+        }),
       );
     } catch (error) {
       console.log('Error al cerrar llamada', error);
@@ -105,7 +104,7 @@ const VideoPlayer = ({ navigation, route }) => {
     return `${horas} horas, ${minutos} minutos, ${segundos} segundos`;
   }
 
-  const onMessage = async (data) => {
+  const onMessage = async data => {
     const messageData = data.nativeEvent.data;
     switch (messageData) {
       case 'COACHEE_CANT_HANGUP': {
@@ -117,7 +116,7 @@ const VideoPlayer = ({ navigation, route }) => {
         await leaveCall();
         const durationString = segundosAHMS(durationInSeconds);
         await callEndpoint(
-          UpdateMeeting(meetingId, { Duration: durationString })
+          UpdateMeeting(meetingId, {Duration: durationString}),
         );
         break;
       }
@@ -140,7 +139,7 @@ const VideoPlayer = ({ navigation, route }) => {
 
   const webViewRef = useRef(null);
 
-  const handleAppStateChange = (nextAppState) => {
+  const handleAppStateChange = nextAppState => {
     if (nextAppState === 'background' || nextAppState === 'inactive') {
       // La aplicación se está moviendo al estado en segundo plano, cierra el WebView
       if (webViewRef.current) {
@@ -177,7 +176,7 @@ const VideoPlayer = ({ navigation, route }) => {
   return (
     <WebView
       source={{
-        uri: meetingURL
+        uri: meetingURL,
       }}
       ref={webViewRef}
       userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36"

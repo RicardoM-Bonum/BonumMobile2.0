@@ -7521,6 +7521,11 @@ moment-duration-format@2.2.2:
   resolved "https://registry.yarnpkg.com/moment-duration-format/-/moment-duration-format-2.2.2.tgz#b957612de26016c9ad9eb6087c054573e5127779"
   integrity sha512-NR6qiYywjQ6UdLCpfpg1WhaWdpAg4EHIaUGaTTgTLrPVooUKp7Q7eN/gmcUxp/dIL7+Rya+P0ApI/Ve1Nq7ycw==
 
+moment-duration-format@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/moment-duration-format/-/moment-duration-format-2.3.2.tgz#5fa2b19b941b8d277122ff3f87a12895ec0d6212"
+  integrity sha512-cBMXjSW+fjOb4tyaVHuaVE/A5TqkukDWiOfxxAjY+PEqmmBQlLwn+8OzwPiG3brouXKY5Un4pBjAeB6UToXHaQ==
+
 moment-jalaali@^0.9.2:
   version "0.9.6"
   resolved "https://registry.yarnpkg.com/moment-jalaali/-/moment-jalaali-0.9.6.tgz#6c460aedee08a1e45d3f658c7cffd66cd4dca24c"

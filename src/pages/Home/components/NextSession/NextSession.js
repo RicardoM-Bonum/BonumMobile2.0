@@ -1,41 +1,39 @@
-import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import tw from 'twrnc';
 import useFetchAndLoad from '../../../../hooks/useFetchAndLoad';
-import { useSelector, useDispatch } from 'react-redux';
-import { DateTime } from 'luxon';
-import { filter } from 'lodash';
-import { post, meetingExists } from '../../../../services/meeting.service';
-import { modifySession, resetSession } from '../../../../redux/slices/session';
-import { modifyMeeting } from '../../../../redux/slices/meeting';
+import {useSelector, useDispatch} from 'react-redux';
+import {DateTime} from 'luxon';
+import {filter} from 'lodash';
+import {post} from '../../../../services/meeting.service';
+import {modifySession, resetSession} from '../../../../redux/slices/session';
 import {
   mongoDateToLongDate,
   mongoDateToTime,
-  mongoDateToTimePlusOneHour
+  mongoDateToTimePlusOneHour,
 } from '../../../../utilities/formatDate.utility';
 import {
   updateSession,
-  AlternalCall
+  AlternalCall,
 } from '../../../../services/sessions.service';
 import adaptedSession from '../../../../adapters/sessionsAdapter.adapter';
 import axios from 'axios';
 import displayToast from '../../../../utilities/toast.utility';
-// import { io } from 'socket.io-client';
-import { io, Socket } from 'socket.io-client';
+import {io} from 'socket.io-client';
 
-import { Avatar, Skeleton } from 'native-base';
-import { PrimaryButton } from '../../../../components/Buttons';
-import { Button } from '@rneui/base';
+import {Avatar, Skeleton} from 'native-base';
+import {PrimaryButton} from '../../../../components/Buttons';
+import {Button} from '@rneui/base';
 import ModalCloseSession from '../../../../components/ModalCloseSession';
 import Config from 'react-native-config';
-import { makeAlternateCall } from '../../../../utilities/alternateCall.utility';
+import {makeAlternateCall} from '../../../../utilities/alternateCall.utility';
 import ModalCoachInCall from '../ModalCoachInCall';
-import { useUserUtilities } from '../../../../hooks';
-import { useTranslation } from 'react-i18next';
+import {useUserUtilities} from '../../../../hooks';
+import {useTranslation} from 'react-i18next';
 
 const profile = {
   image:
-    'https://t3.ftcdn.net/jpg/03/53/11/00/360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg'
+    'https://t3.ftcdn.net/jpg/03/53/11/00/360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg',
 };
 
 const renderNextSession = ({
@@ -52,7 +50,7 @@ const renderNextSession = ({
   user,
   callAlternal,
   t,
-  i18n
+  i18n,
 }) => {
   return (
     <View style={tw.style('relative')}>
@@ -96,7 +94,7 @@ const renderNextSession = ({
                 }
                 source={
                   nextSession && nextSession.coachee
-                    ? { uri: nextSession?.coachee?.urlImgCoachee }
+                    ? {uri: nextSession?.coachee?.urlImgCoachee}
                     : profile.image
                 }
                 style={tw.style('bg-[#f0f0f0]')}
@@ -105,8 +103,7 @@ const renderNextSession = ({
                 isLoaded={!loading}
                 mt={1}
                 fadeDuration={3}
-                borderRadius={10}
-              >
+                borderRadius={10}>
                 <Text style={tw.style('ml-2')}>
                   {nextSession && nextSession.coachee
                     ? nextSession?.coachee?.name
@@ -127,7 +124,7 @@ const renderNextSession = ({
                 }
                 source={
                   nextSession && nextSession.coach
-                    ? { uri: nextSession?.coach?.urlImgCoach }
+                    ? {uri: nextSession?.coach?.urlImgCoach}
                     : profile.image
                 }
                 className="Home__next_session_with_user_info_avatar"
@@ -136,8 +133,7 @@ const renderNextSession = ({
                 isLoaded={!loading}
                 mt={1}
                 fadeDuration={3}
-                borderRadius={10}
-              >
+                borderRadius={10}>
                 <Text style={tw.style('ml-2')}>
                   {nextSession?.coach?.name} {nextSession?.coach?.lastname}
                 </Text>
@@ -169,7 +165,7 @@ const renderNextSession = ({
             <Image
               source={require('../../../../assets/img/icons/Llamar.png')}
               style={tw.style(
-                `${!isCoach ? 'absolute bottom-0 right-0' : ''} w-12 h-12 mr-4`
+                `${!isCoach ? 'absolute bottom-0 right-0' : ''} w-12 h-12 mr-4`,
               )}
             />
           </TouchableOpacity>
@@ -179,7 +175,7 @@ const renderNextSession = ({
   );
 };
 
-const renderNotSession = ({ navigation, isCoach, t }) => (
+const renderNotSession = ({navigation, isCoach, t}) => (
   <>
     <Text style={tw.style('text-xl text-gray-800 font-bold')}>
       {t('pages.home.components.nextSession.title')}
@@ -196,20 +192,20 @@ const renderNotSession = ({ navigation, isCoach, t }) => (
   </>
 );
 
-export default function NextSession({ user, navigation }) {
+export default function NextSession({user, navigation}) {
   const socket = io(Config.STREAMING_URL, {
     transports: ['websocket'],
-    forceNew: true
+    forceNew: true,
   });
 
-  const { t, i18n } = useTranslation('global');
+  const {t, i18n} = useTranslation('global');
 
-  const { loading, callEndpoint } = useFetchAndLoad();
+  const {loading, callEndpoint} = useFetchAndLoad();
   const [nextSession, setNextSession] = useState(null);
   const [closeSessionModal, setCloseSessionModal] = useState(false);
   const [coachInCallModal, setCoachInCallModal] = useState(false);
-  const { sessions } = useSelector((state) => state.user);
-  const { refreshSessions } = useUserUtilities();
+  const {sessions} = useSelector(state => state.user);
+  const {refreshSessions} = useUserUtilities();
   const dispatch = useDispatch();
 
   const isCoach = user.role === 'coach';
@@ -235,14 +231,14 @@ export default function NextSession({ user, navigation }) {
           userId: nextSession?.coachee?._id
             ? nextSession?.coachee?._id
             : nextSession?.coachee,
-          AlternalCallLink: user?.alternateCall
-        })
+          AlternalCallLink: user?.alternateCall,
+        }),
       );
     }
   };
 
-  const getNextSession = async (allSessions) => {
-    const sessions = filter(allSessions, { status: false, canceled: false });
+  const getNextSession = async allSessions => {
+    const sessions = filter(allSessions, {status: false, canceled: false});
 
     if (sessions.length < 1) {
       setNextSession(null);
@@ -253,16 +249,18 @@ export default function NextSession({ user, navigation }) {
     for (let i = 0; i < sessions.length; i++) {
       const session = sessions[i];
       const sessionDate = DateTime.fromISO(session?.date).toUnixInteger();
-      const today = DateTime.now().minus({ hours: 12 }).toUnixInteger();
+      const today = DateTime.now().minus({hours: 12}).toUnixInteger();
       const isLowerThanToday = sessionDate < today;
 
       if (!closestSession && !isLowerThanToday) {
         closestSession = session;
       } else if (!isLowerThanToday) {
         const closestSessionDate = DateTime.fromISO(
-          closestSession?.date
+          closestSession?.date,
         ).toUnixInteger();
-        if (sessionDate < closestSessionDate) closestSession = session;
+        if (sessionDate < closestSessionDate) {
+          closestSession = session;
+        }
       }
     }
 
@@ -271,8 +269,8 @@ export default function NextSession({ user, navigation }) {
     //Función para ver si el coach ya está en la sesión
     if (!isCoach) {
       if (closestSession.callSession) {
-        const { data } = await axios.get(
-          `${Config.STREAMING_URL}/socketsInRoom/${closestSession.callSession}`
+        const {data} = await axios.get(
+          `${Config.STREAMING_URL}/socketsInRoom/${closestSession.callSession}`,
         );
 
         console.log('Sockets in Room', data);
@@ -294,15 +292,15 @@ export default function NextSession({ user, navigation }) {
 
       const session = await getNextSession(sessions);
       if (isCoachee && session) {
-        socket.emit('connect-session', { room: session._id });
-        socket.on('AcceptCallCoach', ({ session }) => {
+        socket.emit('connect-session', {room: session._id});
+        socket.on('AcceptCallCoach', ({session}) => {
           setNextSession(session);
         });
       }
     } catch (error) {
       console.log(
         '🚀 ~ file: NextSession.js ~ line 39 ~ getSessions ~ error',
-        error.message
+        error.message,
       );
     }
   };
@@ -312,35 +310,35 @@ export default function NextSession({ user, navigation }) {
       dispatch(resetSession());
       if (user && nextSession) {
         if (user.role === 'coach' && !nextSession.callSession) {
-          const { data } = await callEndpoint(
+          const {data} = await callEndpoint(
             post({
               IdCoachee: user.role === 'coachee' ? user.mongoID : '',
               IdCoach: user.role === 'coach' ? user.mongoID : user.coach._id,
               Date: new Date(),
               InProcess: true,
               IdSesion: nextSession._id,
-              PointsSesions: nextSession.pointsSession
-            })
+              PointsSesions: nextSession.pointsSession,
+            }),
           );
 
-          const { data: session } = await callEndpoint(
-            updateSession({ _id: nextSession._id, callSession: data.data._id })
+          const {data: session} = await callEndpoint(
+            updateSession({_id: nextSession._id, callSession: data.data._id}),
           );
 
           socket.emit('CallAcceptCallCoach', {
-            session: { ...nextSession, callSession: data.data._id },
-            room: session.data._id
+            session: {...nextSession, callSession: data.data._id},
+            room: session.data._id,
           });
           dispatch(
             modifySession(
               adaptedSession({
                 ...nextSession,
-                callSession: data.data._id
-              })
-            )
+                callSession: data.data._id,
+              }),
+            ),
           );
           navigation.navigate('Meeting', {
-            session: { ...nextSession, callSession: data.data._id }
+            session: {...nextSession, callSession: data.data._id},
           });
         } else if (
           user &&
@@ -350,7 +348,7 @@ export default function NextSession({ user, navigation }) {
         ) {
           displayToast(
             `Tu coach ${nextSession.coach.name} ${nextSession.coach.lastname} aún no se une a la reunión`,
-            'info'
+            'info',
           );
           getSessions();
         } else if (nextSession.callSession) {
@@ -358,12 +356,12 @@ export default function NextSession({ user, navigation }) {
             modifySession(
               adaptedSession({
                 ...nextSession,
-                callSession: nextSession.callSession
-              })
-            )
+                callSession: nextSession.callSession,
+              }),
+            ),
           );
           navigation.navigate('Meeting', {
-            session: { ...nextSession, callSession: nextSession.callSession }
+            session: {...nextSession, callSession: nextSession.callSession},
           });
         }
       }
@@ -375,9 +373,8 @@ export default function NextSession({ user, navigation }) {
   return (
     <View
       style={tw.style(
-        'bg-[rgb(248,248,248)] shadow-md rounded-3xl justify-between w-full my-8 mx-auto pl-4 pr-4 pt-4 pb-6'
-      )}
-    >
+        'bg-[rgb(248,248,248)] shadow-md rounded-3xl justify-between w-full my-8 mx-auto pl-4 pr-4 pt-4 pb-6',
+      )}>
       <Text style={tw.style('text-xl text-gray-600')}>
         {t('pages.home.components.nextSession.title')}
       </Text>
@@ -396,9 +393,9 @@ export default function NextSession({ user, navigation }) {
             user,
             callAlternal,
             t,
-            i18n
+            i18n,
           })
-        : renderNotSession({ navigation, isCoach, t })}
+        : renderNotSession({navigation, isCoach, t})}
     </View>
   );
 }
@@ -407,6 +404,6 @@ const styles = {
   linkButton: {
     color: '#718096',
     textDecorationLine: 'underline',
-    fontSize: 12
-  }
+    fontSize: 12,
+  },
 };

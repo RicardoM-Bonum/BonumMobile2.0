@@ -1,39 +1,45 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import useFetchAndLoad from '../../hooks/useFetchAndLoad';
-import { EndSession } from '../../services/sessions.service';
-import { modifySession } from '../../redux/slices/session';
+import React, {useEffect, useRef, useCallback} from 'react';
+import {JitsiMeeting} from '@jitsi/react-native-sdk/index';
+import {useDispatch, useSelector} from 'react-redux';
+import {modifySession} from '../../redux/slices/session';
+import {useFetchAndLoad} from '../../hooks';
+import {EndSession} from '../../services/sessions.service';
 import adaptedSession from '../../adapters/sessionsAdapter.adapter';
-import Loading from '../Loading/Loading';
-import WebView from 'react-native-webview';
 
-const VideoPlayer = ({ navigation, route }) => {
+const VideoPlayer = ({navigation, route}) => {
   const dispatch = useDispatch();
-
-  const { loading, callEndpoint } = useFetchAndLoad();
-
-  const [meetingURL, setMeetingURL] = useState('');
-  const [currentUrl, setCurrentUrl] = useState(''); // Move this hook outside the condition
-
+  const jitsiMeeting = useRef(null);
+  const {photo, name, lastname, email, role} = useSelector(state => state.user);
   const session = route.params.session;
+  const room = session?.callSession;
+  const {loading, callEndpoint} = useFetchAndLoad();
 
-  useEffect(() => {
-    dispatch(modifySession(session));
-  }, [dispatch, session]);
+  const JITSI_FLAGS = {
+    'add.people.enabled': false,
+    'breakout-rooms.enabled': false,
+    'calendar.enabled': false,
+    'close-captions.enabled': false,
+    'help.enabled': false,
+    'invite.enabled': false,
+    'kick-out.enabled': false,
+  };
 
-  useEffect(() => {
-    if (session?.callSession) {
-      setMeetingURL(
-        `https://bonum-meet.bonumcoaching.com/${session?.callSession}#config.disableDeepLinking=true`
-      );
-    }
-  }, [session]);
+  const JITSI_CONFIG = {
+    enableClosePage: false,
+    buttonsWithNotifyClick: [
+      // {key: 'hangup', preventExecution: true},
+      // {key: 'hangup-menu', preventExecution: true},
+    ],
 
-  useEffect(() => {
-    if (currentUrl === defaultLink) {
-      leaveCall();
-    }
-  }, [currentUrl]);
+    breakoutRooms: {
+      // Hides the add breakout room button. This replaces `hideAddRoomButton`.
+      hideAddRoomButton: true,
+      // Hides the auto assign participants button.
+      hideAutoAssignButton: true,
+      // Hides the join breakout room button.
+      hideJoinRoomButton: true,
+    },
+  };
 
   const leaveCall = async () => {
     try {
@@ -41,8 +47,8 @@ const VideoPlayer = ({ navigation, route }) => {
         await callEndpoint(
           EndSession({
             _id: session._id || session.id,
-            MeetingId: session.callSession
-          })
+            MeetingId: session.callSession,
+          }),
         );
       }
     } catch (error) {
@@ -53,34 +59,52 @@ const VideoPlayer = ({ navigation, route }) => {
       modifySession(
         adaptedSession({
           ...session,
-          status: true
-        })
-      )
+          status: true,
+        }),
+      ),
     );
 
     navigation.navigate('SessionEvaluation');
   };
 
-  if (loading) {
-    return <Loading title={'LOADING...'} />;
-  }
+  useEffect(() => {
+    dispatch(modifySession(session));
+  }, [dispatch, session]);
 
-  const defaultLink =
-    'https://bonum-meet.bonumcoaching.com/#config.disableDeepLinking=true';
+  const onReadyToClose = useCallback(() => {
+    leaveCall();
+    // @ts-ignore
+    // @ts-ignore
+  }, []);
 
-  const handleNavigationStateChange = (newState) => {
-    const newURL = newState.url;
-    setCurrentUrl(newURL);
+  const onConferenceJoined = e => {
+    console.log('onConferenceJoined', e);
   };
 
+  const eventListeners = {
+    onReadyToClose,
+    onConferenceJoined,
+  };
+
+  useEffect(() => {
+    console.log('Jitsi meeting', jitsiMeeting?.current);
+  }, []);
+
   return (
-    <WebView
-      source={{
-        uri: meetingURL
+    // @ts-ignore
+    <JitsiMeeting
+      config={JITSI_CONFIG}
+      flags={JITSI_FLAGS}
+      eventListeners={eventListeners as any}
+      ref={jitsiMeeting}
+      style={{flex: 1}}
+      room={room}
+      userInfo={{
+        avatarURL: photo,
+        displayName: `${name} ${lastname}`,
+        email,
       }}
-      mediaPlaybackRequiresUserAction={false}
-      allowsInlineMediaPlayback={true}
-      onNavigationStateChange={handleNavigationStateChange}
+      serverURL={'https://bonum-meet.bonumcoaching.com'}
     />
   );
 };
