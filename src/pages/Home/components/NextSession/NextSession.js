@@ -30,6 +30,7 @@ import {makeAlternateCall} from '../../../../utilities/alternateCall.utility';
 import ModalCoachInCall from '../ModalCoachInCall';
 import {useUserUtilities} from '../../../../hooks';
 import {useTranslation} from 'react-i18next';
+import {getJitsiToken} from '../../../../services/streaming.service';
 
 const profile = {
   image:
@@ -204,7 +205,9 @@ export default function NextSession({user, navigation}) {
   const [nextSession, setNextSession] = useState(null);
   const [closeSessionModal, setCloseSessionModal] = useState(false);
   const [coachInCallModal, setCoachInCallModal] = useState(false);
-  const {sessions} = useSelector(state => state.user);
+  const {sessions, role, email, photo, name, lastname} = useSelector(
+    state => state.user,
+  );
   const {refreshSessions} = useUserUtilities();
   const dispatch = useDispatch();
 
@@ -305,10 +308,34 @@ export default function NextSession({user, navigation}) {
     }
   };
 
+  const getToken = async session => {
+    try {
+      const userData = {
+        context: {
+          user: {
+            avatar: photo,
+            email: email,
+            name: `${name} ${lastname}`,
+          },
+        },
+        role,
+        sub: 'bonum-meet.bonumcoaching.com',
+        room: session._id,
+      };
+
+      const {data} = await callEndpoint(getJitsiToken(userData));
+      console.log('*token*', data);
+      return data.data;
+    } catch (error) {
+      console.log('*token* error', error);
+    }
+  };
+
   const AcceptCallMethod = async () => {
     try {
       dispatch(resetSession());
       if (user && nextSession) {
+        const token = await getToken(nextSession);
         if (user.role === 'coach' && !nextSession.callSession) {
           const {data} = await callEndpoint(
             post({
@@ -337,8 +364,10 @@ export default function NextSession({user, navigation}) {
               }),
             ),
           );
+
           navigation.navigate('Meeting', {
             session: {...nextSession, callSession: data.data._id},
+            token,
           });
         } else if (
           user &&
@@ -362,6 +391,7 @@ export default function NextSession({user, navigation}) {
           );
           navigation.navigate('Meeting', {
             session: {...nextSession, callSession: nextSession.callSession},
+            token,
           });
         }
       }

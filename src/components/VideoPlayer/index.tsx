@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useCallback} from 'react';
+import React, {useEffect, useRef, useCallback, useState} from 'react';
 import {JitsiMeeting} from '@jitsi/react-native-sdk/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {modifySession} from '../../redux/slices/session';
@@ -11,6 +11,7 @@ const VideoPlayer = ({navigation, route}) => {
   const jitsiMeeting = useRef(null);
   const {photo, name, lastname, email, role} = useSelector(state => state.user);
   const session = route.params.session;
+  const token = route.params.token;
   const room = session?.callSession;
   const {loading, callEndpoint} = useFetchAndLoad();
 
@@ -74,21 +75,13 @@ const VideoPlayer = ({navigation, route}) => {
   const onReadyToClose = useCallback(() => {
     leaveCall();
     // @ts-ignore
+    jitsiMeeting.current.close();
     // @ts-ignore
   }, []);
 
-  const onConferenceJoined = e => {
-    console.log('onConferenceJoined', e);
-  };
-
   const eventListeners = {
     onReadyToClose,
-    onConferenceJoined,
   };
-
-  useEffect(() => {
-    console.log('Jitsi meeting', jitsiMeeting?.current);
-  }, []);
 
   return (
     // @ts-ignore
@@ -105,6 +98,7 @@ const VideoPlayer = ({navigation, route}) => {
         email,
       }}
       serverURL={'https://bonum-meet.bonumcoaching.com'}
+      token={token}
     />
   );
 };
