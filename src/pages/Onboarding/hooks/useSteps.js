@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 
-export const useSteps = (props) => {
+export const useSteps = props => {
   const {
     initialStep = 0,
     stepsCount,
@@ -8,7 +8,7 @@ export const useSteps = (props) => {
     validationStep = 3,
     userRole = 'coachee',
     validation,
-    onLastStep
+    onLastStep,
   } = props;
 
   const [activeStep, setActiveStep] = useState(initialStep);
@@ -21,36 +21,37 @@ export const useSteps = (props) => {
   }, [activeStep]);
 
   const nextStep = async () => {
-    // if (activeStep === validationStep && validation) {
-    //   if (userRole === 'coachee') {
-    //     const FormErrors = await validation;
-    //     if (FormErrors) {
-    //       setErrors(FormErrors);
-    //       return;
-    //     }
-    //   }
+    if (activeStep === validationStep && validation) {
+      if (userRole === 'coachee') {
+        const FormErrors = await validation;
+        if (FormErrors) {
+          setErrors(FormErrors);
+          return;
+        }
+      }
 
-    //   if (userRole === 'coach') {
-    //     const FormErrors = await validation;
-    //     console.log({FormErrors});
-    //     if (FormErrors) {
-    //       setErrors(FormErrors);
-    //       return;
-    //     }
-    //   }
-    // }
+      if (userRole === 'coach') {
+        const FormErrors = await validation;
+        if (FormErrors) {
+          setErrors(FormErrors);
+          return;
+        }
+      }
+    }
     if (activeStep === stepsCount - 1) {
       if (onLastStep) {
         onLastStep();
       }
       return;
     }
-    setActiveStep((prev) => prev + 1);
+    setActiveStep(prev => prev + 1);
   };
 
   const prevStep = () => {
-    if (activeStep < 1) return;
-    setActiveStep((prev) => prev - 1);
+    if (activeStep < 1) {
+      return;
+    }
+    setActiveStep(prev => prev - 1);
   };
 
   const reset = () => {
@@ -58,7 +59,9 @@ export const useSteps = (props) => {
   };
 
   const setStep = (step = 0) => {
-    if (step > stepsCount) return;
+    if (step > stepsCount) {
+      return;
+    }
     setActiveStep(step);
   };
 
@@ -70,6 +73,6 @@ export const useSteps = (props) => {
     activeStep,
     errors,
     barActive,
-    activeBarStep
+    activeBarStep,
   };
 };

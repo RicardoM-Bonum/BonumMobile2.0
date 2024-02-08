@@ -1,67 +1,77 @@
 import YupValidationSchema from '../../../utilities/yupValidationSchema.utility';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import AboutYouCoachValidationSchema from '../components/AboutYouCoach/validationSchema';
 import CreateYourAccountValidationSchema from '../components/CreateYourAccount/validationSchema';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 const useCoachStepsValidation = async () => {
-  const onboarding = useSelector((state) => state.onboarding);
+  const onboarding = useSelector(state => state.onboarding);
   const errors = [];
-  const { t } = useTranslation('global');
+  const {t} = useTranslation('global');
 
   const CreateYourAccountValidation = await YupValidationSchema(
     CreateYourAccountValidationSchema,
     onboarding.createYourAccount,
-    'Crea tu Cuenta'
+    'Crea tu Cuenta',
   );
-  if (CreateYourAccountValidation) errors.push(CreateYourAccountValidation);
+  if (CreateYourAccountValidation) {
+    errors.push(CreateYourAccountValidation);
+  }
 
-  if (!onboarding.photo)
+  if (!onboarding.photo) {
     errors.push({
       errors: [`${t('pages.onboarding.hooks.errorPhoto')}`],
-      title: t('pages.onboarding.hooks.photoTitle')
+      title: t('pages.onboarding.hooks.photoTitle'),
     });
+  }
 
   const aboutYouValidation = await YupValidationSchema(
     AboutYouCoachValidationSchema,
     onboarding.aboutYouCoach,
-    t('pages.onboarding.components.aboutYouCoach.title')
+    t('pages.onboarding.components.aboutYouCoach.title'),
   );
-  if (aboutYouValidation) errors.push(aboutYouValidation);
+  if (aboutYouValidation) {
+    errors.push(aboutYouValidation);
+  }
 
   if (
     onboarding &&
     onboarding.languages &&
     Array.isArray(onboarding.languages) &&
     onboarding.languages.length < 1
-  )
+  ) {
     errors.push({
       errors: [`${t('pages.onboarding.hooks.errorLenguage')}`],
-      title: t('pages.onboarding.hooks.lenguageTitle')
+      title: t('pages.onboarding.hooks.lenguageTitle'),
     });
+  }
 
-  if (!onboarding.video)
-    errors.push({
-      errors: [`${t('pages.onboarding.hooks.errorVideo')}`],
-      title: t('pages.onboarding.hooks.videoTitle')
-    });
+  // if (!onboarding.video) {
+  //   errors.push({
+  //     errors: [`${t('pages.onboarding.hooks.errorVideo')}`],
+  //     title: t('pages.onboarding.hooks.videoTitle'),
+  //   });
+  // }
 
   if (!onboarding.timezone) {
     errors.push({
       errors: [`${t('pages.onboarding.hooks.errorTimezone')}`],
-      title: t('pages.onboarding.hooks.timezoneTitle')
+      title: t('pages.onboarding.hooks.timezoneTitle'),
     });
   }
 
-  if (onboarding.focusAreas.length < 3)
+  if (onboarding.focusAreas.length < 3) {
     errors.push({
       errors: [`${t('pages.onboarding.hooks.errorCoach')}`],
-      title: t('pages.onboarding.hooks.focusAreasTile')
+      title: t('pages.onboarding.hooks.focusAreasTile'),
     });
+  }
 
-  console.log(errors);
+  // console.log(errors);
 
-  if (errors.length > 0) return errors;
+  if (errors.length > 0) {
+    return errors;
+  }
   return false;
 };
 

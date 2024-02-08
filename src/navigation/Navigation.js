@@ -1,9 +1,19 @@
 import React, {useState, useRef} from 'react';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 
+import {
+  createDrawerNavigator,
+  DrawerToggleButton,
+} from '@react-navigation/drawer';
+import CustomDrawer from '../components/CustomDrawer';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import IconFont from 'react-native-vector-icons/FontAwesome';
+import {useSelector} from 'react-redux';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {verifyRoutes} from '../utilities/verifyRoutes';
+
 //pages
-import Login from '../pages/Auth';
-import Splash from '../pages/Splash';
+import {Login} from '../pages';
 import Dashboard from '../pages/Dashboard';
 import Evaluadores from '../pages/Evaluadores';
 import AreasFoco from '../pages/AreasFoco';
@@ -22,22 +32,12 @@ import CoachCalendar from '../pages/CoachCalendar';
 import SuccessCalendar from '../pages/SuccessCalendar';
 import Session from '../pages/MySessions/components/Session';
 import Meeting from '../pages/Meeting/Meeting';
-import {
-  createDrawerNavigator,
-  DrawerToggleButton,
-} from '@react-navigation/drawer';
-import {View} from 'react-native';
-import CustomDrawer from '../components/CustomDrawer';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/Entypo';
-import IconFont from 'react-native-vector-icons/FontAwesome';
-import Preferences from '../pages/Preferences';
-import {useSelector} from 'react-redux';
-import MyEvaluations from '../pages/MyEvaluations';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import RescheduleAppointment from '../pages/RescheduleAppointment';
-import {verifyRoutes} from '../utilities/verifyRoutes';
 import {UpdateLanguages} from '../pages/UpdateLanguages';
+import RescheduleAppointment from '../pages/RescheduleAppointment';
+import MyEvaluations from '../pages/MyEvaluations';
+import Preferences from '../pages/Preferences';
+import Icon from 'react-native-vector-icons/Entypo';
+import {View} from 'react-native';
 import {useTranslation} from 'react-i18next';
 
 const Drawer = createDrawerNavigator();
@@ -57,8 +57,6 @@ function HeaderLeft({isPrincipal, goBack}) {
 }
 
 function Navigation() {
-  const {t} = useTranslation('global');
-
   const theme = {
     ...DefaultTheme,
     colors: {
@@ -69,20 +67,20 @@ function Navigation() {
 
   const insets = useSafeAreaInsets();
   const ref = useRef(null);
+  const {t} = useTranslation('global');
 
   const [isPrincipal, setIsPrincipal] = useState(true);
-  const {role, onboardingCompleted} = useSelector(state => state.user);
-
+  const {role, onboardingCompleted, uid} = useSelector(state => state.user);
   const isCoachee = role === 'coachee';
 
   return (
     <NavigationContainer theme={theme} ref={ref}>
       <Drawer.Navigator
-        initialRouteName="Splash"
+        // initialRouteName="Dashboard"
         screenOptions={{
           swipeEnabled: false,
           drawerType: 'front',
-          drawerStyle: {
+          xtyle: {
             backgroundColor: 'transparent',
             marginTop: insets.top + 5,
             marginBottom: insets.bottom + 5,
@@ -108,314 +106,203 @@ function Navigation() {
         screenListeners={() => ({
           state: () => verifyRoutes({ref, setIsPrincipal}),
         })}>
-        <Drawer.Screen
-          name="Dashboard"
-          component={Dashboard}
-          options={{
-            title: t('components.menu.home'),
-            drawerIcon: () => (
-              <View
-                style={{
-                  backgroundColor: 'rgba(34, 34, 34, .15)',
-                  borderRadius: 50,
-                  padding: 5,
-                }}>
-                <Icon name={'home'} color={'white'} size={18} />
-              </View>
-            ),
-          }}
-        />
+        {uid ? (
+          onboardingCompleted ? (
+            <>
+              <Drawer.Screen
+                name="Dashboard"
+                component={Dashboard}
+                options={{
+                  title: t('components.menu.home'),
+                  drawerIcon: () => (
+                    <View
+                      style={{
+                        backgroundColor: 'rgba(34, 34, 34, .15)',
+                        borderRadius: 50,
+                        padding: 5,
+                      }}>
+                      <Icon name={'home'} color={'white'} size={18} />
+                    </View>
+                  ),
+                }}
+              />
+              <Drawer.Screen
+                name="Preferences"
+                component={Preferences}
+                options={{
+                  title: t('components.menu.preferences'),
+                  drawerIcon: color => (
+                    <View
+                      style={{
+                        backgroundColor: 'rgba(34, 34, 34, .15)',
+                        borderRadius: 50,
+                        padding: 5,
+                      }}>
+                      <Icon name={'cog'} color={'white'} size={16} />
+                    </View>
+                  ),
+                }}
+              />
 
-        {isCoachee && onboardingCompleted && (
-          <>
+              <Drawer.Screen
+                name="CoachEvaluation"
+                component={CoachEvaluation}
+                options={{drawerItemStyle: {display: 'none'}}}
+              />
+              <Drawer.Screen
+                name="Evaluations"
+                component={Evaluations}
+                options={{drawerItemStyle: {display: 'none'}}}
+              />
+              <Drawer.Screen
+                name="Evaluadores"
+                component={Evaluadores}
+                options={{drawerItemStyle: {display: 'none'}}}
+              />
+              <Drawer.Screen
+                name="AreasFoco"
+                component={AreasFoco}
+                options={{drawerItemStyle: {display: 'none'}}}
+              />
+              <Drawer.Screen
+                name="BuscandoCoach"
+                component={BuscandoCoach}
+                options={{drawerItemStyle: {display: 'none'}}}
+              />
+              <Drawer.Screen
+                name="AgendarCoach"
+                component={AgendarCoach}
+                options={{drawerItemStyle: {display: 'none'}}}
+              />
+              <Drawer.Screen
+                name="AgendarCoachee"
+                component={ScheduleAppointment}
+                options={{drawerItemStyle: {display: 'none'}}}
+              />
+
+              <Drawer.Screen
+                name="ReagendarCoachee"
+                component={RescheduleAppointment}
+                options={{drawerItemStyle: {display: 'none'}}}
+              />
+
+              <Drawer.Screen
+                name="SessionEvaluation"
+                component={SessionEvaluation}
+                options={{drawerItemStyle: {display: 'none'}}}
+              />
+              <Drawer.Screen
+                name="CoacheeResume"
+                component={CoacheeResume}
+                options={{drawerItemStyle: {display: 'none'}}}
+              />
+              <Drawer.Screen
+                name="SessionInfo"
+                component={SessionInfo}
+                options={{drawerItemStyle: {display: 'none'}}}
+              />
+              <Drawer.Screen
+                name="connectcalendar"
+                component={ConnectCalendar}
+                options={{drawerItemStyle: {display: 'none'}}}
+              />
+              <Drawer.Screen
+                name="CoachCalendar"
+                options={{
+                  animationEnabled: true,
+                  title: 'Calendario Coach',
+                  drawerItemStyle: {display: 'none'},
+                }}
+                component={CoachCalendar}
+              />
+              <Drawer.Screen
+                name="SuccessCalendar"
+                component={SuccessCalendar}
+                options={{drawerItemStyle: {display: 'none'}}}
+              />
+              <Drawer.Screen
+                name="Session"
+                component={Session}
+                options={{drawerItemStyle: {display: 'none'}}}
+              />
+              <Drawer.Screen
+                name="Meeting"
+                component={Meeting}
+                options={{
+                  drawerItemStyle: {display: 'none'},
+                  headerStyle: {
+                    backgroundColor: 'black',
+                  },
+                }}
+              />
+
+              <Drawer.Screen
+                name="UpdateLanguages"
+                component={UpdateLanguages}
+                options={{
+                  drawerItemStyle: {display: 'none'},
+                  headerShown: false,
+                }}
+              />
+
+              {isCoachee && (
+                <>
+                  <Drawer.Screen
+                    name="MyCoach"
+                    component={MyCoach}
+                    options={{
+                      title: 'Mi Coach',
+                      drawerIcon: color => (
+                        <View
+                          style={{
+                            backgroundColor: 'rgba(34, 34, 34, .15)',
+                            borderRadius: 50,
+                            padding: 5,
+                          }}>
+                          <Icon name={'user'} color={'white'} size={16} />
+                        </View>
+                      ),
+                    }}
+                  />
+
+                  <Drawer.Screen
+                    name="MyEvaluations"
+                    component={MyEvaluations}
+                    options={{
+                      title: t('components.menu.myEvaluations'),
+                      drawerIcon: color => (
+                        <View
+                          style={{
+                            backgroundColor: 'rgba(34, 34, 34, .15)',
+                            borderRadius: 50,
+                            padding: 5,
+                          }}>
+                          <Icon name={'news'} color={'white'} size={16} />
+                        </View>
+                      ),
+                    }}
+                  />
+                </>
+              )}
+            </>
+          ) : (
             <Drawer.Screen
-              name="MyCoach"
-              component={MyCoach}
-              options={{
-                title: 'Mi Coach',
-                drawerIcon: color => (
-                  <View
-                    style={{
-                      backgroundColor: 'rgba(34, 34, 34, .15)',
-                      borderRadius: 50,
-                      padding: 5,
-                    }}>
-                    <Icon name={'user'} color={'white'} size={16} />
-                  </View>
-                ),
-              }}
+              name="Onboarding"
+              component={Onboarding}
+              options={{drawerItemStyle: {display: 'none'}}}
             />
-
-            <Drawer.Screen
-              name="MyEvaluations"
-              component={MyEvaluations}
-              options={{
-                title: t('components.menu.myEvaluations'),
-                drawerIcon: color => (
-                  <View
-                    style={{
-                      backgroundColor: 'rgba(34, 34, 34, .15)',
-                      borderRadius: 50,
-                      padding: 5,
-                    }}>
-                    <Icon name={'news'} color={'white'} size={16} />
-                  </View>
-                ),
-              }}
-            />
-          </>
-        )}
-
-        {onboardingCompleted && (
+          )
+        ) : (
           <Drawer.Screen
-            name="Preferences"
-            component={Preferences}
+            name="Login"
+            component={Login}
             options={{
-              title: t('components.menu.preferences'),
-              drawerIcon: color => (
-                <View
-                  style={{
-                    backgroundColor: 'rgba(34, 34, 34, .15)',
-                    borderRadius: 50,
-                    padding: 5,
-                  }}>
-                  <Icon name={'cog'} color={'white'} size={16} />
-                </View>
-              ),
+              drawerItemStyle: {display: 'none'},
+              headerShown: false,
             }}
           />
         )}
-
-        <Drawer.Screen
-          name="Onboarding"
-          component={Onboarding}
-          options={{drawerItemStyle: {display: 'none'}}}
-        />
-        <Drawer.Screen
-          name="CoachEvaluation"
-          component={CoachEvaluation}
-          options={{drawerItemStyle: {display: 'none'}}}
-        />
-        <Drawer.Screen
-          name="Evaluations"
-          component={Evaluations}
-          options={{drawerItemStyle: {display: 'none'}}}
-        />
-        <Drawer.Screen
-          name="Evaluadores"
-          component={Evaluadores}
-          options={{drawerItemStyle: {display: 'none'}}}
-        />
-        <Drawer.Screen
-          name="AreasFoco"
-          component={AreasFoco}
-          options={{drawerItemStyle: {display: 'none'}}}
-        />
-        <Drawer.Screen
-          name="BuscandoCoach"
-          component={BuscandoCoach}
-          options={{drawerItemStyle: {display: 'none'}}}
-        />
-        <Drawer.Screen
-          name="AgendarCoach"
-          component={AgendarCoach}
-          options={{drawerItemStyle: {display: 'none'}}}
-        />
-        <Drawer.Screen
-          name="AgendarCoachee"
-          component={ScheduleAppointment}
-          options={{drawerItemStyle: {display: 'none'}}}
-        />
-
-        <Drawer.Screen
-          name="ReagendarCoachee"
-          component={RescheduleAppointment}
-          options={{drawerItemStyle: {display: 'none'}}}
-        />
-
-        <Drawer.Screen
-          name="SessionEvaluation"
-          component={SessionEvaluation}
-          options={{drawerItemStyle: {display: 'none'}}}
-        />
-        <Drawer.Screen
-          name="CoacheeResume"
-          component={CoacheeResume}
-          options={{drawerItemStyle: {display: 'none'}}}
-        />
-        <Drawer.Screen
-          name="SessionInfo"
-          component={SessionInfo}
-          options={{drawerItemStyle: {display: 'none'}}}
-        />
-        <Drawer.Screen
-          name="connectcalendar"
-          component={ConnectCalendar}
-          options={{drawerItemStyle: {display: 'none'}}}
-        />
-        <Drawer.Screen
-          name="CoachCalendar"
-          options={{
-            animationEnabled: true,
-            title: 'Calendario Coach',
-            drawerItemStyle: {display: 'none'},
-          }}
-          component={CoachCalendar}
-        />
-        <Drawer.Screen
-          name="SuccessCalendar"
-          component={SuccessCalendar}
-          options={{drawerItemStyle: {display: 'none'}}}
-        />
-        <Drawer.Screen
-          name="Session"
-          component={Session}
-          options={{drawerItemStyle: {display: 'none'}}}
-        />
-        <Drawer.Screen
-          name="Meeting"
-          component={Meeting}
-          options={{
-            drawerItemStyle: {display: 'none'},
-            headerStyle: {
-              backgroundColor: 'black',
-            },
-          }}
-        />
-
-        <Drawer.Screen
-          name="Login"
-          component={Login}
-          options={{
-            drawerItemStyle: {display: 'none'},
-            headerShown: false,
-          }}
-        />
-
-        <Drawer.Screen
-          name="Splash"
-          component={Splash}
-          options={{
-            drawerItemStyle: {display: 'none'},
-            headerShown: false,
-          }}
-        />
-
-        <Drawer.Screen
-          name="UpdateLanguages"
-          component={UpdateLanguages}
-          options={{
-            drawerItemStyle: {display: 'none'},
-            headerShown: false,
-          }}
-        />
       </Drawer.Navigator>
-      {/* <Stack.Navigator initialRouteName="Splash">
-        <Stack.Screen
-          name="Splash"
-          options={{ animationEnabled: false, header: () => null }}
-          component={Splash}
-        />
-
-        <Stack.Screen
-          name="Home"
-          component={Home}
-        />
-
-        <Stack.Screen
-          name="Login"
-          component={Login}
-        />
-        <Stack.Screen
-          name="SignUp"
-          component={SignUp}
-        />
-        <Stack.Screen
-          name="Onboarding"
-          component={Onboarding}
-        />
-        <Stack.Screen
-          name="Dashboard"
-          options={{
-            animationEnabled: true,
-            header: () => null
-          }}
-          component={Dashboard}
-        />
-
-        <Stack.Screen
-          name="CoachEvaluation"
-          component={CoachEvaluation}
-        />
-        <Stack.Screen
-          name="Evaluations"
-          component={Evaluations}
-        />
-
-        <Stack.Screen
-          name="Evaluadores"
-          component={Evaluadores}
-        />
-        <Stack.Screen
-          name="AreasFoco"
-          component={AreasFoco}
-        />
-        <Stack.Screen
-          name="BuscandoCoach"
-          component={BuscandoCoach}
-        />
-        <Stack.Screen
-          name="AgendarCoach"
-          component={AgendarCoach}
-        />
-        <Stack.Screen
-          name="AgendarCoachee"
-          component={ScheduleAppointment}
-        />
-
-        <Stack.Screen
-          name="MyCoach"
-          component={MyCoach}
-        />
-        <Stack.Screen
-          name="SessionEvaluation"
-          component={SessionEvaluation}
-        />
-        <Stack.Screen
-          name="CoacheeResume"
-          component={CoacheeResume}
-        />
-        <Stack.Screen
-          name="SessionInfo"
-          component={SessionInfo}
-        />
-
-        <Stack.Screen
-          name="connectcalendar"
-          component={ConnectCalendar}
-        />
-
-        <Stack.Screen
-          name="CoachCalendar"
-          options={{ animationEnabled: true, title: 'Calendario Coach' }}
-          component={CoachCalendar}
-        />
-
-        <Stack.Screen
-          name="SuccessCalendar"
-          component={SuccessCalendar}
-        />
-
-        <Stack.Screen
-          name="Session"
-          component={Session}
-        />
-
-        <Stack.Screen
-          name="Meeting"
-          component={Meeting}
-        />
-      </Stack.Navigator> */}
     </NavigationContainer>
   );
 }

@@ -1,53 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Image } from 'native-base';
-import { find, filter } from 'lodash';
-import { useDispatch, useSelector } from 'react-redux';
-import { setFocusArea } from '../../../../redux/slices/onboarding';
+import React, {useState, useEffect} from 'react';
+import {Button, Image} from 'native-base';
+import {find, filter} from 'lodash';
+import {useDispatch, useSelector} from 'react-redux';
+import {setFocusArea} from '../../../../redux/slices/onboarding';
 import useFetchAndLoad from '../../../../hooks/useFetchAndLoad';
-import { getFocusAreas } from '../../../../services/focusAreas.service';
+import {getFocusAreas} from '../../../../services/focusAreas.service';
 import Loading from '../../../../components/Loading';
 import ReactNativeItemSelect from 'react-native-item-select';
 import focusAreasAdapter from '../../../../adapters/focusAreas.adapter';
-import { useTranslation } from 'react-i18next';
-import { View, Text, ScrollView } from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {View, Text, ScrollView} from 'react-native';
 import tw from 'twrnc';
 import Linea from '../../../../assets/img/AreasDeFoco/linea.png';
 
-function FocusAreas({ nextStep, prevStep }) {
-  const [data, setData] = useState([]);
+function FocusAreas({nextStep, prevStep}) {
+  const selectedFocusAreas = useSelector(state => state.onboarding.focusAreas);
 
-  const selectedFocusAreas = useSelector(
-    (state) => state.onboarding.focusAreas
-  );
-
-  const { loading, callEndpoint } = useFetchAndLoad();
-  const { role, cohort } = useSelector((state) => state.user);
+  const {loading, callEndpoint} = useFetchAndLoad();
+  const {role, cohort, coachingProgram} = useSelector(state => state.user);
   const dispatch = useDispatch();
   const [error, setError] = useState(false);
   const [focusAreas, setFocusAreas] = useState([]);
 
-  const { t } = useTranslation('global');
+  const {t} = useTranslation('global');
 
   const isCoachee = role === 'coachee';
   const coacheeAreasByProgram = cohort?.program < 12 ? 2 : 3;
 
   const getFocusAreasApi = async () => {
     try {
-      const { data } = await callEndpoint(getFocusAreas());
-      setData([
-        ...data.data.map((x) => ({
-          focusArea: x.focusArea,
-          statusArea: x.statusArea,
-          createdAt: x.createdAt,
-          updatedAt: x.updatedAt,
-          urlImgFocusArea: x.urlImgFocusArea,
-          id: x._id,
-          image: x.urlImgFocusArea,
-          value: x._id,
-          name: x.focusArea
-        }))
-      ]);
-      setFocusAreas(focusAreasAdapter({ data }));
+      if (isCoachee) {
+        setFocusAreas(focusAreasAdapter(coachingProgram?.focusAreas));
+        return;
+      }
+      const {data} = await callEndpoint(getFocusAreas());
+
+      setFocusAreas(focusAreasAdapter(data.data));
     } catch (err) {
       console.log('🚀 ~ file: FocusAreas.js ~ line 36 ~ err', err);
     }
@@ -59,13 +47,13 @@ function FocusAreas({ nextStep, prevStep }) {
 
   useEffect(() => {}, []);
 
-  const isASelectedArea = (id) => find(selectedFocusAreas, { id });
+  const isASelectedArea = id => find(selectedFocusAreas, {id});
 
-  const handleSelectArea = (focusArea) => {
+  const handleSelectArea = focusArea => {
     if (isASelectedArea(focusArea.id)) {
       const selectedAreas = filter(
         selectedFocusAreas,
-        (Area) => Area.id !== focusArea.id
+        Area => Area.id !== focusArea.id,
       );
       dispatch(setFocusArea(selectedAreas));
       return;
@@ -74,8 +62,8 @@ function FocusAreas({ nextStep, prevStep }) {
     if (isCoachee && selectedFocusAreas.length === coacheeAreasByProgram) {
       setError({
         message: t('pages.onboarding.components.focusAreas.messages.area', {
-          coacheeAreasByProgram: coacheeAreasByProgram
-        })
+          coacheeAreasByProgram: coacheeAreasByProgram,
+        }),
       });
       return;
     }
@@ -83,7 +71,7 @@ function FocusAreas({ nextStep, prevStep }) {
     dispatch(setFocusArea([...selectedFocusAreas, focusArea]));
   };
 
-  const handleNext = async (items) => {
+  const handleNext = async items => {
     dispatch(setFocusArea([...items]));
     nextStep();
   };
@@ -91,17 +79,16 @@ function FocusAreas({ nextStep, prevStep }) {
   return loading ? (
     <Loading />
   ) : (
-    <View style={{ flex: 1, paddingHorizontal: 20 }}>
+    <View style={{flex: 1, paddingHorizontal: 20}}>
       <Text style={tw.style('text-black text-center text-xl font-bold mt-5')}>
         {isCoachee
           ? t('pages.onboarding.components.focusAreas.titleCoachee', {
-              coacheeAreasByProgram: coacheeAreasByProgram
+              coacheeAreasByProgram: coacheeAreasByProgram,
             })
           : t('pages.onboarding.components.focusAreas.titleCoach')}
       </Text>
       <Text
-        style={tw.style('text-gray-500 text-center text-sm mb-4 mx-3 mt-3')}
-      >
+        style={tw.style('text-gray-500 text-center text-sm mb-4 mx-3 mt-3')}>
         {isCoachee
           ? t('pages.onboarding.components.focusAreas.subtitleCoachee')
           : t('pages.onboarding.components.focusAreas.subtitleCoach')}
@@ -109,26 +96,24 @@ function FocusAreas({ nextStep, prevStep }) {
       {error ? (
         <Text className="FocusAreas__error">{error.message}</Text>
       ) : null}
-      {data && Array.isArray(data) && data.length > 1 && (
+      {focusAreas && Array.isArray(focusAreas) && focusAreas.length > 1 && (
         <ReactNativeItemSelect
-          data={data}
+          data={focusAreas}
           multiselect
           countPerRow={1}
           tickPosition={'topRight'}
           maxSelectCount={isCoachee ? coacheeAreasByProgram : null}
           maxSelectAlertTxt={`Solo puedes seleccionar ${coacheeAreasByProgram} areas de foco`}
           submitBtnTitle={'Siguiente'}
-          itemComponent={(item) => (
+          itemComponent={item => (
             <View
               style={tw.style(
-                'bg-white px-6 py-5 rounded-3xl mt--1 shadow-md border-transparent flex-row justify-between items-center'
-              )}
-            >
+                'bg-white px-6 py-5 rounded-3xl mt--1 shadow-md border-transparent flex-row justify-between items-center',
+              )}>
               <View
-                style={tw.style('flex-row justify-between w-1/2 pl-4 mr-3')}
-              >
+                style={tw.style('flex-row justify-between w-1/2 pl-4 mr-3')}>
                 <Image
-                  source={{ uri: item.image }}
+                  source={{uri: item.image}}
                   alt={item.name}
                   style={tw.style('h-15 w-15')}
                 />
@@ -149,27 +134,27 @@ function FocusAreas({ nextStep, prevStep }) {
               backgroundColor: '#299EFF',
               paddingVertical: 16,
               borderRadius: 100,
-              marginTop: 32
+              marginTop: 32,
             },
             btnTxt: {
-              fontSize: 20
+              fontSize: 20,
             },
-            disabledBtn: { backgroundColor: '#2196F3' },
-            tickTxt: { backgroundColor: '#2196F3' },
+            disabledBtn: {backgroundColor: '#2196F3'},
+            tickTxt: {backgroundColor: '#2196F3'},
             activeItemBoxHighlight: {
               borderColor: '#2196F3',
               backgroundColor: 'transparent',
               margin: 0,
               padding: 0,
-              borderRadius: 24
+              borderRadius: 24,
             },
             itemBoxHighlight: {
               borderColor: 'transparent',
               padding: 0,
               margin: 0,
               paddingVertical: 4,
-              paddingBottom: 2
-            }
+              paddingBottom: 2,
+            },
           }}
         />
       )}

@@ -1,37 +1,37 @@
-import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import tw from 'twrnc';
-import { getCoachesByFocusAreas } from '../../../../services/coach.service';
-import { useSelector } from 'react-redux';
+import {getCoachesByFocusAreas} from '../../../../services/coach.service';
+import {useSelector} from 'react-redux';
 import useFetchAndLoad from '../../../../hooks/useFetchAndLoad';
 import Loading from '../../../../components/Loading';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import SelectedCoach from '../SelectedCoach';
 
 export default function ChooseCoach({
   nextStep,
   prevStep,
   navigation,
-  setShowArrows
+  setShowArrows,
 }) {
   const [coaches, setCoaches] = useState([]);
-  const { focusAreas, languages } = useSelector((state) => state.onboarding);
+  const {focusAreas, languages} = useSelector(state => state.onboarding);
   const [selectedCoach, setSelectedCoach] = useState(null);
-  const user = useSelector((state) => state.user);
-  const { loading, callEndpoint } = useFetchAndLoad();
+  const user = useSelector(state => state.user);
+  const {loading, callEndpoint} = useFetchAndLoad();
 
-  const { t } = useTranslation('global');
+  const {t} = useTranslation('global');
 
   const getCoaches = async () => {
     try {
       const coachesData = await callEndpoint(
-        getCoachesByFocusAreas(focusAreas, languages)
+        getCoachesByFocusAreas(focusAreas, languages),
       );
       setCoaches(coachesData.data.data);
     } catch (error) {
       console.log(
         '🚀 ~ file: ChooseCoach.js ~ line 23 ~ getCoaches ~ error',
-        error
+        error,
       );
     }
   };
@@ -40,10 +40,11 @@ export default function ChooseCoach({
     getCoaches();
   }, []);
 
-  if (loading)
+  if (loading) {
     return (
       <Loading title={t('pages.onboarding.components.chooseCoach.loading')} />
     );
+  }
 
   return (
     <>
@@ -60,9 +61,8 @@ export default function ChooseCoach({
             <View style={tw.style('mb-6')}>
               <Text
                 style={tw.style(
-                  'text-black text-center text-xl font-bold mt--6'
-                )}
-              >
+                  'text-black text-center text-xl font-bold mt--6',
+                )}>
                 {t('pages.onboarding.components.chooseCoach.title')}
               </Text>
               <Text style={tw.style('text-center my-1 text-[#707070]')}>
@@ -76,21 +76,20 @@ export default function ChooseCoach({
               coaches.map((coach, index) => (
                 <TouchableOpacity
                   style={tw.style(
-                    'shadow-md bg-gray-50 rounded-2xl p-4 flex-row justify-between items-center mb-4'
+                    'shadow-md bg-gray-50 rounded-2xl p-4 flex-row justify-between items-center mb-4',
                   )}
                   key={coach?._id}
-                  onPress={() => setSelectedCoach(coach)}
-                >
+                  onPress={() => setSelectedCoach(coach)}>
                   <Image
                     source={{
-                      uri: coach && coach?.urlImgCoach ? coach?.urlImgCoach : ''
+                      uri:
+                        coach && coach?.urlImgCoach ? coach?.urlImgCoach : '',
                     }}
                     style={tw.style('w-20 h-24 rounded-lg')}
                   />
                   <View style={tw.style('w-[50%]')}>
                     <Text
-                      style={tw.style('text-[#173969] text-base font-bold')}
-                    >
+                      style={tw.style('text-[#173969] text-base font-bold')}>
                       {coach?.name} {coach?.lastname}
                     </Text>
                     <Text style={tw.style('text-[#707070]')} numberOfLines={3}>
