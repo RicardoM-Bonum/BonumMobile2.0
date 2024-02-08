@@ -1,29 +1,29 @@
 import axios from 'axios';
-import { loadAbort } from './../utilities';
+import {loadAbort} from './../utilities';
 import QueryString from 'qs';
 import Config from 'react-native-config';
 
 const coachUrl = `${Config.USERS_URL}/api/coach`;
 
-export const getUser = (id) => {
+export const getUser = id => {
   const controller = loadAbort();
 
   return {
     call: () =>
       axios.get(`${coachUrl}/userRol/${id}`, {
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
   };
 };
 
 export const updateCoachOnboarding = (onboarding, user) => {
   const controller = loadAbort();
-  const { name, lastname } = onboarding.createYourAccount;
-  const { work, resume } = onboarding.aboutYouCoach;
+  const {name, lastname} = onboarding.createYourAccount;
+  const {work, resume} = onboarding.aboutYouCoach;
 
-  const focusAreasIds = onboarding.focusAreas.map((focusArea) => ({
-    _id: focusArea.id
+  const focusAreasIds = onboarding.focusAreas.map(focusArea => ({
+    _id: focusArea.id,
   }));
 
   const data = {
@@ -35,69 +35,70 @@ export const updateCoachOnboarding = (onboarding, user) => {
     resume,
     urlVideoCoach: onboarding.video,
     timezone: onboarding.timezone,
-    languages: onboarding.languages
+    languages: onboarding.languages,
   };
 
   return {
     call: () =>
       axios.put(`${coachUrl}/onboarding/${user.uid}`, data, {
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
   };
 };
 
-export const getCoachesByFocusAreas = (focusAreas) => {
+export const getCoachesByFocusAreas = (focusAreas, languages) => {
   const controller = loadAbort();
   return {
     call: () =>
       axios.get(`${coachUrl}/focusAreas`, {
         params: {
-          focusAreas: focusAreas.map((focusArea) => focusArea.id)
+          focusAreas: focusAreas.map(focusArea => focusArea.id),
+          languages,
         },
-        paramsSerializer: (params) => {
-          return QueryString.stringify(params, { arrayFormat: 'brackets' });
+        paramsSerializer: params => {
+          return QueryString.stringify(params, {arrayFormat: 'brackets'});
         },
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
   };
 };
 
-export const getCoachBySearch = (search) => {
+export const getCoachBySearch = search => {
   const controller = loadAbort();
 
   return {
     call: () =>
       axios.get(coachUrl, {
         params: {
-          searchText: search
+          searchText: search,
         },
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
   };
 };
 
-export const getById = (id) => {
+export const getById = id => {
   const controller = loadAbort();
   return {
-    call: () => axios.get(`${coachUrl}/${id}`, { signal: controller.signal }),
-    controller
+    call: () => axios.get(`${coachUrl}/${id}`, {signal: controller.signal}),
+    controller,
   };
 };
 
-export const updateCoach = (data) => {
+export const updateCoach = data => {
   const controller = loadAbort();
 
   return {
     call: () =>
       axios.put(
         `${coachUrl}/${data.id}`,
-        { ...data },
-        { signal: controller.signal }
+        {...data},
+        {signal: controller.signal},
       ),
-    controller
+    controller,
   };
 };
 
@@ -107,16 +108,16 @@ export const updateEvaluationCoach = (user, data) => {
   return {
     call: () =>
       axios.put(`${coachUrl}/${user}`, data, {
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
   };
 };
 
-export const translateText = (data) => {
+export const translateText = data => {
   const controller = loadAbort();
 
-  const { targetLanguage, text } = data;
+  const {targetLanguage, text} = data;
 
   return {
     call: () =>
@@ -124,12 +125,12 @@ export const translateText = (data) => {
         `${coachUrl}/languages/translate`,
         {
           targetLanguage: targetLanguage,
-          text: text
+          text: text,
         },
         {
-          signal: controller.signal
-        }
+          signal: controller.signal,
+        },
       ),
-    controller
+    controller,
   };
 };

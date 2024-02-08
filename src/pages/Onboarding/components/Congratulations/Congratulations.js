@@ -1,13 +1,13 @@
-import { View, Text, Image } from 'react-native';
-import React, { useEffect } from 'react';
+import {View, Text, Image} from 'react-native';
+import React, {useEffect} from 'react';
 import tw from 'twrnc';
-import { TouchableOpacity } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { useUserUtilities } from '../../../../hooks';
+import {TouchableOpacity} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
+import {useUserUtilities} from '../../../../hooks';
 
-export default function Congratulations({ navigation }) {
-  const { coach } = useSelector((state) => state.user);
-  const { refreshUser } = useUserUtilities();
+export default function Congratulations({navigation}) {
+  const {coach} = useSelector(state => state.user);
+  const {refreshUser} = useUserUtilities();
 
   useEffect(() => {
     return () => {
@@ -18,9 +18,8 @@ export default function Congratulations({ navigation }) {
   return (
     <View
       style={tw.style(
-        'bg-[#E4EFF8e8]  justify-center rounded-2xl py-8 px-6 h-full items-center'
-      )}
-    >
+        'bg-[#E4EFF8e8]  justify-center rounded-2xl py-8 px-6 h-full items-center',
+      )}>
       <Image
         source={require('../../../../assets/img/icons/thumbs-up.png')}
         style={tw.style('self-center w-25 h-25')}
@@ -38,8 +37,7 @@ export default function Congratulations({ navigation }) {
           refreshUser();
           navigation.navigate('AgendarCoachee');
         }}
-        style={tw.style('bg-[#299EFC] py-4 px-8 rounded-full mt-6')}
-      >
+        style={tw.style('bg-[#299EFC] py-4 px-8 rounded-full mt-6')}>
         <Text style={tw.style('text-white text-center')}>
           Agendar Primera Sesión
         </Text>
@@ -48,10 +46,8 @@ export default function Congratulations({ navigation }) {
         onPress={() => {
           refreshUser();
           navigation.navigate('Dashboard');
-          navigation.navigate('HomeNavigation');
         }}
-        style={tw.style('bg-[#299EEE] py-4 px-8 rounded-full mt-6')}
-      >
+        style={tw.style('bg-[#299EEE] py-4 px-8 rounded-full mt-6')}>
         <Text style={tw.style('text-white text-center')}>Agendar después</Text>
       </TouchableOpacity>
     </View>

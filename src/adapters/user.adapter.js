@@ -1,4 +1,4 @@
-const userAdapted = (response) => {
+const userAdapted = response => {
   const user = response.data;
 
   return {
@@ -22,7 +22,7 @@ const userAdapted = (response) => {
     department: user?.department,
     cohort: user?.cohort && {
       program: user?.cohort.Program,
-      startedOn: user?.cohort.StartDate
+      startedOn: user?.cohort.StartDate,
     },
     phone: user?.phone,
     alternateCall: user?.linkExternalCall,
@@ -35,7 +35,8 @@ const userAdapted = (response) => {
     emailpaypal: user.role === 'coach' && user.emailpaypal,
     resume: user.role === 'coach' && user.resume,
     howWork: user.role === 'coach' && user.howWork,
-    additionalSessions: user?.additionalSessions ? user?.additionalSessions : 0
+    additionalSessions: user?.additionalSessions ? user?.additionalSessions : 0,
+    coachingProgram: user?.coachingProgram,
   };
 };
 export default userAdapted;
