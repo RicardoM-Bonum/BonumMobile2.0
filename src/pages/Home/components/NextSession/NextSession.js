@@ -320,7 +320,7 @@ export default function NextSession({user, navigation}) {
         },
         role,
         sub: 'bonum-meet.bonumcoaching.com',
-        room: session._id,
+        room: '*',
       };
 
       const {data} = await callEndpoint(getJitsiToken(userData));
