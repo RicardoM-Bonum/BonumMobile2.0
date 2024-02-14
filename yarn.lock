@@ -5632,7 +5632,7 @@ intl-messageformat@^10.1.0:
     "@formatjs/icu-messageformat-parser" "2.7.3"
     tslib "^2.4.0"
 
-invariant@*, invariant@2.2.4, invariant@^2.2.1, invariant@^2.2.4:
+invariant@*, invariant@2.2.4, invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -8538,6 +8538,13 @@ react-native-multiple-select@^0.5.12:
   integrity sha512-lFw0u798/2qHr4TwDdxMtReRtsNOCC2SWPzWHRGKE4XcBiUll0hHhke7iqQg4xJdfo46C/h69f1ZXphDOjZY3A==
   dependencies:
     prop-types "^15.7.2"
+
+react-native-onesignal@^5.0.5:
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-5.0.5.tgz#4ef9c958dd239360b17b196a3a34d13e3d47d4b3"
+  integrity sha512-M+i45FTW+F88mNYVvIv1nlf2c4OxQcHozjsmcbPUP+zvQyvMGjvkEDXl7SuCjD2FlebEnl1BIZm2cphEaVJTmQ==
+  dependencies:
+    invariant "^2.2.2"
 
 react-native-orientation-locker@1.6.0:
   version "1.6.0"
