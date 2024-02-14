@@ -6,9 +6,10 @@ import {modifyUser, resetUser, setLoadingUser} from './src/redux/slices/user';
 import auth from '@react-native-firebase/auth';
 import Navigation from './src/navigation';
 import userAdapter from './src/adapters/user.adapter';
-// import OneSignal from 'react-native-onesignal';
+import {LogLevel, OneSignal} from 'react-native-onesignal';
 import AlternateCallModals from './src/pages/AlternateCall';
 import {useUserUtilities} from './src/hooks';
+import Config from 'react-native-config';
 
 const App = () => {
   //@ts-ignore
@@ -16,6 +17,15 @@ const App = () => {
   const dispatch = useDispatch();
   const {callEndpoint} = useFetchAndLoad();
   const {refreshSessions} = useUserUtilities();
+
+  //OneSignal Configuration
+  OneSignal.Debug.setLogLevel(LogLevel.Verbose);
+
+  //**********+Initialization****************
+  // OneSignal.initialize(Config.ONESIGNAL_APP_ID as string);
+  // OneSignal.logout();
+  console.log(Config.ONESIGNAL_APP_ID);
+  OneSignal.initialize('f1904641-9274-4fa0-b726-e03a0164fec1');
 
   const getUserApi = async (id: any) => {
     try {
@@ -39,31 +49,15 @@ const App = () => {
   //   console.log('Device State', user);
   // };
 
-  // useEffect(() => {
-  //   OneSignal.setLogLevel(6, 0);
-  //   OneSignal.setAppId('4793513b-dcbf-4e2e-b473-d7c74025bc50');
-  //   OneSignal.promptForPushNotificationsWithUserResponse();
-  //   OneSignal.setNotificationWillShowInForegroundHandler(
-  //     notificationReceivedEvent => {
-  //       let notification = notificationReceivedEvent.getNotification();
-  //       console.log('notification: ', notification);
-  //       const data = notification.additionalData;
-  //       console.log('additionalData: ', data);
-  //       // Complete with null means don't show a notification.
-  //       notificationReceivedEvent.complete(notification);
-  //     },
-  //   );
-  //   getOneSignalUser();
-  // }, []);
-
   useEffect(() => {
     auth().onAuthStateChanged(async firebaseUser => {
       if (firebaseUser) {
         dispatch(setLoadingUser(true));
         const userData = await getUserApi(firebaseUser.uid);
         if (userData) {
-          // OneSignal.setExternalUserId(userData.data._id);
           dispatch(modifyUser(userAdapter(userData)));
+          OneSignal.login(user.mongoID);
+          OneSignal.Notifications.requestPermission(true);
         }
         dispatch(setLoadingUser(false));
         await getUserSessions();

@@ -1,8 +1,8 @@
-import { View } from 'react-native';
-import React, { useEffect } from 'react';
+import {View} from 'react-native';
+import React, {useEffect} from 'react';
 import tw from 'twrnc';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
 import HomeNavigation from '../HomeNavigation';
 import MyEvaluations from '../MyEvaluations';
@@ -11,21 +11,22 @@ import Chat from '../Chat';
 import CoachCalendar from '../CoachCalendar';
 import CoacheeCalendar from '../CoacheeCalendar';
 import EvaluationsNavigation from '../EvaluationsNavigation';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import MySessions from '../MySessions';
 import MyAssignations from '../MyAssignations';
-import { useUnreadMessage } from './hook/useUnreadMessage';
+import {useUnreadMessage} from './hook/useUnreadMessage';
 import ScheduleAppointment from '../ScheduleAppointment';
 import ChatBonum from '../ChatBonum';
 import ChatNavigation from '../ChatBonum/navigation/ChatBonumNavigation';
-import { useTranslation } from 'react-i18next';
-import { resetUser } from '../../redux/slices/user';
-import { CommonActions } from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
+import {resetUser} from '../../redux/slices/user';
+import {CommonActions} from '@react-navigation/native';
+import {OneSignal} from 'react-native-onesignal';
 
 const Tab = createBottomTabNavigator();
 
-const screenOptions = ({ route }) => ({
-  tabBarIcon: ({ focused }) => {
+const screenOptions = ({route}) => ({
+  tabBarIcon: ({focused}) => {
     let iconName;
 
     switch (route.name) {
@@ -84,11 +85,11 @@ const screenOptions = ({ route }) => ({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingTop: 10,
-    margin: 5
-  }
+    margin: 5,
+  },
 });
 
-const MessageIcon = ({ focused, isUnread }) => {
+const MessageIcon = ({focused, isUnread}) => {
   return (
     <View style={tw.style('relative')}>
       <Icon
@@ -106,10 +107,10 @@ const MessageIcon = ({ focused, isUnread }) => {
   );
 };
 
-export default function Dashboard({ navigation }) {
-  const { t } = useTranslation('global');
+export default function Dashboard({navigation}) {
+  const {t} = useTranslation('global');
 
-  const { role, uid, activeUser } = useSelector((state) => state.user);
+  const {role, uid, activeUser} = useSelector(state => state.user);
 
   const isCoach = role === 'coach';
 
@@ -123,11 +124,12 @@ export default function Dashboard({ navigation }) {
     try {
       await auth().signOut();
       dispatch(resetUser());
+      OneSignal.logout();
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
-          actions: [navigation.navigate({ routeName: 'Login' })]
-        })
+          actions: [navigation.navigate({routeName: 'Login'})],
+        }),
       );
     } catch (error) {
       console.log(error);
@@ -140,19 +142,18 @@ export default function Dashboard({ navigation }) {
     }
   }, [uid]);
 
-  const { hasUnreadMessages } = useUnreadMessage();
+  const {hasUnreadMessages} = useUnreadMessage();
 
   return (
     <Tab.Navigator
       initialRouteName="HomeNavigation"
       screenOptions={screenOptions}
-      sceneContainerStyle={{ background: '#000000' }}
-    >
+      sceneContainerStyle={{background: '#000000'}}>
       <Tab.Screen
         name="HomeNavigation"
         component={HomeNavigation}
         options={{
-          tabBarLabel: t('lastTranslations.menu.mHome')
+          tabBarLabel: t('lastTranslations.menu.mHome'),
         }}
       />
 
@@ -161,19 +162,19 @@ export default function Dashboard({ navigation }) {
           <Tab.Screen
             name="MyCalendar"
             component={CoachCalendar}
-            options={{ tabBarLabel: t('lastTranslations.menu.mHome') }}
+            options={{tabBarLabel: t('lastTranslations.menu.mHome')}}
           />
 
           <Tab.Screen
             name="MyCoachees"
             component={MyCoachees}
-            options={{ tabBarLabel: 'Coachees' }}
+            options={{tabBarLabel: 'Coachees'}}
           />
 
           <Tab.Screen
             name="MyEvaluations"
             component={EvaluationsNavigation}
-            options={{ tabBarLabel: 'Evaluaciones' }}
+            options={{tabBarLabel: 'Evaluaciones'}}
           />
         </>
       ) : (
@@ -181,19 +182,19 @@ export default function Dashboard({ navigation }) {
           <Tab.Screen
             name="MyCalendar"
             component={ScheduleAppointment}
-            options={{ tabBarLabel: t('lastTranslations.menu.mCalendar') }}
+            options={{tabBarLabel: t('lastTranslations.menu.mCalendar')}}
           />
 
           <Tab.Screen
             name="MySessions"
             component={MySessions}
-            options={{ tabBarLabel: t('lastTranslations.menu.mSessions') }}
+            options={{tabBarLabel: t('lastTranslations.menu.mSessions')}}
           />
 
           <Tab.Screen
             name="MyAssignations"
             component={MyAssignations}
-            options={{ tabBarLabel: t('lastTranslations.menu.mAssignments') }}
+            options={{tabBarLabel: t('lastTranslations.menu.mAssignments')}}
           />
         </>
       )}
@@ -203,9 +204,9 @@ export default function Dashboard({ navigation }) {
         component={ChatNavigation}
         options={{
           tabBarLabel: 'Chat',
-          tabBarIcon: (props) => (
+          tabBarIcon: props => (
             <MessageIcon {...props} isUnread={hasUnreadMessages} />
-          )
+          ),
         }}
       />
     </Tab.Navigator>

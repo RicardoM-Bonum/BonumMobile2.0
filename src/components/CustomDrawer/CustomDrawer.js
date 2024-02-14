@@ -14,6 +14,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {resetUser} from '../../redux/slices/user';
 import {useCheckUpdate} from '../../hooks';
 import {useTranslation} from 'react-i18next';
+import {OneSignal} from 'react-native-onesignal';
 
 function CustomDrawer(props) {
   const {name, lastname, photo, email, onboardingCompleted} = useSelector(
@@ -29,6 +30,7 @@ function CustomDrawer(props) {
   const logout = async () => {
     try {
       await auth().signOut();
+      OneSignal.logout();
       dispatch(resetUser());
       props.navigation.dispatch(
         props.CommonActions.reset({

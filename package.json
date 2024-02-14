@@ -66,6 +66,7 @@
     "react-native-keep-awake": "4.0.0",
     "react-native-modern-datepicker": "^1.0.0-beta.91",
     "react-native-multiple-select": "^0.5.12",
+    "react-native-onesignal": "^5.0.5",
     "react-native-orientation-locker": "1.6.0",
     "react-native-pager-view": "6.2.0",
     "react-native-paper": "5.10.3",
