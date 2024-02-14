@@ -1,0 +1,32 @@
+before_all do
+  ensure_git_branch 
+  ensure_git_status_clean 
+  git_pull
+end
+  
+platform :ios do
+  private_lane :update_version do
+    app_store_version = get_app_store_version_number(bundle_id: 'BonumMobile')
+    plist_version = get_version_number_from_plist(xcodeproj: './ios/BonumMobile.xcodeproj')
+
+    if Gem::Version.new(plist_version.to_f) == Gem::Version.new(app_store_version.to_f)
+      UI.message "bumping minor"
+      increment_version_number_in_plist(xcodeproj: './ios/BonumMobile.codeproj', bump_type: 'minor')
+    else
+      UI.message "bumping patch"
+      increment_version_number_in_plist(xcodeproj: './ios/BonumMobile.codeproj', bump_type: 'patch')
+    end
+  end
+
+  private_lane :staging_build do
+    increment_build_number_in_plist(xcodeproj: './ios/BonumMobile.codeproj', target: 'BonumMobile')
+    gym(scheme: 'BonumMobile-staging', workspace: './ios/BonumMobile.cworkspace')
+  end
+  
+  lane :beta do
+    staging_build
+    upload_to_testflight(username: 'daniel@bonumcoaching.com', app_identifier: 'BonumMobile')
+    commit_version_bump(message: 'bump build')
+    push_to_git_remote
+  end
+end
