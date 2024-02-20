@@ -578,7 +578,8 @@
         "session": "Sessão",
         "evaluateSession": "Avaliar sessão",
         "signOff": "Fechar Sessão",
-        "Cancelled": "Cancelado"
+        "Cancelled": "Cancelado",
+        "Scheduled": "Agendada"
       }
     }
   },
