@@ -357,8 +357,11 @@
           "popConfirmMsg1": "Você não pode reagendar a sessão com menos de 12 horas de antecedência, se cancelar você perderá a sessão",
           "popConfirmMsg2": "Tem certeza de que deseja cancelar a sessão? Você será direcionado para outra tela para reiniciá-la.",
           "accept": "Aceitar",
+          "yes": "sim",
           "no": "não",
-          "cancel": "Cancelar"
+          "cancel": "Cancelar",
+          "theCoachee": "O coachee",
+          "present": "apareceu na reunião?"
         },
         "treatedSubject": {
           "title": "Assuntos tratados",
