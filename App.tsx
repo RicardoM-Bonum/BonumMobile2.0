@@ -55,8 +55,9 @@ const App = () => {
         dispatch(setLoadingUser(true));
         const userData = await getUserApi(firebaseUser.uid);
         if (userData) {
-          dispatch(modifyUser(userAdapter(userData)));
-          OneSignal.login(user.mongoID);
+          const adaptedUser = userAdapter(userData);
+          dispatch(modifyUser(adaptedUser));
+          OneSignal.login(adaptedUser.mongoID);
           OneSignal.Notifications.requestPermission(true);
         }
         dispatch(setLoadingUser(false));

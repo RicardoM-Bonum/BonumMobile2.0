@@ -357,8 +357,11 @@
           "popConfirmMsg1": "No pudes reagendar la sesion con menos de 12 horas de anticipacion, si cancelas perderas la sesion",
           "popConfirmMsg2": "¿Estás seguro de cancelar la sesión? se te llevará a otra pantalla para reagenderla.",
           "accept": "Aceptar",
+          "yes": "si",
           "no": "no",
-          "cancel": "Cancelar"
+          "cancel": "Cancelar",
+          "theCoachee": "El coachee",
+          "present": "se presentó a la reunión?"
         },
         "treatedSubject": {
           "title": "Puntos Tratados",
@@ -413,7 +416,7 @@
     },
     "sessionEvaluation": {
       "thanks": "¡Gracias! {{ name }}",
-      "title": "Y entonces",
+      "title": "Y entoncesss",
       "subtitle": "¿Cómo te fue?",
       "placeholder": "¿Alguna sugerencia para tu {{ type }} ?",
       "button": "Enviar",

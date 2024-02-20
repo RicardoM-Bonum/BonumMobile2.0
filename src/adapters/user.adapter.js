@@ -24,6 +24,7 @@ const userAdapted = response => {
       program: user?.cohort.Program,
       startedOn: user?.cohort.StartDate,
     },
+    coachingProgram: user?.coachingProgram,
     phone: user?.phone,
     alternateCall: user?.linkExternalCall,
     timezone: user?.timezone,
@@ -36,7 +37,6 @@ const userAdapted = response => {
     resume: user.role === 'coach' && user.resume,
     howWork: user.role === 'coach' && user.howWork,
     additionalSessions: user?.additionalSessions ? user?.additionalSessions : 0,
-    coachingProgram: user?.coachingProgram,
   };
 };
 export default userAdapted;

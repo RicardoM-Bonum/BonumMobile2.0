@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, View, Text} from 'react-native';
 import tw from 'twrnc';
 import FocusAreaItem from '../../../../components/FocusAreaItem';
