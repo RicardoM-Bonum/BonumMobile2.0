@@ -3,7 +3,7 @@ import {JitsiMeeting} from '@jitsi/react-native-sdk/index';
 import {useDispatch, useSelector} from 'react-redux';
 import {modifySession} from '../../redux/slices/session';
 import {useFetchAndLoad} from '../../hooks';
-import {EndSession} from '../../services/sessions.service';
+import {EndSession, updateSessionNumber} from '../../services/sessions.service';
 import adaptedSession from '../../adapters/sessionsAdapter.adapter';
 
 const VideoPlayer = ({navigation, route}) => {
@@ -50,6 +50,13 @@ const VideoPlayer = ({navigation, route}) => {
             _id: session._id || session.id,
             MeetingId: session.callSession,
           }),
+        );
+
+        await callEndpoint(
+          updateSessionNumber({
+            id: session._id || session.id,
+            coacheeId: session?.coachee?._id
+          })
         );
       }
     } catch (error) {
