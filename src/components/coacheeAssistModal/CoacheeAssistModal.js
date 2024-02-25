@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useFetchAndLoad} from '../../hooks';
 import {
   updateSession,
+  updateSessionNoShow,
   updateSessionNumber,
 } from '../../services/sessions.service';
 import {useDispatch, useSelector} from 'react-redux';
@@ -66,6 +67,12 @@ function CoacheeAssistModal({coacheeModal, setCoacheeModal, navigation}) {
           updateSessionNumber({
             id: session._id || session.id,
             coacheeId: session?.coachee?._id,
+          }),
+        );
+
+        await callEndpoint(
+          updateSessionNoShow({
+            id: session._id || session.id,
           }),
         );
       }
