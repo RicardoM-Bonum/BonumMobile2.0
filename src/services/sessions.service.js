@@ -36,6 +36,18 @@ export const updateSession = data => {
   };
 };
 
+export const updateSessionNoShow = ({id}) => {
+  const controller = loadAbort();
+
+  return {
+    call: () =>
+      axios.put(`${sessionsURL}/updateSessionNoShow/${id}/`, {
+        signal: controller.signal,
+      }),
+    controller,
+  };
+};
+
 export const AlternalCall = data => {
   const controller = loadAbort();
 

@@ -4,6 +4,7 @@ import {useFetchAndLoad, useUserUtilities} from '../../../../hooks';
 import {
   cancelSession,
   updateSession,
+  updateSessionNoShow,
   updateSessionNumber,
 } from '../../../../services/sessions.service';
 import {
@@ -69,6 +70,12 @@ function CancelModal({showModal, setShowModal, navigation, session, hours}) {
         updateSessionNumber({
           id: session._id || session.id,
           coacheeId: session?.coachee?._id,
+        }),
+      );
+
+      await callEndpoint(
+        updateSessionNoShow({
+          id: session._id || session.id,
         }),
       );
 

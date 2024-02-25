@@ -4,6 +4,7 @@ import {
   cancelSessionByCoach,
   EndSession,
   updateSession,
+  updateSessionNoShow,
   updateSessionNumber,
 } from '../../services/sessions.service';
 import displayToast from '../../utilities/toast.utility';
@@ -96,6 +97,12 @@ function ModalCloseSession({session, showModal, setShowModal, navigation}) {
           );
 
           await callEndpoint(
+            updateSessionNoShow({
+              id: session._id || session.id,
+            }),
+          );
+
+          await callEndpoint(
             updateNoShowAcc(session?.coachee?._id, {
               noShowAcc: session?.coachee?.noShowAcc + 1,
               coacheeName: session?.coachee?.name,
@@ -128,6 +135,12 @@ function ModalCloseSession({session, showModal, setShowModal, navigation}) {
           }),
         );
       }
+
+      await callEndpoint(
+        updateSessionNoShow({
+          id: session._id || session.id,
+        }),
+      );
 
       if (selectedIndex === 2) {
         //cancelada por el coach
