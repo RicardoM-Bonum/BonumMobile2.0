@@ -1,10 +1,6 @@
 import axios from 'axios';
-import { map, omit } from 'lodash';
-import {
-  dateToHour,
-  dateToShortDateYearFirst,
-  loadAbort
-} from './../utilities';
+import {map, omit} from 'lodash';
+import {dateToHour, dateToShortDateYearFirst, loadAbort} from './../utilities';
 import Config from 'react-native-config';
 
 const calendar_url = Config.CALENDAR_URL;
@@ -18,7 +14,7 @@ export const registerCalendar = (email, provider, mobile) => {
   const params = {
     loginHint: email,
     provider,
-    mobile
+    mobile,
   };
 
   const controller = loadAbort();
@@ -27,22 +23,22 @@ export const registerCalendar = (email, provider, mobile) => {
     call: () =>
       axios.get(`${nylas}/GetURI`, {
         params,
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
   };
 };
 
-export const saveUserToken = (code) => {
+export const saveUserToken = code => {
   const params = {
-    code
+    code,
   };
   const controller = loadAbort();
 
   return {
     call: () =>
-      axios.get(`${nylas}/SetTokenUser`, { params, signal: controller.signal }),
-    controller
+      axios.get(`${nylas}/SetTokenUser`, {params, signal: controller.signal}),
+    controller,
   };
 };
 
@@ -62,7 +58,7 @@ export const createBonumCoachingCalendar = (timezone, provider) => {
   let data = {
     name: 'Calendario Bonum',
     description: 'Calendario de Sesiones de Bonum Coaching',
-    timezone
+    timezone,
   };
 
   if (
@@ -76,15 +72,15 @@ export const createBonumCoachingCalendar = (timezone, provider) => {
     provider === 'graph'
   ) {
     data = {
-      name: 'Calendario Bonum'
+      name: 'Calendario Bonum',
     };
   }
 
   const controller = loadAbort();
 
   return {
-    call: () => axios.post(`${nylas}`, data, { signal: controller.signal }),
-    controller
+    call: () => axios.post(`${nylas}`, data, {signal: controller.signal}),
+    controller,
   };
 };
 
@@ -95,40 +91,39 @@ export const createUserCalendar = (calendar, user) => {
     ...calendar,
     email: user?.providers[0]?.email,
     provider: user?.providers[0]?.provider,
-    UserId: user?.mongoID
+    UserId: user?.mongoID,
   };
 
   return {
-    call: () => axios.post(`${mongo}/`, data, { signal: controller.signal }),
-    controller
+    call: () => axios.post(`${mongo}/`, data, {signal: controller.signal}),
+    controller,
   };
 };
 
-export const getUserCalendars = (mongoID) => {
+export const getUserCalendars = mongoID => {
   const data = {
-    user: { _id: mongoID }
+    user: {_id: mongoID},
   };
 
   const controller = loadAbort();
 
   return {
     call: () =>
-      axios.get(`${mongo}/byuser`, { signal: controller.signal, params: data }),
-    controller
+      axios.get(`${mongo}/byuser`, {signal: controller.signal, params: data}),
+    controller,
   };
 };
 
-export const updateUserCalendars = (calendars) => {
+export const updateUserCalendars = calendars => {
   const controller = loadAbort();
 
   return {
-    call: () =>
-      axios.put(`${mongo}/`, calendars, { signal: controller.signal }),
-    controller
+    call: () => axios.put(`${mongo}/`, calendars, {signal: controller.signal}),
+    controller,
   };
 };
 
-const setByTimezone = (time) => {
+const setByTimezone = time => {
   const date = new Date();
   const difference = -date.getTimezoneOffset() / 60;
 
@@ -145,20 +140,20 @@ export const blockSchedule = (schedule, UserId, timezone) => {
 
     EndDate: `${dateToShortDateYearFirst(schedule.toDate)} ${schedule.toTime}`,
     UserId,
-    timezone
+    timezone,
   };
 
   const controller = loadAbort();
   return {
     call: () =>
-      axios.post(`${blockScheduleURL}/`, data, { signal: controller.signal }),
-    controller
+      axios.post(`${blockScheduleURL}/`, data, {signal: controller.signal}),
+    controller,
   };
 };
 
 export const getUserBlockSchedule = (userid = null) => {
   const params = {
-    userid
+    userid,
   };
 
   const controller = loadAbort();
@@ -167,15 +162,15 @@ export const getUserBlockSchedule = (userid = null) => {
     call: () =>
       axios.get(`${blockScheduleURL}/GetByUser`, {
         signal: controller.signal,
-        params
+        params,
       }),
-    controller
+    controller,
   };
 };
 
-export const getUserWorkingHours = (userid) => {
+export const getUserWorkingHours = userid => {
   const params = {
-    userid
+    userid,
   };
   const controller = loadAbort();
 
@@ -183,59 +178,71 @@ export const getUserWorkingHours = (userid) => {
     call: () =>
       axios.get(`${workScheduleURL}/GetByUser`, {
         signal: controller.signal,
-        params
+        params,
       }),
-    controller
+    controller,
   };
 };
 
-export const saveUserWorkingHours = (workingHours) => {
+export const saveUserWorkingHours = workingHours => {
   const controller = loadAbort();
 
-  const data = map(workingHours, (workingHour) => omit(workingHour, ['id']));
+  const data = map(workingHours, workingHour => omit(workingHour, ['id']));
 
   return {
     call: () =>
       axios.post(`${workScheduleURL}/`, data, {
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
   };
 };
 
-export const createEventOnCoachCalendar = (event) => {
+export const createEventOnCoachCalendar = event => {
   const controller = loadAbort();
 
   return {
     call: () =>
-      axios.post(`${eventsNylas}/`, event, { signal: controller.signal }),
-    controller
+      axios.post(`${eventsNylas}/`, event, {signal: controller.signal}),
+    controller,
   };
 };
 
 export const getCoachAvailability = (date, coachID) => {
   const params = {
     date,
-    userid: coachID
+    userid: coachID,
   };
   const controller = loadAbort();
 
   return {
     call: () =>
-      axios.get(`${mongo}/availability`, { signal: controller.signal, params }),
-    controller
+      axios.get(`${mongo}/availability`, {signal: controller.signal, params}),
+    controller,
   };
 };
 
-export const deleteBlockedSchedule = (schedule) => {
+export const deleteBlockedSchedule = schedule => {
   const controller = loadAbort();
 
   return {
     call: () =>
       axios.delete(`${blockScheduleURL}/`, {
         signal: controller.signal,
-        params: schedule
+        params: schedule,
       }),
-    controller
+    controller,
+  };
+};
+
+export const deleteCoachCalendar = calendar => {
+  const controller = loadAbort();
+  return {
+    call: () =>
+      axios.delete(`${mongo}/deleteCoachCalendar`, {
+        headers: {'Content-Type': 'application/json'},
+        data: {calendar: calendar},
+      }),
+    controller,
   };
 };
