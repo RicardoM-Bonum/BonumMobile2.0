@@ -10,6 +10,7 @@ import {LogLevel, OneSignal} from 'react-native-onesignal';
 import AlternateCallModals from './src/pages/AlternateCall';
 import {useUserUtilities} from './src/hooks';
 import Config from 'react-native-config';
+import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
 
 const App = () => {
   //@ts-ignore
@@ -24,7 +25,6 @@ const App = () => {
   //**********+Initialization****************
   // OneSignal.initialize(Config.ONESIGNAL_APP_ID as string);
   // OneSignal.logout();
-  console.log(Config.ONESIGNAL_APP_ID);
   OneSignal.initialize('f1904641-9274-4fa0-b726-e03a0164fec1');
 
   const getUserApi = async (id: any) => {
@@ -58,7 +58,7 @@ const App = () => {
           const adaptedUser = userAdapter(userData);
           dispatch(modifyUser(adaptedUser));
           OneSignal.login(adaptedUser.mongoID);
-          OneSignal.Notifications.requestPermission(true);
+          OneSignal.Notifications.requestPermission(false);
         }
         dispatch(setLoadingUser(false));
         await getUserSessions();
@@ -67,12 +67,18 @@ const App = () => {
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, []);
+
+  const toastConfig = {
+    success: props => <BaseToast {...props} text1NumberOfLines={6} />,
+    error: props => <ErrorToast {...props} text1NumberOfLines={6} />,
+  };
 
   return (
     <>
       <AlternateCallModals user={user} />
       <Navigation />
+      <Toast config={toastConfig} />
     </>
   );
 };

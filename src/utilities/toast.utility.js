@@ -1,14 +1,12 @@
-import Toast from 'react-native-root-toast';
+import Toast from 'react-native-toast-message';
 
 const displayToast = (message, type) => {
-  Toast.show(message, {
-    duration: Toast.durations.LONG,
-    position: Toast.positions.BOTTOM,
-    shadow: true,
-    animation: true,
-    hideOnPress: true,
-    delay: 0
-  })
+  Toast.show({
+    type,
+    text1: message,
+    position: 'bottom',
+    visibilityTime: 5000,
+  });
 };
 
 export default displayToast;
