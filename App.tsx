@@ -10,6 +10,7 @@ import {LogLevel, OneSignal} from 'react-native-onesignal';
 import AlternateCallModals from './src/pages/AlternateCall';
 import {useUserUtilities} from './src/hooks';
 import Config from 'react-native-config';
+import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
 
 const App = () => {
   //@ts-ignore
@@ -18,13 +19,9 @@ const App = () => {
   const {callEndpoint} = useFetchAndLoad();
   const {refreshSessions} = useUserUtilities();
 
-  //OneSignal Configuration
-  OneSignal.Debug.setLogLevel(LogLevel.Verbose);
-
-  //**********+Initialization****************
+  //**********+Initialization One Signal****************
   // OneSignal.initialize(Config.ONESIGNAL_APP_ID as string);
   // OneSignal.logout();
-  console.log(Config.ONESIGNAL_APP_ID);
   OneSignal.initialize('f1904641-9274-4fa0-b726-e03a0164fec1');
 
   const getUserApi = async (id: any) => {
@@ -44,20 +41,27 @@ const App = () => {
     }
   };
 
+  const getNotificationPermission = () => {
+    if (!OneSignal.Notifications.hasPermission()) {
+      OneSignal.Notifications.requestPermission(false);
+    }
+  };
+
   // const getOneSignalUser = async () => {
   //   const user = await OneSignal.getDeviceState();
   //   console.log('Device State', user);
   // };
 
   useEffect(() => {
+    getNotificationPermission();
     auth().onAuthStateChanged(async firebaseUser => {
       if (firebaseUser) {
         dispatch(setLoadingUser(true));
         const userData = await getUserApi(firebaseUser.uid);
         if (userData) {
-          dispatch(modifyUser(userAdapter(userData)));
-          OneSignal.login(user.mongoID);
-          OneSignal.Notifications.requestPermission(true);
+          const adaptedUser = userAdapter(userData);
+          dispatch(modifyUser(adaptedUser));
+          OneSignal.login(adaptedUser.mongoID);
         }
         dispatch(setLoadingUser(false));
         await getUserSessions();
@@ -66,12 +70,18 @@ const App = () => {
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, []);
+
+  const toastConfig = {
+    success: props => <BaseToast {...props} text1NumberOfLines={6} />,
+    error: props => <ErrorToast {...props} text1NumberOfLines={6} />,
+  };
 
   return (
     <>
       <AlternateCallModals user={user} />
       <Navigation />
+      <Toast config={toastConfig} />
     </>
   );
 };

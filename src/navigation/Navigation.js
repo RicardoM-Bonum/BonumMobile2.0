@@ -229,6 +229,7 @@ function Navigation() {
                 name="Meeting"
                 component={Meeting}
                 options={{
+                  unmountOnBlur: true,
                   drawerItemStyle: {display: 'none'},
                   headerStyle: {
                     backgroundColor: 'black',

@@ -1,115 +1,151 @@
 import axios from 'axios';
-import { loadAbort } from './../utilities';
+import {loadAbort} from './../utilities';
 import Config from 'react-native-config';
 
 const sessionsURL = `${Config.SESSIONS_URL}/api/session`;
 
-export const createSession = (data) => {
+export const createSession = data => {
   const controller = loadAbort();
   return {
-    call: () => axios.post(sessionsURL, data, { signal: controller.signal }),
-    controller
+    call: () => axios.post(sessionsURL, data, {signal: controller.signal}),
+    controller,
   };
 };
 
-export const EndSession = (data) => {
+export const EndSession = data => {
   const controller = loadAbort();
 
   return {
     call: () =>
       axios.put(`${sessionsURL}/EndSession/${data._id || data.id}`, data, {
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
   };
 };
 
-export const updateSession = (data) => {
+export const updateSession = data => {
   const controller = loadAbort();
 
   return {
     call: () =>
       axios.put(`${sessionsURL}/${data._id || data.id}`, data, {
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
   };
 };
 
-export const AlternalCall = (data) => {
+export const updateSessionNoShow = ({id}) => {
+  const controller = loadAbort();
+
+  return {
+    call: () =>
+      axios.put(`${sessionsURL}/updateSessionNoShow/${id}/`, {
+        signal: controller.signal,
+      }),
+    controller,
+  };
+};
+
+export const AlternalCall = data => {
   const controller = loadAbort();
 
   return {
     call: () =>
       axios.patch(`${sessionsURL}/AlternalCall`, data, {
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
   };
 };
 
-export const getCoachSessions = (coach) => {
+export const getCoachSessions = coach => {
   const controller = loadAbort();
 
   return {
     call: () =>
-      axios.get(`${sessionsURL}/coach/${coach}`, { signal: controller.signal }),
-    controller
+      axios.get(`${sessionsURL}/coach/${coach}`, {signal: controller.signal}),
+    controller,
   };
 };
 
-export const getCoacheeSessions = (coachee) => {
+export const getCoacheeSessions = coachee => {
   const controller = loadAbort();
   return {
     call: () =>
       axios.get(`${sessionsURL}/coachee/${coachee}`, {
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
   };
 };
 
-export const getSessionByID = (id) => {
+export const getSessionByID = id => {
   const controller = loadAbort();
 
   return {
     call: () => axios.get(`${sessionsURL}/${id}`),
-    controller
+    controller,
   };
 };
 
-export const cancelSessionByCoach = (data) => {
+export const cancelSessionByCoach = data => {
   const controller = loadAbort();
 
   return {
     call: () =>
       axios.put(`${sessionsURL}/coach/cancel/${data._id}`, data, {
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
   };
 };
 
-export const cancelSession = (data) => {
+export const cancelSession = data => {
   const controller = loadAbort();
 
   return {
     call: () =>
       axios.put(`${sessionsURL}/cancel/${data.id}`, data, {
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
   };
 };
 
-export const rescheduleSession = (data) => {
+export const rescheduleSession = data => {
   const controller = loadAbort();
 
   return {
     call: () =>
       axios.put(`${sessionsURL}/reschedule/${data._id || data.id}`, data, {
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
+  };
+};
+
+export const updateSessionNumber = ({coacheeId, id}) => {
+  const controller = loadAbort();
+
+  return {
+    call: () =>
+      axios.put(`${sessionsURL}/updateSessionNumber/${id}/${coacheeId}`, {
+        signal: controller.signal,
+      }),
+    controller,
+  };
+};
+
+export const resetSessionNumber = ({id}) => {
+  const controller = loadAbort();
+
+  return {
+    call: () =>
+      axios.put(`${sessionsURL}/resetSessionNumber/${id}`, {
+        signal: controller.signal,
+      }),
+    controller,
   };
 };

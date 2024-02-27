@@ -1,35 +1,38 @@
-import { useFetchAndLoad, useCoachCalendar } from '../../hooks';
-import { find } from 'lodash';
-import { DateTime } from 'luxon';
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Text, View, ScrollView } from 'react-native';
+import {useFetchAndLoad, useCoachCalendar} from '../../hooks';
+import {find} from 'lodash';
+import {DateTime} from 'luxon';
+import React, {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
+import {Text, View, ScrollView} from 'react-native';
 import tw from 'twrnc';
-import { getUserWorkingHours } from '../../services/calendar.service';
-import { rescheduleSession } from '../../services/sessions.service';
+import {getUserWorkingHours} from '../../services/calendar.service';
+import {
+  rescheduleSession,
+  resetSessionNumber,
+} from '../../services/sessions.service';
 import displayToast from '../../utilities/toast.utility';
 import Advice from './components/Advice';
 import AvailableSchedule from './components/AvailableSchedule';
 import Scheduled from './components/Scheduled';
 import useScheduleContext from './hooks/useScheduleContext';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import RescheduleCalendar from './components/Calendar/RescheduleCalendar';
-import { mongoDateToLongDate } from '../../utilities';
+import {mongoDateToLongDate} from '../../utilities';
 
-function RescheduleAppointment({ navigation, route }) {
-  const user = useSelector((state) => state.user);
-  const { coach, sessions, timezone } = user;
-  const { date, hour, setDate } = useScheduleContext();
+function RescheduleAppointment({navigation, route}) {
+  const user = useSelector(state => state.user);
+  const {coach, sessions, timezone} = user;
+  const {date, hour, setDate} = useScheduleContext();
   const [scheduled, setScheduled] = useState(false);
 
   const [loadingReset, setLoadingReset] = useState(false);
   const [scrollView, setScrollView] = useState(null);
   const [sessionToReschedule, setSessionToReschedule] = useState(false);
 
-  const { getCoachCalendar, isNotWorkingDay } = useCoachCalendar(coach?._id);
-  const { loading, callEndpoint } = useFetchAndLoad();
+  const {getCoachCalendar, isNotWorkingDay} = useCoachCalendar(coach?._id);
+  const {loading, callEndpoint} = useFetchAndLoad();
   const [minDate, setMinDate] = useState(new Date());
-  const { t } = useTranslation('global');
+  const {t} = useTranslation('global');
   const [schedules, setSchedules] = useState();
   const sessionId = route.params.session._id;
 
@@ -43,9 +46,7 @@ function RescheduleAppointment({ navigation, route }) {
 
   const getWorkingHours = async () => {
     try {
-      const { data } = await callEndpoint(
-        getUserWorkingHours(user?.coach?._id)
-      );
+      const {data} = await callEndpoint(getUserWorkingHours(user?.coach?._id));
       setSchedules(data.data);
     } catch (error) {
       console.log('Working Hours Error');
@@ -55,7 +56,7 @@ function RescheduleAppointment({ navigation, route }) {
 
   const getSessionToReschedule = async () => {
     setSessionToReschedule(
-      find(sessions, (session) => session._id === sessionId)
+      find(sessions, session => session._id === sessionId),
     );
   };
 
@@ -68,7 +69,7 @@ function RescheduleAppointment({ navigation, route }) {
     }
 
     const sessionToRescheduleDate = DateTime.fromISO(
-      sessionToReschedule.date
+      sessionToReschedule.date,
     ).toFormat('yyyy-MM-dd');
 
     if (sessionToRescheduleDate < today) {
@@ -102,13 +103,13 @@ function RescheduleAppointment({ navigation, route }) {
   const updateCoachingSession = async () => {
     try {
       const dateWithTimezone = DateTime.fromMillis(hour.startHour.ts, {
-        zone: timezone
+        zone: timezone,
       }).toISO();
 
       const event = {
         title: t('pages.reschedule.eventTitle', {
           name: user.name,
-          lastname: user.lastname
+          lastname: user.lastname,
         }),
         calendarId: user?.coach?.calendar?.id,
         status: 'confirmed',
@@ -120,8 +121,8 @@ function RescheduleAppointment({ navigation, route }) {
           start_time: hour.startHour.ts / 1000,
           end_time: hour.startHour.ts / 1000 + 3600,
           start_timezone: user.coach.timezone,
-          end_timezone: user.coach.timezone
-        }
+          end_timezone: user.coach.timezone,
+        },
       };
 
       await callEndpoint(
@@ -129,8 +130,14 @@ function RescheduleAppointment({ navigation, route }) {
           date: dateWithTimezone,
           id: sessionId,
           canceled: false,
-          event
-        })
+          event,
+        }),
+      );
+
+      await callEndpoint(
+        resetSessionNumber({
+          id: sessionId,
+        }),
       );
 
       setScheduled(true);
@@ -145,7 +152,7 @@ function RescheduleAppointment({ navigation, route }) {
 
   useEffect(() => {
     if (date) {
-      scrollView?.scrollToEnd({ animated: true });
+      scrollView?.scrollToEnd({animated: true});
     }
   }, [date]);
 
@@ -162,7 +169,7 @@ function RescheduleAppointment({ navigation, route }) {
     await updateCoachingSession();
   };
 
-  const tileDisabled = (calendarDate) => {
+  const tileDisabled = calendarDate => {
     if (isNotWorkingDay(calendarDate)) return true;
   };
 
@@ -176,10 +183,9 @@ function RescheduleAppointment({ navigation, route }) {
 
   return (
     <ScrollView
-      ref={(view) => {
+      ref={view => {
         setScrollView(view);
-      }}
-    >
+      }}>
       <View style={tw.style('flex justify-center bg-[#E4EFF8e8] px-8 py-8')}>
         <Text style={tw.style('text-black mt-6 text-base font-bold mb-4')}>
           Estás reagendando la sesión del{' '}
@@ -192,9 +198,7 @@ function RescheduleAppointment({ navigation, route }) {
             minDate={minDate.toString()}
             onDayPress={setDate}
             schedules={schedules}
-            tileDisabled={({ date: calendarDate }) =>
-              tileDisabled(calendarDate)
-            }
+            tileDisabled={({date: calendarDate}) => tileDisabled(calendarDate)}
             sessionToReschedule={sessionToReschedule}
           />
         </View>

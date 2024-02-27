@@ -357,8 +357,11 @@
           "popConfirmMsg1": "You cannot reschedule the session with less than 12 hours notice, if you cancel you will lose the session",
           "popConfirmMsg2": "Are you sure to cancel the session? You will be taken to another screen to reschedule.",
           "accept": "Accept",
-          "no": "no",
-          "cancel": "Cancel"
+          "yes": "Yes",
+          "no": "No",
+          "cancel": "Cancel",
+          "theCoachee": "Did",
+          "present": "show up at the meeting?"
         },
         "treatedSubject": {
           "title": "Treated Subjects",
@@ -578,7 +581,8 @@
         "session": "Session",
         "evaluateSession": "Evaluate Session",
         "signOff": "Sign off",
-        "Cancelled": "Cancelled"
+        "Cancelled": "Cancelled",
+        "Scheduled": "'Scheduled'"
       }
     }
   },
