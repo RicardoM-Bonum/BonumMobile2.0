@@ -19,10 +19,7 @@ const App = () => {
   const {callEndpoint} = useFetchAndLoad();
   const {refreshSessions} = useUserUtilities();
 
-  //OneSignal Configuration
-  OneSignal.Debug.setLogLevel(LogLevel.Verbose);
-
-  //**********+Initialization****************
+  //**********+Initialization One Signal****************
   // OneSignal.initialize(Config.ONESIGNAL_APP_ID as string);
   // OneSignal.logout();
   OneSignal.initialize('f1904641-9274-4fa0-b726-e03a0164fec1');
@@ -44,12 +41,19 @@ const App = () => {
     }
   };
 
+  const getNotificationPermission = () => {
+    if (!OneSignal.Notifications.hasPermission()) {
+      OneSignal.Notifications.requestPermission(false);
+    }
+  };
+
   // const getOneSignalUser = async () => {
   //   const user = await OneSignal.getDeviceState();
   //   console.log('Device State', user);
   // };
 
   useEffect(() => {
+    getNotificationPermission();
     auth().onAuthStateChanged(async firebaseUser => {
       if (firebaseUser) {
         dispatch(setLoadingUser(true));
@@ -58,7 +62,6 @@ const App = () => {
           const adaptedUser = userAdapter(userData);
           dispatch(modifyUser(adaptedUser));
           OneSignal.login(adaptedUser.mongoID);
-          OneSignal.Notifications.requestPermission(false);
         }
         dispatch(setLoadingUser(false));
         await getUserSessions();

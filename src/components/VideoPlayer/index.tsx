@@ -42,48 +42,15 @@ const VideoPlayer = ({navigation, route}) => {
     },
   };
 
-  const leaveCall = async () => {
-    try {
-      if (session) {
-        await callEndpoint(
-          EndSession({
-            _id: session._id || session.id,
-            MeetingId: session.callSession,
-          }),
-        );
-
-        await callEndpoint(
-          updateSessionNumber({
-            id: session._id || session.id,
-            coacheeId: session?.coachee?._id
-          })
-        );
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
-    dispatch(
-      modifySession(
-        adaptedSession({
-          ...session,
-          status: true,
-        }),
-      ),
-    );
-
-    navigation.navigate('SessionEvaluation');
-  };
-
   useEffect(() => {
     dispatch(modifySession(session));
   }, [dispatch, session]);
 
   const onReadyToClose = useCallback(() => {
-    leaveCall();
+    dispatch(modifySession(session));
+    navigation.navigate('SessionEvaluation');
     // @ts-ignore
     jitsiMeeting.current.close();
-    // @ts-ignore
   }, []);
 
   const eventListeners = {

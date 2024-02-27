@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useFetchAndLoad} from '../../hooks';
 import {
+  EndSession,
   updateSession,
   updateSessionNoShow,
   updateSessionNumber,
@@ -11,28 +12,40 @@ import {View, Text} from 'react-native';
 import {PrimaryButton, SecondaryButton} from '../Buttons';
 import {useTranslation} from 'react-i18next';
 import {updateCoachee, updateNoShowAcc} from '../../services/user.service';
+import displayToast from '../../utilities/toast.utility';
 
 function CoacheeAssistModal({coacheeModal, setCoacheeModal, navigation}) {
   const {t} = useTranslation('global');
 
-  const [loading, setLoading] = useState(false);
-
-  const {callEndpoint} = useFetchAndLoad();
+  const {callEndpoint, loading} = useFetchAndLoad();
 
   const session = useSelector(state => state.session);
 
   const handleOk = async () => {
     try {
+      if (session) {
+        await callEndpoint(
+          EndSession({
+            _id: session._id || session.id,
+            MeetingId: session.callSession,
+          }),
+        );
+
+        await callEndpoint(
+          updateSessionNumber({
+            id: session._id || session.id,
+            coacheeId: session?.coachee?._id,
+          }),
+        );
+      }
       setCoacheeModal(false);
     } catch (error) {
-      setLoading(false);
+      displayToast(error, 'error');
     }
   };
 
   const handleCancel = async () => {
     try {
-      setLoading(true);
-
       await callEndpoint(updateSession({...session, canceled: true}));
 
       if (session?.coachee?.noShowAcc >= 1) {
@@ -80,10 +93,8 @@ function CoacheeAssistModal({coacheeModal, setCoacheeModal, navigation}) {
       setCoacheeModal(false);
 
       navigation.navigate('Dashboard');
-
-      setLoading(false);
     } catch (error) {
-      setLoading(false);
+      displayToast(error, 'error');
     }
   };
 
@@ -110,6 +121,7 @@ function CoacheeAssistModal({coacheeModal, setCoacheeModal, navigation}) {
           <SecondaryButton
             title={t('pages.mySessions.components.session.no')}
             onPress={() => handleCancel()}
+            loading={loading}
           />
         </View>
       </Modal>
