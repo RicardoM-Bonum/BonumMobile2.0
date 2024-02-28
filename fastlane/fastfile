@@ -31,7 +31,8 @@ platform :ios do
   
   lane :beta do
     staging_build
-    upload_to_testflight(username: 'daniel@bonumcoaching.com', app_identifier: 'com.bonumcoaching.bonummobile')
+    pilot(username: "ricardo@bonumcoaching.com", app_specific_password: "qofn-qnzn-jani-ouvp")
+    upload_to_testflight(username: 'ricardo@bonumcoaching.com', app_identifier: 'com.bonumcoaching.bonummobile')
     commit_version_bump(message: 'bump build')
     push_to_git_remote
   end

@@ -61,7 +61,7 @@ function Navigation() {
     ...DefaultTheme,
     colors: {
       ...DefaultTheme.colors,
-      background: '#E4EFF8e8',
+      background: '#fafafa',
     },
   };
 
@@ -87,7 +87,7 @@ function Navigation() {
             width: '90%',
           },
           headerStyle: {
-            backgroundColor: '#E4EFF8e8',
+            backgroundColor: '#fafafa',
           },
           headerLeft: () =>
             onboardingCompleted && (

@@ -1,22 +1,20 @@
-import { TextInput, View } from 'react-native';
-import React, { useState } from 'react';
+import {StyleSheet, TextInput, View} from 'react-native';
+import React, {useState} from 'react';
 import tw from 'twrnc';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function PasswordInput(props) {
-  const { value, onChangeText, onBlur, placeholder, style, containerStyle } =
+  const {value, onChangeText, onBlur, placeholder, style, containerStyle} =
     props;
   const [hidePass, setHidePass] = useState(true);
 
   return (
     <View
       style={{
-        ...tw.style(
-          'bg-white pr-10 py-4 w-full text-base rounded-full mt-2 shadow-md flex-row justify-center'
-        ),
-        ...containerStyle
-      }}
-    >
+        ...tw.style('w-full text-base flex-row justify-center'),
+        ...styles.input,
+        ...containerStyle,
+      }}>
       <TextInput
         value={value}
         onChangeText={onChangeText}
@@ -26,9 +24,9 @@ export default function PasswordInput(props) {
         placeholderTextColor={'#60636A'}
         style={{
           ...tw.style(
-            'text-black bg-transparent pl-10 py-0 my-0 w-full text-base'
+            'text-black bg-transparent pl-10 py-0 my-0 w-full text-base',
           ),
-          ...style
+          ...style,
         }}
         {...props}
       />
@@ -41,3 +39,17 @@ export default function PasswordInput(props) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  input: {
+    borderColor: '#e6e6e6',
+    borderWidth: 1,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    minHeight: 50,
+    fontSize: 18,
+    paddingVertical: 20,
+    fontWeight: 300,
+    paddingRight: 12,
+  },
+});

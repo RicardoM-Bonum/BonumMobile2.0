@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@rneui/base';
+import {Button} from '@rneui/base';
 
 function PrimaryButton({
   loading = false,
@@ -7,7 +7,7 @@ function PrimaryButton({
   title = 'Click',
   disabled = false,
   style,
-  titleStyle
+  titleStyle,
 }) {
   return (
     <Button
@@ -20,11 +20,11 @@ function PrimaryButton({
         borderWidth: 0,
         borderRadius: 30,
         padding: 6,
-        paddingVertical: 8,
-        ...style
+        paddingVertical: 12,
+        ...style,
       }}
       disabled={disabled}
-      titleStyle={{ ...titleStyle }}
+      titleStyle={{...titleStyle, fontWeight: '600'}}
     />
   );
 }
