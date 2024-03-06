@@ -1,7 +1,7 @@
 import {Text, View, TouchableOpacity, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import tw from 'twrnc';
-import {Rating} from '@rneui/themed';
+import {Rating} from 'react-native-ratings';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {filter} from 'lodash';
@@ -31,11 +31,14 @@ export default function CoachEvaluation({navigation}) {
     let averageRatingCoach = 5,
       averageSessionsRating = 5;
 
+    console.log('rating sessions', ratingSessionsCoach);
     if (ratingSessionsCoach.length > 0) {
       averageSessionsRating =
         ratingSessionsCoach.reduce((a, b) => a + b, 0) /
         ratingSessionsCoach.length;
     }
+
+    console.log('rating coach', ratingCoach);
 
     if (ratingCoach.length > 0) {
       const rating = ratingCoach
@@ -72,10 +75,6 @@ export default function CoachEvaluation({navigation}) {
     getAverage();
   }, [ratingSessionsCoach, ratingCoach]);
 
-  const backScreen = () => {
-    navigation.goBack();
-  };
-
   return (
     <View style={tw.style('bg-[#E4EFF8e8] px-8 py-8 min-h-full')}>
       <Text style={tw.style('text-center mb-6 font-bold text-lg text-black')}>
@@ -97,6 +96,7 @@ export default function CoachEvaluation({navigation}) {
                   {evaluation && evaluation.title}
                 </Text>
                 <Rating
+                  fractions={5}
                   readonly
                   startingValue={evaluation.ratingValue || 5}
                   style={tw.style('-ml-10 mt-2')}
