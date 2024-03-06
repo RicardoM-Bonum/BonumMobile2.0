@@ -1,6 +1,6 @@
 import {View, Text, Image} from 'react-native';
 import React from 'react';
-import {Rating} from '@rneui/themed';
+import {Rating} from 'react-native-ratings';
 import tw from 'twrnc';
 import {mongoDateToLongDate} from '../../../../../utilities';
 
@@ -21,9 +21,9 @@ export default function EvaluationContent({evaluation, isSession}) {
             {mongoDateToLongDate(date)}
           </Text>
           <Rating
-            readonly
-            imageSize={25}
-            startingValue={value}
+            // readonly
+            // imageSize={25}
+            startingValue={value || 0}
             style={tw.style('mt-1 items-start')}
           />
         </View>
