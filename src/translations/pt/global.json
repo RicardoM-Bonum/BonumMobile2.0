@@ -361,7 +361,8 @@
           "no": "não",
           "cancel": "Cancelar",
           "theCoachee": "O coachee",
-          "present": "apareceu na reunião?"
+          "present": "apareceu na reunião?",
+          "sucess": "A sessão foi cancelada com sucesso"
         },
         "treatedSubject": {
           "title": "Assuntos tratados",
@@ -596,7 +597,10 @@
       "noAssist": "Não poderei comparecer",
       "confirm": "Tem certeza de que deseja encerrar esta reunião?",
       "success": "A sessão foi encerrada com sucesso",
-      "error": "Ocorreu um erro ao tentar encerrar a chamada"
+      "error": "Ocorreu um erro ao tentar encerrar a chamada",
+      "specifyReason": "Especifique o motivo do cancelamento",
+      "specifyReasonPlaceholder": "especifique o motivo..",
+      "specifyReasonMsg": "Por favor, especifique o motivo do cancelamento."
     },
     "menu": {
       "mHome": "Home",

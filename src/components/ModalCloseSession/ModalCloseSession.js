@@ -13,12 +13,13 @@ import {modifySession} from '../../redux/slices/session';
 import adaptedSession from '../../adapters/sessionsAdapter.adapter';
 import {endByAlternatecall} from '../../utilities/alternateCall.utility';
 import Modal from '../Modal';
-import {View} from 'react-native';
+import {TextInput, View} from 'react-native';
 import {CheckBox} from '@rneui/base';
 import {PrimaryButton, SecondaryButton} from '../Buttons';
 import {AlertDialog, Button} from 'native-base';
 import {useTranslation} from 'react-i18next';
 import {updateCoachee, updateNoShowAcc} from '../../services/user.service';
+import {Text} from 'react-native';
 
 function ModalCloseSession({session, showModal, setShowModal, navigation}) {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -29,16 +30,12 @@ function ModalCloseSession({session, showModal, setShowModal, navigation}) {
   const [isOpen, setIsOpen] = React.useState(false);
   const onClose = () => setIsOpen(false);
   const cancelRef = React.useRef(null);
+  const [cancelReason, setCancelReason] = useState('');
 
   const {t} = useTranslation('global');
 
   const handleCloseSession = async () => {
     try {
-      console.log(
-        '🚀 ~ file: ModalCloseSession.js:32 ~ handleCloseSession ~ session:',
-        session,
-      );
-
       if (selectedIndex === 0) {
         // End by alternate call
         await callEndpoint(
@@ -143,8 +140,23 @@ function ModalCloseSession({session, showModal, setShowModal, navigation}) {
       );
 
       if (selectedIndex === 2) {
+        // Validación de cancelReason
+        if (!cancelReason.trim()) {
+          displayToast(
+            `${t('lastTranslations.cancelModal.specifyReasonMsg')}`,
+            'error',
+          );
+          return;
+        }
+
+        // Copia de session con la cancelReason añadida
+        const updatedSession = {
+          ...session,
+          cancelReason: cancelReason,
+        };
+
         //cancelada por el coach
-        await callEndpoint(cancelSessionByCoach(session));
+        await callEndpoint(cancelSessionByCoach(updatedSession));
 
         await callEndpoint(
           updateSessionNumber({
@@ -197,11 +209,41 @@ function ModalCloseSession({session, showModal, setShowModal, navigation}) {
             title={t('lastTranslations.cancelModal.noAssist')}
           />
 
+          {selectedIndex === 2 && (
+            <View style={{alignItems: 'center'}}>
+              <Text style={{marginBottom: 10}}>
+                {t('lastTranslations.cancelModal.specifyReason')}{' '}
+                <Text style={{color: 'red'}}>*</Text>
+              </Text>
+              <TextInput
+                style={{
+                  height: 40,
+                  borderColor: 'gray',
+                  borderWidth: 1,
+                  alignSelf: 'center',
+                  width: '90%',
+                }}
+                onChangeText={setCancelReason}
+                value={cancelReason}
+                placeholder={t(
+                  'lastTranslations.cancelModal.specifyReasonPlaceholder',
+                )}
+              />
+            </View>
+          )}
+
           <PrimaryButton
             title={t('components.menu.closeSession')}
             onPress={() => {
-              setIsOpen(true);
-              setShowModal(false);
+              if (selectedIndex === 2 && !cancelReason.trim()) {
+                displayToast(
+                  `${t('lastTranslations.cancelModal.specifyReasonMsg')}`,
+                  'error',
+                );
+              } else {
+                setIsOpen(true);
+                setShowModal(false);
+              }
             }}
             loading={loading}
             style={{marginVertical: 10}}
