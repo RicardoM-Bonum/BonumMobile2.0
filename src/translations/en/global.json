@@ -361,7 +361,8 @@
           "no": "No",
           "cancel": "Cancel",
           "theCoachee": "Did",
-          "present": "show up at the meeting?"
+          "present": "show up at the meeting?",
+          "sucess": "The session has been canceled successfully"
         },
         "treatedSubject": {
           "title": "Treated Subjects",
@@ -596,7 +597,10 @@
       "noAssist": "I will not be able to attend",
       "confirm": "Are you sure to end this meeting?",
       "success": "The session was successfully closed",
-      "error": "There was an error trying to close the call"
+      "error": "There was an error trying to close the call",
+      "specifyReason": "Specify the reason for cancellation",
+      "specifyReasonPlaceholder": "specify the reason..",
+      "specifyReasonMsg": "Please specify the reason for cancellation."
     },
     "menu": {
       "mHome": "Home",
