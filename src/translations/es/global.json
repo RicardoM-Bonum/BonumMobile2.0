@@ -361,7 +361,8 @@
           "no": "No",
           "cancel": "Cancelar",
           "theCoachee": "El coachee",
-          "present": "se presentó a la reunión?"
+          "present": "se presentó a la reunión?",
+          "success": "La sesion se a cancelado con exito"
         },
         "treatedSubject": {
           "title": "Puntos Tratados",
@@ -596,7 +597,10 @@
       "noAssist": "No podré asistir",
       "confirm": "¿Estás seguro de terminar esta reunión?",
       "success": "La sessión fue cerrada correctamente",
-      "error": "Hubo un error al tratar de cerrar la llamada"
+      "error": "Hubo un error al tratar de cerrar la llamada",
+      "specifyReason": "Especifique el motivo de la cancelación",
+      "specifyReasonPlaceholder": "especificar la razón..",
+      "specifyReasonMsg": "Por favor, especifique la razón de la cancelación."
     },
     "menu": {
       "mHome": "Inicio",
