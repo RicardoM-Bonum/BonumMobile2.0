@@ -1,40 +1,40 @@
-import { useFetchAndLoad, useCoachCalendar, useForceUpdate } from '../../hooks';
-import { forEach, last } from 'lodash';
-import { DateTime } from 'luxon';
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Text, View, ScrollView } from 'react-native';
+import {useFetchAndLoad, useCoachCalendar, useForceUpdate} from '../../hooks';
+import {forEach, last} from 'lodash';
+import {DateTime} from 'luxon';
+import React, {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
+import {Text, View, ScrollView} from 'react-native';
 import tw from 'twrnc';
-import { getUserWorkingHours } from '../../services/calendar.service';
+import {getUserWorkingHours} from '../../services/calendar.service';
 import {
   createSession,
   getCoacheeSessions,
-  getCoachSessions
+  getCoachSessions,
 } from '../../services/sessions.service';
 import displayToast from '../../utilities/toast.utility';
 import Advice from './components/Advice';
 import Scheduled from './components/Scheduled';
 import useScheduleContext from './hooks/useScheduleContext';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import CalendarGeneric from '../../components/Calendar/CalendarGeneric';
 import Sessions from './components/Sessions';
 import AvailableSchedule from './components/AvailableSchedule';
 import Loading from '../../components/Loading';
 
-function ScheduleAppointment({ navigation }) {
-  const { coach, sessions, timezone, name, lastname, role, mongoID } =
-    useSelector((state) => state.user);
-  const { date, hour, setDate } = useScheduleContext();
+function ScheduleAppointment({navigation}) {
+  const {coach, sessions, timezone, name, lastname, role, mongoID} =
+    useSelector(state => state.user);
+  const {date, hour, setDate} = useScheduleContext();
   const forceUpdate = useForceUpdate();
   const [scheduled, setScheduled] = useState(false);
   const [scrollView, setScrollView] = useState(null);
   const [minDate, setMinDate] = useState(new Date().toString());
   const [sessionsToDisplay, setSessionsToDisplay] = useState([]);
 
-  const { getCoachCalendar, isNotWorkingDay } = useCoachCalendar(coach?._id);
-  const { loading, callEndpoint } = useFetchAndLoad();
+  const {getCoachCalendar, isNotWorkingDay} = useCoachCalendar(coach?._id);
+  const {loading, callEndpoint} = useFetchAndLoad();
   let lastSession = last(sessions);
-  const { t } = useTranslation('global');
+  const {t} = useTranslation('global');
   const [schedules, setSchedules] = useState();
 
   const getMyCoachCalendar = async () => {
@@ -47,7 +47,7 @@ function ScheduleAppointment({ navigation }) {
 
   const getWorkingHours = async () => {
     try {
-      const { data } = await callEndpoint(getUserWorkingHours(coach?._id));
+      const {data} = await callEndpoint(getUserWorkingHours(coach?._id));
       setSchedules(data.data);
     } catch (error) {
       console.log('Working Hours Error');
@@ -62,7 +62,7 @@ function ScheduleAppointment({ navigation }) {
         return;
       }
       const newMinDate = DateTime.fromISO(lastSession.date)
-        .plus({ days: 11 })
+        .plus({days: 11})
         .toJSDate();
 
       const today = DateTime.now().toJSDate();
@@ -80,9 +80,9 @@ function ScheduleAppointment({ navigation }) {
   const getSessionsToDisplay = () => {
     const sessionsTemp = [];
 
-    forEach(sessions, (session) => {
+    forEach(sessions, session => {
       const selectedDate = DateTime.fromJSDate(date, {
-        zone: 'utc'
+        zone: 'utc',
       }).toISODate();
 
       const sessionDate = DateTime.fromISO(session?.date).toISODate();
@@ -135,16 +135,38 @@ function ScheduleAppointment({ navigation }) {
     };
   }, []);
 
+  const getHoursDifference = dateWithTimezone => {
+    const currentDate = new Date();
+    const sessionDateISO = new Date(dateWithTimezone).toISOString();
+    const sessionDate = new Date(sessionDateISO);
+    const hoursDifference =
+      (sessionDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60);
+
+    let currentHours = Math.round(hoursDifference);
+    return currentHours;
+  };
+
   const createCoachingSession = async () => {
     try {
       const dateWithTimezone = DateTime.fromMillis(hour.startHour.ts, {
-        zone: timezone
+        zone: timezone,
       }).toISO();
+
+      let hours = getHoursDifference(dateWithTimezone);
+
+      if (hours <= 24) {
+        if (hours <= 24) {
+          displayToast(`${t('pages.reschedule.timeLimit')}`, 'error');
+          return;
+        }
+
+        return;
+      }
 
       const event = {
         title: t('pages.reschedule.eventTitle', {
           name: name,
-          lastname: lastname
+          lastname: lastname,
         }),
         calendarId: coach?.calendar?.id,
         status: 'confirmed',
@@ -156,8 +178,8 @@ function ScheduleAppointment({ navigation }) {
           start_time: hour.startHour.ts / 1000,
           end_time: hour.startHour.ts / 1000 + 3600,
           start_timezone: coach.timezone,
-          end_timezone: coach.timezone
-        }
+          end_timezone: coach.timezone,
+        },
       };
 
       await callEndpoint(
@@ -165,8 +187,8 @@ function ScheduleAppointment({ navigation }) {
           coach: coach._id,
           coachee: mongoID,
           date: dateWithTimezone,
-          event
-        })
+          event,
+        }),
       );
 
       setScheduled(true);
@@ -176,7 +198,7 @@ function ScheduleAppointment({ navigation }) {
         error?.response?.data?.message
           ? error?.response?.data?.message
           : 'Error',
-        'error'
+        'error',
       );
     }
   };
@@ -186,7 +208,7 @@ function ScheduleAppointment({ navigation }) {
 
   useEffect(() => {
     if (date) {
-      scrollView?.scrollToEnd({ animated: true });
+      scrollView?.scrollToEnd({animated: true});
       getSessionsToDisplay();
     }
   }, [date]);
@@ -204,7 +226,9 @@ function ScheduleAppointment({ navigation }) {
     await createCoachingSession();
   };
 
-  if (!coach) return true;
+  if (!coach) {
+    return true;
+  }
 
   if (scheduled) {
     return (
@@ -214,14 +238,15 @@ function ScheduleAppointment({ navigation }) {
     );
   }
 
-  if (loading) return <Loading isFull />;
+  if (loading) {
+    return <Loading isFull />;
+  }
 
   return (
     <ScrollView
-      ref={(view) => {
+      ref={view => {
         setScrollView(view);
-      }}
-    >
+      }}>
       <View style={tw.style('flex justify-center bg-[#E4EFF8e8] px-8 py-8')}>
         <Text style={tw.style('text-black mt-6 text-base font-bold mb-4')}>
           {t('pages.reschedule.title')}{' '}

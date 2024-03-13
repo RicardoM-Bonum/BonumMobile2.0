@@ -389,6 +389,7 @@
       "handleSchedule": "Agendar",
       "noData": "No hay sesión para reagendar",
       "noSchedule": "No hay horario disponible en esta fecha.",
+      "timeLimit": "No puedes agendar una sesion con menos de 24 horas de antelacion",
       "components": {
         "advice": {
           "today": "Hoy",

@@ -98,13 +98,33 @@ function RescheduleAppointment({navigation, route}) {
     getSessionToReschedule(sessionId);
   }, [sessionId]);
 
-  if (!coach) return true;
+  if (!coach) {
+    return true;
+  }
+
+  const getHoursDifference = dateWithTimezone => {
+    const currentDate = new Date();
+    const sessionDateISO = new Date(dateWithTimezone).toISOString();
+    const sessionDate = new Date(sessionDateISO);
+    const hoursDifference =
+      (sessionDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60);
+
+    let currentHours = Math.round(hoursDifference);
+    return currentHours;
+  };
 
   const updateCoachingSession = async () => {
     try {
       const dateWithTimezone = DateTime.fromMillis(hour.startHour.ts, {
         zone: timezone,
       }).toISO();
+
+      let hours = getHoursDifference(dateWithTimezone);
+
+      if (hours <= 24) {
+        displayToast(`${t('pages.reschedule.timeLimit')}`, 'error');
+        return;
+      }
 
       const event = {
         title: t('pages.reschedule.eventTitle', {
@@ -130,6 +150,8 @@ function RescheduleAppointment({navigation, route}) {
           date: dateWithTimezone,
           id: sessionId,
           canceled: false,
+          noShow: false,
+          status: false,
           event,
         }),
       );
@@ -170,7 +192,9 @@ function RescheduleAppointment({navigation, route}) {
   };
 
   const tileDisabled = calendarDate => {
-    if (isNotWorkingDay(calendarDate)) return true;
+    if (isNotWorkingDay(calendarDate)) {
+      return true;
+    }
   };
 
   if (scheduled) {

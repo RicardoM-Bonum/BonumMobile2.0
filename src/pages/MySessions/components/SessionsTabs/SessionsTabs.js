@@ -1,17 +1,17 @@
 import React from 'react';
-import { SceneMap } from 'react-native-tab-view';
-import { HScrollView } from 'react-native-head-tab-view';
+import {SceneMap} from 'react-native-tab-view';
+import {HScrollView} from 'react-native-head-tab-view';
 import Tabs from '../../../../components/Tabs';
-import { filter, map, size } from 'lodash';
+import {filter, map, size} from 'lodash';
 import NoData from '../../../../components/NoData/NoData';
 import Session_item from '../Session_item';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
-export default function SessionsTabs({ header, sessions, navigation }) {
-  const { t } = useTranslation('global');
+export default function SessionsTabs({header, sessions, navigation}) {
+  const {t} = useTranslation('global');
 
   const completedSessionsRoute = () => {
-    const completedSessions = filter(sessions, { status: true });
+    const completedSessions = filter(sessions, {status: true});
 
     return (
       <HScrollView index={0}>
@@ -34,7 +34,7 @@ export default function SessionsTabs({ header, sessions, navigation }) {
   const pendingSessionsRoute = () => {
     const pendingSessions = filter(sessions, {
       status: false,
-      canceled: false
+      canceled: false,
     });
 
     return (
@@ -58,7 +58,7 @@ export default function SessionsTabs({ header, sessions, navigation }) {
   const canceledSessionsRoute = () => {
     const canceledSessions = filter(sessions, {
       status: false,
-      canceled: true
+      canceled: true,
     });
 
     return (
@@ -82,13 +82,13 @@ export default function SessionsTabs({ header, sessions, navigation }) {
   const renderScene = SceneMap({
     completed: completedSessionsRoute,
     pending: pendingSessionsRoute,
-    canceled: canceledSessionsRoute
+    canceled: canceledSessionsRoute,
   });
 
   const routes = [
-    { key: 'completed', title: t('pages.mySessions.completedSessions') },
-    { key: 'pending', title: t('pages.mySessions.pendingSession') },
-    { key: 'canceled', title: t('pages.mySessions.canceledSession') }
+    {key: 'completed', title: t('pages.mySessions.completedSessions')},
+    {key: 'pending', title: t('pages.mySessions.pendingSession')},
+    {key: 'canceled', title: t('pages.mySessions.canceledSession')},
   ];
 
   return (
@@ -98,7 +98,7 @@ export default function SessionsTabs({ header, sessions, navigation }) {
       heightFull
       header={header}
       style={{
-        marginBottom: 30
+        marginBottom: 30,
       }}
     />
   );
