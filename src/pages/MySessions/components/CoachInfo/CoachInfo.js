@@ -1,11 +1,17 @@
-import { View, Text, Image } from 'react-native';
+import {View, Text, Image} from 'react-native';
 import React from 'react';
 import tw from 'twrnc';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import FocusAreaItem from '../../../../components/FocusAreaItem';
 
-export default function Coachinfo({ withSessions }) {
-  const { coach, sessions, cohort } = useSelector((state) => state.user);
+export default function Coachinfo({withSessions}) {
+  const {coach, sessions, cohort, additionalSessions} = useSelector(
+    state => state.user,
+  );
+
+  let completedSessions = sessions.filter(session => session.status === true);
+
+  console.log('additionalSessions', additionalSessions);
 
   return (
     <View>
@@ -13,7 +19,7 @@ export default function Coachinfo({ withSessions }) {
         <View style={tw.style('items-center')}>
           <Image
             source={{
-              uri: coach?.urlImgCoach
+              uri: coach?.urlImgCoach,
             }}
             style={tw.style('w-30 h-30 rounded-full')}
           />
@@ -28,7 +34,7 @@ export default function Coachinfo({ withSessions }) {
               {coach &&
                 Array.isArray(coach.focusAreas) &&
                 coach.focusAreas.length > 1 &&
-                coach.focusAreas.map((area) => (
+                coach.focusAreas.map(area => (
                   <FocusAreaItem focusArea={area} key={area._id} />
                 ))}
             </View>
@@ -39,10 +45,10 @@ export default function Coachinfo({ withSessions }) {
       {withSessions && (
         <Text
           style={tw.style(
-            'text-black text-center text-base font-bold mb-4 mt-4'
-          )}
-        >
-          Sesiones {sessions?.length} de {cohort?.program}
+            'text-black text-center text-base font-bold mb-4 mt-4',
+          )}>
+          Sesiones {completedSessions?.length} de{' '}
+          {cohort?.program + additionalSessions}
         </Text>
       )}
     </View>
