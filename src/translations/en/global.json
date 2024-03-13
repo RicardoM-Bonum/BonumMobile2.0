@@ -389,6 +389,7 @@
       "handleSchedule": "Schedule",
       "noData": "There is no session to reschedule",
       "noSchedule": "No schedule available on this date.",
+      "timeLimit": "You cannot schedule a session less than 24 hours in advance.",
       "components": {
         "advice": {
           "today": "Today",
