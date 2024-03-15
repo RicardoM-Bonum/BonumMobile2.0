@@ -68,12 +68,14 @@ export default function SessionItem({session, navigation, onPress}) {
 
       <View>
         <View style={tw.style('flex-row items-center')}>
-          <Text style={tw.style('mr-2 font-bold')}>
+          <Text style={tw.style('mr-2 font-bold text-[#60636A]')}>
             {t('pages.mySessions.components.session.session')}{' '}
             {session.sessionNumber}
           </Text>
         </View>
-        <Text>{mongoDateToLongDate(session.date)}</Text>
+        <Text style={tw.style('text-[#60636A]')}>
+          {mongoDateToLongDate(session.date)}
+        </Text>
       </View>
       <View style={styles.container}>
         {session.noShow && (
@@ -89,7 +91,9 @@ export default function SessionItem({session, navigation, onPress}) {
               user.role === 'coachee' &&
               !session.evaluatedByCoachee)) && (
             <TouchableOpacity onPress={() => evaluar(session)}>
-              <Text>{t('pages.mySessions.components.session.evaluate')}</Text>
+              <Text style={tw.style('text-[#60636A]')}>
+                {t('pages.mySessions.components.session.evaluate')}
+              </Text>
             </TouchableOpacity>
           )}
 
@@ -110,7 +114,11 @@ export default function SessionItem({session, navigation, onPress}) {
           !session.canceled && (
             <Pressable onPress={() => setShowModal(true)}>
               <Text
-                style={{fontWeight: 'bold', textDecorationLine: 'underline'}}>
+                style={{
+                  fontWeight: 'bold',
+                  textDecorationLine: 'underline',
+                  color: '#60636A',
+                }}>
                 {t('pages.mySessions.components.session.cancelSession')}
               </Text>
             </Pressable>
@@ -122,7 +130,11 @@ export default function SessionItem({session, navigation, onPress}) {
           session.canceled && (
             <TouchableOpacity onPress={handleReschedule}>
               <Text
-                style={{fontWeight: 'bold', textDecorationLine: 'underline'}}>
+                style={{
+                  fontWeight: 'bold',
+                  textDecorationLine: 'underline',
+                  color: '#60636A',
+                }}>
                 {t('pages.mySessions.components.session.reschedule')}
               </Text>
             </TouchableOpacity>

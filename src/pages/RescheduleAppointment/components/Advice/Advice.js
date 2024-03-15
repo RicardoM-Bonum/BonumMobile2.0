@@ -1,6 +1,6 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { View, Text } from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {View, Text} from 'react-native';
 import tw from 'twrnc';
 
 function Advice(props) {
@@ -8,9 +8,9 @@ function Advice(props) {
     executed = true,
     future = true,
     nonWorking = true,
-    blocked = true
+    blocked = true,
   } = props;
-  const { t } = useTranslation('global');
+  const {t} = useTranslation('global');
   return (
     <View style={tw.style('mb-8')}>
       <View style={tw.style('')}>
@@ -48,7 +48,7 @@ function Advice(props) {
         )}
       </View>
       <View style={tw.style('shadow-md rounded-2xl px-4 py-4')}>
-        <Text>
+        <Text style={tw.style('text-[#60636A]')}>
           Para reagendar una sesión, debe ser 5 días o 5 días después de alguna
           de tus sesiones, o el mismo día
         </Text>

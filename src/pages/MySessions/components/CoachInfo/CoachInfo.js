@@ -11,8 +11,6 @@ export default function Coachinfo({withSessions}) {
 
   let completedSessions = sessions.filter(session => session.status === true);
 
-  console.log('additionalSessions', additionalSessions);
-
   return (
     <View>
       <View>

@@ -1,6 +1,6 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { View, Text } from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {View, Text} from 'react-native';
 import tw from 'twrnc';
 
 function Advice(props) {
@@ -9,9 +9,9 @@ function Advice(props) {
     future = true,
     nonWorking = true,
     blocked = true,
-    legend = true
+    legend = true,
   } = props;
-  const { t } = useTranslation('global');
+  const {t} = useTranslation('global');
   return (
     <View style={tw.style('mb-8')}>
       <View style={tw.style('')}>
