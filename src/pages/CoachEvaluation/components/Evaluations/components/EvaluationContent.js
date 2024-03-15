@@ -21,8 +21,7 @@ export default function EvaluationContent({evaluation, isSession}) {
             {mongoDateToLongDate(date)}
           </Text>
           <Rating
-            // readonly
-            // imageSize={25}
+            readonly
             startingValue={value || 0}
             style={tw.style('mt-1 items-start')}
           />

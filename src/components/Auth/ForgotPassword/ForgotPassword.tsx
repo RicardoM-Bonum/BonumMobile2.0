@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Formik, useFormik } from 'formik';
+import React, {useState} from 'react';
+import {Formik, useFormik} from 'formik';
 import * as Yup from 'yup';
 import auth from '@react-native-firebase/auth';
 import displayToast from '../../../utilities/toast.utility';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import {
   Dimensions,
   ScrollView,
@@ -12,39 +12,39 @@ import {
   TouchableOpacity,
   View,
   Image,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from 'react-native';
 import tw from 'twrnc';
 import Logo from '../../../assets/icons/bonum-logo.png';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-import { PrimaryButton } from '../../Buttons';
+import {PrimaryButton} from '../../Buttons';
 
-function ForgotPassword({ setLogin }) {
+function ForgotPassword({setLogin}) {
   const [loading, setLoading] = useState(false);
-  const { t } = useTranslation('global');
+  const {t} = useTranslation('global');
 
   const validationSchema = Yup.object({
     email: Yup.string()
       .email('Debe ser un correo válido')
-      .required('El email es requerido')
+      .required('El email es requerido'),
   });
 
   const initialValues = () => ({
-    email: ''
+    email: '',
   });
 
-  const { handleSubmit, handleChange, values, errors, handleBlur, touched } =
+  const {handleSubmit, handleChange, values, errors, handleBlur, touched} =
     useFormik({
       initialValues: initialValues(),
       validationSchema,
-      onSubmit: async ({ email }) => {
+      onSubmit: async ({email}) => {
         try {
           setLoading(true);
           await auth().sendPasswordResetEmail(email);
           displayToast(
             'Enviamos un correo con el enlace para que reestablezcas tu contraseña',
-            'success'
+            'success',
           );
           setLogin(true);
           setLoading(false);
@@ -52,7 +52,7 @@ function ForgotPassword({ setLogin }) {
           setLoading(false);
           displayToast('Ups! tenemos un error, contacta a soporte', 'error');
         }
-      }
+      },
     });
 
   return (
@@ -63,22 +63,20 @@ function ForgotPassword({ setLogin }) {
             style={{
               justifyContent: 'center',
               alignItems: 'center',
-              marginTop: -100
-            }}
-          >
+              marginTop: -100,
+            }}>
             <Image
               source={Logo}
               // resizeMode="contain"
               style={{
                 width: 340,
-                height: 200
+                height: 200,
               }}
             />
           </View>
 
           <Text
-            style={tw.style('text-black text-center text-2xl font-bold mt--6')}
-          >
+            style={tw.style('text-black text-center text-2xl font-bold mt--6')}>
             {t('components.auth.forgotPassword.title')}
           </Text>
           <Text style={tw.style('text-black text-center text-base')}>
@@ -88,8 +86,7 @@ function ForgotPassword({ setLogin }) {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={handleSubmit as any}
-        >
+          onSubmit={handleSubmit as any}>
           <>
             <TextInput
               value={values.email}
@@ -100,7 +97,7 @@ function ForgotPassword({ setLogin }) {
               }
               placeholderTextColor={'#60636A'}
               style={tw.style(
-                'text-black bg-white px-8 py-4 rounded-full mt-5 shadow-md text-base'
+                'text-black bg-white px-8 py-4 rounded-full mt-5 shadow-md text-base',
               )}
             />
             {errors.email && touched.email && (
@@ -112,7 +109,7 @@ function ForgotPassword({ setLogin }) {
             <PrimaryButton
               title={t('components.auth.forgotPassword.button')}
               onPress={handleSubmit}
-              style={{ marginTop: 25 }}
+              style={{marginTop: 25}}
               loading={loading}
               disabled={loading}
             />

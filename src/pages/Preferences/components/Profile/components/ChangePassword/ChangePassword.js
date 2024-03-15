@@ -5,31 +5,31 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from 'react-native';
-import { Formik, useFormik } from 'formik';
-import React, { useState } from 'react';
+import {Formik, useFormik} from 'formik';
+import React, {useState} from 'react';
 import tw from 'twrnc';
 import validationSchema from './validationSchema';
 import displayToast from '../../../../../../utilities/toast.utility';
 import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import BasicLayout from '../../../../../../layouts/BasicLayout';
-import { PrimaryButton } from '../../../../../../components/Buttons';
+import {PrimaryButton} from '../../../../../../components/Buttons';
 import PasswordInput from '../../../../../../components/Inputs/PasswordInput';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
-export default function ChangePassword({ navigation }) {
+export default function ChangePassword({navigation}) {
   const [viewPassword, setViewPassword] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { t } = useTranslation('global');
+  const {t} = useTranslation('global');
 
   const initialValues = () => ({
     current_password: '',
     new_password: '',
-    new_password_confirm: ''
+    new_password_confirm: '',
   });
 
   const {
@@ -40,17 +40,17 @@ export default function ChangePassword({ navigation }) {
     handleBlur,
     touched,
     setValues,
-    setTouched
+    setTouched,
   } = useFormik({
     initialValues: initialValues(),
     validationSchema,
-    onSubmit: async (formValues) => {
+    onSubmit: async formValues => {
       setError(false);
       setLoading(true);
       try {
         const credential = auth.EmailAuthProvider.credential(
           auth().currentUser.email,
-          formValues.current_password
+          formValues.current_password,
         );
         await auth().currentUser.reauthenticateWithCredential(credential);
         await auth().currentUser.updatePassword(formValues.new_password);
@@ -69,7 +69,7 @@ export default function ChangePassword({ navigation }) {
           displayToast('Hubo un error', 'error');
         }
       }
-    }
+    },
   });
 
   return (
