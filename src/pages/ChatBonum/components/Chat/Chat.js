@@ -1,13 +1,13 @@
 // @refresh reset
-import { useRoute } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import 'react-native-get-random-values';
-import { nanoid } from 'nanoid';
+import {nanoid} from 'nanoid';
 import React, {
   useCallback,
   useContext,
   useEffect,
   useMemo,
-  useState
+  useState,
 } from 'react';
 import {
   View,
@@ -19,16 +19,16 @@ import {
   Modal,
   ActivityIndicator,
   Text,
-  Platform
+  Platform,
 } from 'react-native';
 import {
   Actions,
   Bubble,
   GiftedChat,
   InputToolbar,
-  LoadEarlier
+  LoadEarlier,
 } from 'react-native-gifted-chat';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import ChatBonumContext from '../../context/ChatBonumContext';
 import ChatColors from '../../constants/chatColors';
@@ -39,14 +39,17 @@ import firestore from '@react-native-firebase/firestore';
 import tw from 'twrnc';
 import FadeInOut from 'react-native-fade-in-out';
 import displayToast from '../../../../utilities/toast.utility';
-import { useFileUpload } from '../../hooks/useFileUpload';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import { PrimaryButton } from '../../../../components/Buttons';
-import { useImageUpload } from '../../hooks/useImageUpload';
+import {useFileUpload} from '../../hooks/useFileUpload';
+import {AnimatedCircularProgress} from 'react-native-circular-progress';
+import {PrimaryButton} from '../../../../components/Buttons';
+import {useImageUpload} from '../../hooks/useImageUpload';
 import ModalProgress from './components/ModalProgress/ModalProgress';
 import ImageMessage from './components/ImageMessage/ImageMessage';
+import {OneSignal} from 'react-native-onesignal';
+import {useFetchAndLoad} from '../../../../hooks';
+import {sendChatMessage} from '../../../../services/user.service';
 
-export default function Chat({ navigation }) {
+export default function Chat({navigation}) {
   const [roomHash, setRoomHash] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -60,18 +63,18 @@ export default function Chat({ navigation }) {
     uploading,
     progress,
     modalProgress,
-    setModalProgress
-  } = useFileUpload({ roomHash });
+    setModalProgress,
+  } = useFileUpload({roomHash});
   const {
     handleImagePicker,
     uploading: uploadingImage,
     transferred,
     modalProgress: modalImageProgress,
-    setModalProgress: setModalImageProgress
-  } = useImageUpload({ roomHash });
+    setModalProgress: setModalImageProgress,
+  } = useImageUpload({roomHash});
 
-  const { name, lastname, email, photo, uid } = useSelector(
-    (state) => state.user
+  const {name, lastname, email, photo, uid, mongoID} = useSelector(
+    state => state.user,
   );
 
   const route = useRoute();
@@ -80,21 +83,40 @@ export default function Chat({ navigation }) {
   const isCoach = data?.role === 'coach';
   const avatar = isCoach ? data?.urlImgCoach : data?.urlImgCoachee;
   const userName = `${data?.name} ${data?.lastname}`;
-  const { setInChatWith, modifyContactWithNewRoom } =
+  const {setInChatWith, modifyContactWithNewRoom} =
     useContext(ChatBonumContext);
   const MESSAGES_LIMIT = 50;
+  const {loading: loadingFetch, callEndpoint} = useFetchAndLoad();
 
   const senderUser = {
     avatar: photo,
     name: `${name} ${lastname}`,
     _id: uid,
-    email: email
+    email: email,
   };
 
   const idRoom = useMemo(
     () => (data?.roomId ? data?.roomId : nanoid(20)),
-    [data]
+    [data],
   );
+
+  const addOneSignalEventListener = () => {
+    OneSignal.Notifications.addEventListener('foregroundWillDisplay', event => {
+      const sender = route.params.user._id;
+      event.preventDefault();
+      // some async work
+
+      //@ts-ignore
+      // console.log('event', event.notification);
+
+      if (sender === event.notification.additionalData?.senderID) {
+        console.log('already in chat');
+        return;
+      }
+
+      event.getNotification().display();
+    });
+  };
 
   const roomRef = firestore().doc(`rooms/${idRoom}`);
   const roomMessagesRef = firestore().collection(`rooms/${idRoom}/messages`);
@@ -103,32 +125,33 @@ export default function Chat({ navigation }) {
     .orderBy('createdAt', 'desc');
 
   useEffect(() => {
+    addOneSignalEventListener();
     (async () => {
       if (!room) {
         const currUserData = {
           displayName: `${name} ${lastname}`,
-          email: email
+          email: email,
         };
         if (photo) {
           currUserData.photoURL = photo;
         }
         const userBData = {
           displayName: userName,
-          email: data?.email
+          email: data?.email,
         };
         if (avatar) {
           userBData.photoURL = avatar;
         }
-        // eslint-disable-next-line no-debugger
+
         // debugger;
         const roomData = {
           participants: [currUserData, userBData],
-          participantsArray: [email, data?.email]
+          participantsArray: [email, data?.email],
         };
         try {
           await roomRef.set(roomData);
           const newData = await roomRef.get();
-          console.log({ newData });
+          console.log({newData});
           modifyContactWithNewRoom(idRoom, data?._id);
         } catch (error) {
           console.log('Set RoomData UserBData Error', error);
@@ -149,24 +172,24 @@ export default function Chat({ navigation }) {
   useEffect(() => {
     if (data?.lastMessage) {
       roomRef.update({
-        lastMessage: { ...data.lastMessage, unread: false }
+        lastMessage: {...data.lastMessage, unread: false},
       });
     }
   }, [data?.lastMessage]);
 
   useEffect(() => {
-    const unsubscribe = roomQuery.onSnapshot((querySnapshot) => {
+    const unsubscribe = roomQuery.onSnapshot(querySnapshot => {
       if (querySnapshot) {
         const messagesFirestore = querySnapshot
           .docChanges()
-          .filter(({ type }) => type === 'added')
-          .map(({ doc }) => {
+          .filter(({type}) => type === 'added')
+          .map(({doc}) => {
             const message = doc.data();
             return {
               ...message,
               id: doc.id,
               _id: doc.id,
-              createdAt: message.createdAt.toDate()
+              createdAt: message.createdAt.toDate(),
             };
           })
           .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
@@ -174,12 +197,19 @@ export default function Chat({ navigation }) {
         setLoading(false);
       }
     });
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+    };
   }, []);
+
+  const removeEventListener = () => {
+    OneSignal.Notifications.removeEventListener('foregroundWillDisplay');
+  };
 
   useEffect(() => {
     const unsuscribe = navigation.addListener('focus', () => {
       setInChatWith(userName);
+      removeEventListener();
     });
 
     return () => {
@@ -189,33 +219,42 @@ export default function Chat({ navigation }) {
   }, []);
 
   const appendMessages = useCallback(
-    (messages) => {
-      setMessages((previousMessages) =>
-        GiftedChat.append(previousMessages, messages)
+    messages => {
+      setMessages(previousMessages =>
+        GiftedChat.append(previousMessages, messages),
       );
     },
-    [messages]
+    [messages],
   );
 
   async function onSend(messages = []) {
     const userB = {
       email: data?.email,
       fullname: `${data?.name} ${data?.lastname}`,
-      image: avatar
+      image: avatar,
     };
 
-    const writes = messages.map((m) => roomMessagesRef.add({ ...m, userB }));
+    const writes = messages.map(m => roomMessagesRef.add({...m, userB}));
     const lastMessage = messages[messages.length - 1];
 
     const roomMessage = {
-      lastMessage: { ...lastMessage, userB, unread: true }
+      lastMessage: {...lastMessage, userB, unread: true},
     };
 
     writes.push(roomRef.update(roomMessage));
     await Promise.all(writes);
+
+    const pushNotification = {
+      receiverID: data._id,
+      name: `${name} ${lastname}`,
+      message: lastMessage.text,
+      senderID: mongoID,
+    };
+
+    await callEndpoint(sendChatMessage(pushNotification));
   }
 
-  const handleViewImage = (props) => {
+  const handleViewImage = props => {
     setModalVisible(true);
     setSelectedViewImage(props.currentMessage.url);
   };
@@ -228,17 +267,17 @@ export default function Chat({ navigation }) {
     try {
       const firestoreMessages = await queryNextMessages.get();
       const nextMessages = [];
-      firestoreMessages.forEach((message) => {
+      firestoreMessages.forEach(message => {
         nextMessages.push({
           ...message.data(),
-          createdAt: message.data().createdAt.toDate()
+          createdAt: message.data().createdAt.toDate(),
         });
       });
       setLastVisibleMessage(
-        firestoreMessages.docs[firestoreMessages.docs.length - 1]
+        firestoreMessages.docs[firestoreMessages.docs.length - 1],
       );
-      setMessages((previousMessages) =>
-        GiftedChat.prepend(previousMessages, nextMessages)
+      setMessages(previousMessages =>
+        GiftedChat.prepend(previousMessages, nextMessages),
       );
     } catch (error) {
       console.log(error);
@@ -257,20 +296,20 @@ export default function Chat({ navigation }) {
       user: {
         name: `${name} ${lastname}`,
         _id: uid,
-        email
+        email,
       },
       userB: {
         email: data?.email,
         fullname: `${data?.name} ${data?.lastname}`,
-        image: avatar
+        image: avatar,
       },
       url: downloadUrl,
-      type
+      type,
     };
     const lastMessage = {
       ...message,
       text: fileName,
-      unread: true
+      unread: true,
     };
     const writes = [];
     writes.push(roomMessagesRef.add(message));
@@ -280,30 +319,29 @@ export default function Chat({ navigation }) {
   };
 
   const handleFile = async () => {
-    const { downloadUrl, fileName } = await handleFilePicker();
+    const {downloadUrl, fileName} = await handleFilePicker();
     const type = 'file';
     await handleUploadFile(downloadUrl, fileName, type);
   };
 
   const handleImage = async () => {
-    const { imageUrl, imageName } = await handleImagePicker();
+    const {imageUrl, imageName} = await handleImagePicker();
     const type = 'image';
     await handleUploadFile(imageUrl, imageName, type);
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{flex: 1}}>
       <Modal
         visible={modalVisible}
         onDismiss={() => setModalVisible(false)}
         onRequestClose={() => setModalVisible(false)}
-        on
-      >
+        on>
         <ImageViewer
           enableSwipeDown
           onSwipeDown={() => setModalVisible(false)}
-          imageUrls={[{ url: selectedViewImage }]}
-        ></ImageViewer>
+          imageUrls={[{url: selectedViewImage}]}
+        />
       </Modal>
       <ModalProgress
         isOpen={modalProgress}
@@ -317,12 +355,11 @@ export default function Chat({ navigation }) {
         progress={transferred}
         uploading={uploadingImage}
       />
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <ChatHeader />
         {loading ? (
           <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-          >
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <ActivityIndicator size={'large'} color={ChatColors.buttonBlue} />
             <Text>Cargando Chat</Text>
           </View>
@@ -335,21 +372,19 @@ export default function Chat({ navigation }) {
             loadEarlier
             onLoadEarlier={loadMoreMessages}
             bottomOffset={100}
-            renderActions={(props) => (
+            renderActions={props => (
               <>
                 <View style={tw.style('absolute right-12 bottom-12')}>
                   <FadeInOut visible={isMenuOpen} duration={200}>
                     <View style={tw.style('bg-white shadow-md px-2 pt-2')}>
                       <TouchableOpacity
                         style={tw.style('mb-2 py-2 px-2')}
-                        onPress={handleFile}
-                      >
+                        onPress={handleFile}>
                         <Text>Enviar Archivo</Text>
                       </TouchableOpacity>
                       <TouchableOpacity
                         style={tw.style('mb-2 py-2 px-2')}
-                        onPress={handleImage}
-                      >
+                        onPress={handleImage}>
                         <Text>Enviar Imagen</Text>
                       </TouchableOpacity>
                     </View>
@@ -371,19 +406,19 @@ export default function Chat({ navigation }) {
                 />
               </>
             )}
-            renderLoadEarlier={(props) => (
+            renderLoadEarlier={props => (
               <LoadEarlier
                 {...props}
                 wrapperStyle={{
-                  backgroundColor: ChatColors.buttonBlue
+                  backgroundColor: ChatColors.buttonBlue,
                 }}
-                textStyle={{ fontSize: 14 }}
+                textStyle={{fontSize: 14}}
                 label="Cargar mensajes anteriores"
               />
             )}
             timeTextStyle={chatStyles.Chat__messageTime}
-            renderSend={(props) => {
-              const { text, messageIdGenerator, user, onSend } = props;
+            renderSend={props => {
+              const {text, messageIdGenerator, user, onSend} = props;
               return (
                 <TouchableOpacity
                   style={styles.Chat__sendButton}
@@ -396,35 +431,34 @@ export default function Chat({ navigation }) {
                             avatar: photo,
                             name: `${name} ${lastname}`,
                             _id: uid,
-                            email
+                            email,
                           },
                           userB: {
                             email: data?.email,
                             fullname: `${data?.name} ${data?.lastname}`,
-                            image: avatar
+                            image: avatar,
                           },
-                          createdAt: firestore.Timestamp.now()
+                          createdAt: firestore.Timestamp.now(),
                         },
-                        true
+                        true,
                       );
                     }
-                  }}
-                >
+                  }}>
                   <IconFont name="send" color="white" size={16} />
                 </TouchableOpacity>
               );
             }}
-            renderInputToolbar={(props) => (
+            renderInputToolbar={props => (
               <InputToolbar {...props} containerStyle={styles.Chat__toolbar} />
             )}
-            renderBubble={(props) => {
-              const { currentMessage } = props;
+            renderBubble={props => {
+              const {currentMessage} = props;
               if (currentMessage.type === 'image') {
                 return (
                   <ImageMessage
                     onPress={() => handleViewImage(props)}
                     style={chatStyles.Chat__messages_image}
-                    source={{ uri: props.currentMessage.url }}
+                    source={{uri: props.currentMessage.url}}
                   />
                 );
               }
@@ -436,14 +470,14 @@ export default function Chat({ navigation }) {
                 />
               );
             }}
-            renderMessageImage={(props) => {
+            renderMessageImage={props => {
               return (
-                <View style={{ borderRadius: 15, padding: 2 }}>
+                <View style={{borderRadius: 15, padding: 2}}>
                   <TouchableOpacity onPress={() => handleViewImage(props)}>
                     <Image
                       resizeMode="contain"
                       style={chatStyles.Chat__messages_image}
-                      source={{ uri: props.currentMessage.image }}
+                      source={{uri: props.currentMessage.image}}
                     />
                   </TouchableOpacity>
                 </View>
@@ -458,13 +492,13 @@ export default function Chat({ navigation }) {
 
 const chatStyles = {
   Chat__messageTime: {
-    right: { color: ChatColors.lightBlueBk },
-    left: { color: ChatColors.grayText }
+    right: {color: ChatColors.lightBlueBk},
+    left: {color: ChatColors.grayText},
   },
 
   Chat__messages: {
-    right: { color: ChatColors.sendedMessageText },
-    left: { color: ChatColors.receivedMessageText }
+    right: {color: ChatColors.sendedMessageText},
+    left: {color: ChatColors.receivedMessageText},
   },
 
   Chat__messages_container: {
@@ -472,22 +506,22 @@ const chatStyles = {
       backgroundColor: ChatColors.receivedMessage,
       marginBottom: 4,
       marginLeft: 5,
-      marginRight: 20
+      marginRight: 20,
     },
     right: {
       backgroundColor: ChatColors.sendedMessage,
       marginBottom: 4,
       marginRight: 5,
-      marginLeft: 20
-    }
+      marginLeft: 20,
+    },
   },
   Chat__messages_image: {
     width: 200,
     height: 200,
     padding: 6,
     borderRadius: 15,
-    resizeMode: 'cover'
-  }
+    resizeMode: 'cover',
+  },
 };
 
 const styles = StyleSheet.create({
@@ -496,7 +530,7 @@ const styles = StyleSheet.create({
     right: 52,
     bottom: 2,
     zIndex: 9999,
-    width: 30
+    width: 30,
   },
   Chat__sendButton: {
     height: 40,
@@ -506,18 +540,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 5,
-    marginBottom: 3
+    marginBottom: 3,
   },
 
   Chat__sendButton_icon: {
     width: 24,
-    height: 24
+    height: 24,
   },
 
   Chat__toolbar: {
     marginHorizontal: 10,
     marginBottom: Platform.OS === 'ios' ? -20 : 10,
     borderRadius: 20,
-    paddingVertical: 5
-  }
+    paddingVertical: 5,
+  },
 });
