@@ -1,6 +1,6 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { View, Text } from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {View, Text} from 'react-native';
 import tw from 'twrnc';
 
 function Advice(props) {
@@ -9,9 +9,9 @@ function Advice(props) {
     future = true,
     nonWorking = true,
     blocked = true,
-    canceled = true
+    canceled = true,
   } = props;
-  const { t } = useTranslation('global');
+  const {t} = useTranslation('global');
   return (
     <View style={tw.style('mb-8')}>
       <View style={tw.style('')}>
@@ -60,7 +60,9 @@ function Advice(props) {
         )}
       </View>
       <View style={tw.style('shadow-md rounded-2xl px-4 py-4')}>
-        <Text>{t('pages.reschedule.components.advice.legend')}</Text>
+        <Text style={tw.style('text-[#60636A]')}>
+          {t('pages.reschedule.components.advice.legend')}
+        </Text>
       </View>
     </View>
   );

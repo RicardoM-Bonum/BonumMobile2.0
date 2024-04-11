@@ -112,11 +112,14 @@ function CustomDrawer(props) {
             />
 
             <View style={styles.footer}>
-              <Text style={{fontWeight: 'bold', fontSize: 12}}>
+              <Text style={{fontWeight: 'bold', fontSize: 12, color: 'black'}}>
                 App Version - V{version ? version : '0.0.0'}
               </Text>
               <TouchableOpacity onPress={logout}>
-                <Text>{t('pages.home.components.nextSession.signOff')}</Text>
+                <Text
+                  style={{fontWeight: 'bold', fontSize: 12, color: 'black'}}>
+                  {t('pages.home.components.nextSession.signOff')}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

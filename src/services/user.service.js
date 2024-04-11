@@ -1,19 +1,19 @@
 import axios from 'axios';
 import Config from 'react-native-config';
-import { loadAbort } from '../utilities';
+import {loadAbort} from '../utilities';
 
 const usersURL = `${Config.USERS_URL}/api`;
 
 console.log('Config', usersURL);
 
-export const getUser = (id) => {
+export const getUser = id => {
   const controller = loadAbort();
   return {
     call: () =>
       axios.get(`${usersURL}/userRol/${id}`, {
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
   };
 };
 
@@ -22,17 +22,19 @@ export const updateUserCalendar = (user, data) => {
   const calendar = data.data;
 
   let url = `${usersURL}/coachee`;
-  if (user.role === 'coach') url = `${usersURL}/coach`;
+  if (user.role === 'coach') {
+    url = `${usersURL}/coach`;
+  }
 
   return {
     call: () =>
       axios.put(
         `${url}/${user.mongoID}`,
-        { calendar },
+        {calendar},
         {
-          signal: controller.signal
-        }
-      )
+          signal: controller.signal,
+        },
+      ),
   };
 };
 
@@ -42,8 +44,8 @@ export const updateUserLanguagesAndTimezone = (user, role, data) => {
   return {
     call: () =>
       axios.put(`${usersURL}/${role}/languages/${user}`, data, {
-        signal: controller.signal
-      })
+        signal: controller.signal,
+      }),
   };
 };
 
@@ -53,9 +55,9 @@ export const updateCoachee = (id, data) => {
   return {
     call: () =>
       axios.put(`${usersURL}/coachee/noShow/${id}`, data, {
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
   };
 };
 
@@ -65,8 +67,20 @@ export const updateNoShowAcc = (id, data) => {
   return {
     call: () =>
       axios.put(`${usersURL}/coachee/noShowAcc/${id}`, data, {
-        signal: controller.signal
+        signal: controller.signal,
       }),
-    controller
+    controller,
+  };
+};
+
+export const sendChatMessage = data => {
+  const controller = loadAbort();
+
+  return {
+    call: () =>
+      axios.post(`${usersURL}/userRol/sendChatNotification`, data, {
+        signal: controller.signal,
+      }),
+    controller,
   };
 };
