@@ -51,7 +51,9 @@
       "myCoachees": "Mis Coachees",
       "myCalendar": "Mi Calendario",
       "mySessions": "Mis Sesiones",
-      "myCoach": "Mi Coach"
+      "myCoach": "Mi Coach",
+      "ActiveCoachees": "Mis coaches activos",
+      "UnactiveCoachees": "Mis coaches inactivos"
     }
   },
   "pages": {
@@ -362,7 +364,8 @@
           "cancel": "Cancelar",
           "theCoachee": "El coachee",
           "present": "se presentó a la reunión?",
-          "success": "La sesion se a cancelado con exito"
+          "success": "La sesion se a cancelado con exito",
+          "noShow": "No asistió"
         },
         "treatedSubject": {
           "title": "Puntos Tratados",
@@ -396,7 +399,7 @@
           "selected": "Fecha seleccionada",
           "noWorking": "Horario no laborable coach",
           "lastSession": "Ultima Sesión Agendada",
-          "legend": "Para agendar una sesión, esta tiene que ser al menos 10 días después de la ultima agendada."
+          "legend": "Para agendar una sesión, esta tiene que ser al menos 5 días después de la ultima agendada."
         },
         "availableSchedule": {
           "errorCoach": "Error obteniendo la disponibilidad del coach",
@@ -484,7 +487,8 @@
           "subtitle": "No hay sesión agendada",
           "schedule": "Agendar sesión",
           "alternateCall": "Llamada Alterna",
-          "signOff": "Cerrar Sesión"
+          "signOff": "Cerrar Sesión",
+          "minutesTolerance": "La llamada solo puede ser aceptada cuando falten 5 minutos o menos."
         },
         "buttons": {
           "myCoachees": "Coachees",
@@ -584,7 +588,9 @@
         "evaluateSession": "Evaluar Sesión",
         "signOff": "Cerrar Sesión",
         "Cancelled": "Cancelada",
-        "Scheduled": "Agendada"
+        "Scheduled": "Agendada",
+        "Active": "Activos",
+        "Unactive": "Inactivos"
       }
     }
   },

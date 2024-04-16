@@ -51,7 +51,9 @@
       "myCoachees": "Meus Coachees",
       "myCalendar": "Meu Calendario",
       "mySessions": "Meus Aessões",
-      "myCoach": "Meu Coach"
+      "myCoach": "Meu Coach",
+      "ActiveCoachees": "Meus coachees ativos",
+      "UnactiveCoachees": "Meus coachees inativos"
     }
   },
   "pages": {
@@ -362,7 +364,8 @@
           "cancel": "Cancelar",
           "theCoachee": "O coachee",
           "present": "apareceu na reunião?",
-          "sucess": "A sessão foi cancelada com sucesso"
+          "sucess": "A sessão foi cancelada com sucesso",
+          "noShow": "Não compareceu"
         },
         "treatedSubject": {
           "title": "Assuntos tratados",
@@ -396,7 +399,7 @@
           "selected": "Data selecionada",
           "noWorking": "Treinador fora do horário de trabalho",
           "lastSession": "Última sessão agendada",
-          "legend": "Para agendar uma consulta, ela deve ser no mínimo 10 dias após a última agendada"
+          "legend": "Para agendar uma consulta, ela deve ser no mínimo 5 dias após a última agendada"
         },
         "availableSchedule": {
           "errorCoach": "Erro ao obter a disponibilidade do treinador",
@@ -418,7 +421,7 @@
     },
     "sessionEvaluation": {
       "thanks": "Obrigada! {{ name }}",
-      "title": "Y entonces",
+      "title": "E então",
       "subtitle": "Como foi?",
       "placeholder": "Alguma sugestão para o seu {{ type }} ?",
       "button": "Mandar",
@@ -484,7 +487,8 @@
           "subtitle": "Não há sessão agendada",
           "schedule": "Agendar sessão",
           "alternateCall": "Chamada alternativa",
-          "signOff": "Fechar Sessão"
+          "signOff": "Fechar Sessão",
+          "minutesTolerance": "A chamada só pode ser aceite quando faltarem 5 minutos ou menos."
         },
         "buttons": {
           "myCoachees": "Meus Coachees",
@@ -584,7 +588,9 @@
         "evaluateSession": "Avaliar sessão",
         "signOff": "Fechar Sessão",
         "Cancelled": "Cancelado",
-        "Scheduled": "Agendada"
+        "Scheduled": "Agendada",
+        "Active": "Ativos",
+        "Unactive": "Inativos"
       }
     }
   },

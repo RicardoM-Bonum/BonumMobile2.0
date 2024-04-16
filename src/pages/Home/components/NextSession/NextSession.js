@@ -308,6 +308,25 @@ export default function NextSession({user, navigation}) {
     }
   };
 
+  const minutesTolerance = () => {
+    const currentTime = new Date();
+    const sessionTime = new Date(nextSession?.date);
+    const timeDifference = sessionTime.getTime() - currentTime.getTime();
+    const minutesDifference = Math.ceil(timeDifference / (1000 * 60));
+
+    if (minutesDifference <= 5) {
+      // Si faltan 5 minutos o menos, se cumple la tolerancia
+      return true;
+    }
+
+    // Si faltan más de 5 minutos, no se cumple la tolerancia
+    displayToast(
+      t('pages.home.components.nextSession.minutesTolerance'),
+      'info',
+    );
+    return false;
+  };
+
   const getToken = async session => {
     try {
       const userData = {
@@ -333,6 +352,13 @@ export default function NextSession({user, navigation}) {
 
   const AcceptCallMethod = async () => {
     try {
+      // Verificar la tolerancia de minutos antes de continuar
+      const isWithinTolerance = minutesTolerance();
+      if (!isWithinTolerance) {
+        // Si no se cumple la tolerancia, salir de la función
+        return;
+      }
+
       dispatch(resetSession());
       if (user && nextSession) {
         const token = await getToken(nextSession);

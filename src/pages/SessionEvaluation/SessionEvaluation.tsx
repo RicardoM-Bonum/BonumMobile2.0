@@ -150,9 +150,11 @@ export default function SessionEvaluation({navigation}) {
     navigation.navigate('Home');
   };
 
-  if (loading) return <Loading title={'LOADING...'} />;
+  if (loading) {
+    return <Loading title={'LOADING...'} />;
+  }
 
-  if (coacheeModal)
+  if (isCoach && coacheeModal) {
     return (
       <View>
         <CoacheeAssistModal
@@ -162,6 +164,7 @@ export default function SessionEvaluation({navigation}) {
         />
       </View>
     );
+  }
   return (
     <ScrollView>
       <View style={tw.style('bg-[#E4EFF8e8] px-8 py-8 min-h-full')}>
