@@ -51,7 +51,9 @@
       "myCoachees": "My Coachees",
       "myCalendar": "My Calendar",
       "mySessions": "My Sessions",
-      "myCoach": "My Coach"
+      "myCoach": "My Coach",
+      "ActiveCoachees": "My active coaches",
+      "UnactiveCoachees": "My unactive coaches"
     }
   },
   "pages": {
@@ -362,7 +364,8 @@
           "cancel": "Cancel",
           "theCoachee": "Did",
           "present": "show up at the meeting?",
-          "sucess": "The session has been canceled successfully"
+          "sucess": "The session has been canceled successfully",
+          "noShow": "No Show"
         },
         "treatedSubject": {
           "title": "Treated Subjects",
@@ -396,7 +399,7 @@
           "selected": "Selected date",
           "noWorking": "Coach non-working hours",
           "lastSession": "Last Scheduled Session",
-          "legend": "To schedule an appointment, it must be at least 10 days after the last scheduled"
+          "legend": "To schedule an appointment, it must be at least 5 days after the last scheduled"
         },
         "availableSchedule": {
           "errorCoach": "Error getting coach availability",
@@ -484,7 +487,8 @@
           "subtitle": "There is no scheduled session",
           "schedule": "Schedule session",
           "alternateCall": "Alternate Call",
-          "signOff": "Sign off"
+          "signOff": "Sign off",
+          "minutesTolerance": "The call can only be accepted with 5 minutes or less remaining."
         },
         "buttons": {
           "myCoachees": "My Coachees",
@@ -584,7 +588,9 @@
         "evaluateSession": "Evaluate Session",
         "signOff": "Sign off",
         "Cancelled": "Cancelled",
-        "Scheduled": "'Scheduled'"
+        "Scheduled": "'Scheduled'",
+        "Active": "Active",
+        "Unactive": "Unactive"
       }
     }
   },
