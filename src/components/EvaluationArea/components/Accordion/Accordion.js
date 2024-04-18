@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import tw from 'twrnc';
-import { useFetchAndLoad } from '../../../../hooks';
-import { translateText } from '../../../../services/coach.service';
+import {useFetchAndLoad} from '../../../../hooks';
+import {translateText} from '../../../../services/coach.service';
 import NoData from '../../../NoData/NoData';
 
-function Accordion({ content = 'content', focusArea }) {
-  const { loading, callEndpoint } = useFetchAndLoad();
+function Accordion({content = 'content', focusArea}) {
+  const {loading, callEndpoint} = useFetchAndLoad();
 
-  const { t, i18n } = useTranslation('global');
+  const {t, i18n} = useTranslation('global');
+  const [translatedText, setTranslatedText] = useState('');
 
   const {
     image,
@@ -19,7 +20,7 @@ function Accordion({ content = 'content', focusArea }) {
     totalInitialAnswers,
     questions,
     totalFinalEvaluation,
-    totalFinalAnswers
+    totalFinalAnswers,
   } = focusArea;
 
   const [expanded, setExpanded] = useState(false);
@@ -33,13 +34,13 @@ function Accordion({ content = 'content', focusArea }) {
 
   const [translatedTopicTitles, setTranslatedTopicTitles] = useState([]);
 
-  const translate = async (text) => {
+  const translate = async text => {
     try {
-      const { data } = await callEndpoint(
+      const {data} = await callEndpoint(
         translateText({
           targetLanguage: i18n.language,
-          text: text
-        })
+          text: text,
+        }),
       );
 
       return data.data;
@@ -53,10 +54,10 @@ function Accordion({ content = 'content', focusArea }) {
     // Traduce los títulos de los temas (topic.title)
     const translateTopicTitles = async () => {
       const translatedTitles = await Promise.all(
-        focusArea.questions.map(async (topic) => {
+        focusArea.questions.map(async topic => {
           const translatedTitle = await translate(topic.title);
           return translatedTitle;
-        })
+        }),
       );
       setTranslatedTopicTitles(translatedTitles);
     };
@@ -64,12 +65,32 @@ function Accordion({ content = 'content', focusArea }) {
     translateTopicTitles();
   }, [focusArea, i18n.language]);
 
+  useEffect(() => {
+    const fetchTranslation = async () => {
+      try {
+        const {data} = await callEndpoint(
+          translateText({
+            targetLanguage: i18n.language,
+            text: focusArea.focusArea,
+          }),
+        );
+        setTranslatedText(data.data);
+      } catch (error) {
+        console.error('Error translating text:', error);
+        setTranslatedText('');
+      }
+    };
+
+    if (focusArea.focusArea) {
+      fetchTranslation();
+    }
+  }, [focusArea.focusArea, i18n.language, callEndpoint]);
+
   return (
     <View style={tw.style('shadow-md bg-[#f8f8f8] mb-4 rounded-2xl px-2 py-4')}>
       <TouchableOpacity
         onPress={toggleExpand}
-        style={tw.style('flex-row justify-between items-center')}
-      >
+        style={tw.style('flex-row justify-between items-center')}>
         <View style={tw.style('flex-row items-center')}>
           {expanded ? (
             <Icon name="up" size={16} color="#299eff" />
@@ -78,29 +99,12 @@ function Accordion({ content = 'content', focusArea }) {
           )}
           <Image
             source={{
-              uri: image
+              uri: image,
             }}
             style={tw.style('w-9 h-8 mx-2')}
           />
           <Text style={tw.style('text-[#9a9a9a] w-[50%]')}>
-            {title === 'Mejora continua'
-              ? t('pages.onboarding.focusAreas.continuousImprovement')
-              : ''}
-            {title === 'Pensamiento estratégico'
-              ? t('pages.onboarding.focusAreas.strategicThinking')
-              : ''}
-            {title === 'Resolución de problemas'
-              ? t('pages.onboarding.focusAreas.problemResolution')
-              : ''}
-            {title === 'Manejo de emociones'
-              ? t('pages.onboarding.focusAreas.managementOfEmotions')
-              : ''}
-            {title === 'Trabajo en equipo'
-              ? t('pages.onboarding.focusAreas.teamwork')
-              : ''}
-            {title === 'Comunicación'
-              ? t('pages.onboarding.focusAreas.communication')
-              : ''}
+            {translatedText}
           </Text>
         </View>
         <View style={tw.style('flex-row justify-between')}>
@@ -132,8 +136,7 @@ function Accordion({ content = 'content', focusArea }) {
               return (
                 <View
                   key={`question-${index}`}
-                  style={tw.style('flex-row justify-between w-full my-2')}
-                >
+                  style={tw.style('flex-row justify-between w-full my-2')}>
                   <Text style={tw.style('w-[70%] text-[#9a9a9a]')}>
                     {translatedTopicTitles[index] || topic.title}
                   </Text>

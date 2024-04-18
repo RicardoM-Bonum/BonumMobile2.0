@@ -427,6 +427,16 @@
       "button": "Enviar",
       "close": "Cerrar",
       "warningModal": "Por favor llena todos los campos",
+      "coach": {
+        "rateCoachingSession": "Califica tu sesión de coaching",
+        "rateCoachee": "Califica el compromiso de tu coachee",
+        "callQuality": "¿Cómo estuvo la calidad de la llamada?"
+      },
+      "coachee": {
+        "rateCoachingSession": "Califica tu sesión de coaching",
+        "rateCoach": "Califica a tu coach",
+        "callQuality": "¿Cómo estuvo la calidad de la llamada?"
+      },
       "finalModal": {
         "asignLater": "Asignar después",
         "scheduleLater": "Prefiero agendar después",
@@ -590,7 +600,10 @@
         "Cancelled": "Cancelada",
         "Scheduled": "Agendada",
         "Active": "Activos",
-        "Unactive": "Inactivos"
+        "Unactive": "Inactivos",
+        "initialAlignment": "de alineacion Inicial",
+        "finalAlignment": "de alineacion final",
+        "noShow": "No asistió"
       }
     }
   },

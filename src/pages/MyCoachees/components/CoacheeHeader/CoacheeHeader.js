@@ -67,7 +67,7 @@ function CoacheeHeader({coachee}) {
             <FocusAreaItem focusArea={focusArea} key={`focus-${index}`} />
           ))
         ) : (
-          <Text></Text>
+          <Text />
         )}
         <></>
       </View>

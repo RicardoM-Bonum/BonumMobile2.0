@@ -1,33 +1,35 @@
-import React, { useState } from 'react';
-import { TextInput, Text, View, TouchableOpacity, Image } from 'react-native';
+import React, {useState} from 'react';
+import {TextInput, Text, View, TouchableOpacity, Image} from 'react-native';
 import tw from 'twrnc';
-import { Platform } from 'react-native';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import {Platform} from 'react-native';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Video from 'react-native-video';
-import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import {useSelector, useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 import storage from '@react-native-firebase/storage';
 
-import { setVideo } from '../../../../redux/slices/onboarding';
+import {setVideo} from '../../../../redux/slices/onboarding';
 
 import 'react-native-gesture-handler';
-import { PrimaryButton } from '../../../../components/Buttons';
+import {PrimaryButton} from '../../../../components/Buttons';
 const IMAGE_DEFAULT = 'https://i.imgur.com/7brjkMo.png';
 const VIDEO_DEFAULT = '';
 
-export default function VideoIntro({ nextStep, prevStep }) {
-  const video = useSelector((state) => state.onboarding.video);
-  const userid = useSelector((state) => state.user.uid);
+export default function VideoIntro({nextStep, prevStep}) {
+  const video = useSelector(state => state.onboarding.video);
+  const userid = useSelector(state => state.user.uid);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const dispatch = useDispatch();
-  const { t } = useTranslation('global');
+  const {t} = useTranslation('global');
   const videoRef = storage().ref(`profileVideos/${userid}/profileVideo.mp4`);
 
   const errorUpload = t('pages.onboarding.components.uploadVideo.errorUpload');
 
-  const onErrorUpload = (error) => {
-    if (error.code !== 'storage/canceled') alert(errorUpload);
+  const onErrorUpload = error => {
+    if (error.code !== 'storage/canceled') {
+      alert(errorUpload);
+    }
   };
 
   const onSuccessfullLoad = async () => {
@@ -35,13 +37,13 @@ export default function VideoIntro({ nextStep, prevStep }) {
     dispatch(setVideo(downloadUrl));
   };
 
-  const uploadVideo = async (uri) => {
+  const uploadVideo = async uri => {
     const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
     const task = videoRef.putFile(uploadUri);
 
     task.on(
       'state_changed',
-      (snapshot) => {
+      snapshot => {
         setLoading(true);
         const progressTemp =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -53,7 +55,7 @@ export default function VideoIntro({ nextStep, prevStep }) {
         }
       },
       onErrorUpload,
-      onSuccessfullLoad
+      onSuccessfullLoad,
     );
     task.then(() => {
       console.log('Image uploaded to the bucket!');
@@ -71,13 +73,13 @@ export default function VideoIntro({ nextStep, prevStep }) {
       mediaType: 'video',
       storageOptions: {
         skipBackup: true,
-        path: 'videos'
+        path: 'videos',
       },
-      includeBase64: true
+      includeBase64: true,
     };
 
-    launchCamera(options, (response) => {
-      console.log({ response });
+    launchCamera(options, response => {
+      console.log({response});
       if (response.errorCode) {
         console.log(response.errorMessage);
       } else if (response.didCancel) {
@@ -95,12 +97,12 @@ export default function VideoIntro({ nextStep, prevStep }) {
       mediaType: 'video',
       storageOptions: {
         skipBackup: true,
-        path: 'videos'
+        path: 'videos',
       },
-      includeBase64: true
+      includeBase64: true,
     };
 
-    launchImageLibrary(options, (response) => {
+    launchImageLibrary(options, response => {
       if (response.errorCode) {
         console.log(response.errorMessage);
       } else if (response.didCancel) {
@@ -129,11 +131,11 @@ export default function VideoIntro({ nextStep, prevStep }) {
   if (video) {
     comp = (
       <Video
-        source={{ uri: video }}
+        source={{uri: video}}
         style={{
           alignSelf: 'center',
           height: 300,
-          width: 300
+          width: 300,
         }}
         controls={true}
         resizeMode={'contain'}
@@ -150,11 +152,11 @@ export default function VideoIntro({ nextStep, prevStep }) {
     comp = (
       <TouchableOpacity onPress={takeVideo} style={tw.style('mt-5')}>
         <Image
-          source={{ uri: IMAGE_DEFAULT }}
+          source={{uri: IMAGE_DEFAULT}}
           style={{
             alignSelf: 'center',
             height: 200,
-            width: 200
+            width: 200,
           }}
         />
       </TouchableOpacity>
@@ -164,8 +166,9 @@ export default function VideoIntro({ nextStep, prevStep }) {
   return (
     <>
       <View
-        style={tw.style('flex mt-10 justify-center bg-[#E4EFF8] px-6 relative')}
-      >
+        style={tw.style(
+          'flex mt-10 justify-center bg-[#E4EFF8] px-6 relative',
+        )}>
         <Text style={tw.style('text-black text-center text-xl font-bold')}>
           Compártenos un video de presentación
         </Text>

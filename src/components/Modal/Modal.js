@@ -17,16 +17,14 @@ export default function Modal({isVisible, setVisible, children}) {
 
 const styles = StyleSheet.create({
   overlay: {
-    width: '80%',
-    height: '60%',
+    alignSelf: 'auto',
     borderRadius: 20,
     shadowRadius: 20,
     borderColor: false,
   },
   modalContainer: {
-    flex: 1,
-    justifyContent: 'center', // Centrar verticalmente
-    alignItems: 'center', // Centrar horizontalmente
+    justifyContent: 'center',
+    alignItems: 'center',
     overflow: 'hidden',
   },
 });
