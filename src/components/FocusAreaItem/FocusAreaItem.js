@@ -1,36 +1,43 @@
-import { View, Text } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {View, Text} from 'react-native';
 import tw from 'twrnc';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
+import {translateText} from '../../services/coach.service';
+import {useFetchAndLoad} from '../../hooks';
 
-export default function FocusAreaItem({ focusArea }) {
-  const { t } = useTranslation('global');
+export default function FocusAreaItem({focusArea}) {
+  const {t, i18n} = useTranslation('global');
+  const {loading, callEndpoint} = useFetchAndLoad();
+  const [translatedText, setTranslatedText] = useState('');
+
+  const fetchTranslation = async () => {
+    try {
+      const {data} = await callEndpoint(
+        translateText({
+          targetLanguage: i18n.language,
+          text: focusArea.focusArea,
+        }),
+      );
+      setTranslatedText(data.data);
+    } catch (error) {
+      console.error('Error translating text:', error);
+      setTranslatedText('');
+    }
+  };
+
+  useEffect(() => {
+    if (focusArea.focusArea) {
+      fetchTranslation();
+    }
+  }, [focusArea.focusArea, i18n.language]);
 
   return (
     <View
       style={tw.style(
-        'mr-2 mb-2 py-3 px-3 shadow-md bg-[#299eff66] rounded-full'
-      )}
-    >
+        'mr-2 mb-2 py-3 px-3 shadow-md bg-[#299eff66] rounded-full',
+      )}>
       <Text style={tw.style('text-[.6rem] text-gray-800 font-semibold w-auto')}>
-        {focusArea.focusArea === 'Mejora continua'
-          ? t('pages.onboarding.focusAreas.continuousImprovement')
-          : ''}
-        {focusArea.focusArea === 'Pensamiento estratégico'
-          ? t('pages.onboarding.focusAreas.strategicThinking')
-          : ''}
-        {focusArea.focusArea === 'Resolución de problemas'
-          ? t('pages.onboarding.focusAreas.problemResolution')
-          : ''}
-        {focusArea.focusArea === 'Manejo de emociones'
-          ? t('pages.onboarding.focusAreas.managementOfEmotions')
-          : ''}
-        {focusArea.focusArea === 'Trabajo en equipo'
-          ? t('pages.onboarding.focusAreas.teamwork')
-          : ''}
-        {focusArea.focusArea === 'Comunicación'
-          ? t('pages.onboarding.focusAreas.communication')
-          : ''}
+        {translatedText}
       </Text>
     </View>
   );

@@ -3,6 +3,7 @@ import React from 'react';
 import tw from 'twrnc';
 import {useSelector} from 'react-redux';
 import FocusAreaItem from '../../../../components/FocusAreaItem';
+import {useFetchAndLoad} from '../../../../hooks';
 
 export default function Coachinfo({withSessions}) {
   const {coach, sessions, cohort, additionalSessions} = useSelector(
@@ -10,6 +11,8 @@ export default function Coachinfo({withSessions}) {
   );
 
   let completedSessions = sessions.filter(session => session.status === true);
+
+  const {callEndpoint, loading} = useFetchAndLoad();
 
   return (
     <View>
@@ -33,7 +36,11 @@ export default function Coachinfo({withSessions}) {
                 Array.isArray(coach.focusAreas) &&
                 coach.focusAreas.length > 1 &&
                 coach.focusAreas.map(area => (
-                  <FocusAreaItem focusArea={area} key={area._id} />
+                  <FocusAreaItem
+                    focusArea={area}
+                    key={area._id}
+                    callEndpoint={callEndpoint}
+                  />
                 ))}
             </View>
           </View>

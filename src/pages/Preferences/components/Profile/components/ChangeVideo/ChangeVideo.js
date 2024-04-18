@@ -4,66 +4,72 @@ import {
   Platform,
   TouchableOpacity,
   Image,
-  Modal
+  Modal,
+  Alert,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import React, {useCallback, useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 import displayToast from '../../../../../../utilities/toast.utility';
 import storage from '@react-native-firebase/storage';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import tw from 'twrnc';
-import { PrimaryButton } from '../../../../../../components/Buttons';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { useFetchAndLoad, useUserUtilities } from '../../../../../../hooks';
-import { updateCoach } from '../../../../../../services/coach.service';
-import { setVideo } from '../../../../../../redux/slices/onboarding';
+import {PrimaryButton} from '../../../../../../components/Buttons';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {useFetchAndLoad, useUserUtilities} from '../../../../../../hooks';
+import {updateCoach} from '../../../../../../services/coach.service';
+import {setVideo} from '../../../../../../redux/slices/onboarding';
 import Video from 'react-native-video';
 import Loading from '../../../../../../components/Loading';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import YoutubePlayer from 'react-native-youtube-iframe';
 
 const IMAGE_DEFAULT = 'https://i.imgur.com/0jrir4N.png';
 
-export default function ChangeVideo({ isOpen, onClose }) {
+export default function ChangeVideo({isOpen, onClose, newVideo, setNewVideo}) {
   const [videoLoading, setVideoLoading] = useState(false);
-  const user = useSelector((state) => state.user);
-  const userid = useSelector((state) => state.user.uid);
+  const user = useSelector(state => state.user);
+  const userid = useSelector(state => state.user.uid);
   const [uploading, setUploading] = useState(false);
+
   const [progress, setProgress] = useState(0);
   const navigation = useNavigation();
 
-  const { loading, callEndpoint } = useFetchAndLoad();
-  const { refreshUser } = useUserUtilities();
+  const {loading, callEndpoint} = useFetchAndLoad();
+  const {refreshUser} = useUserUtilities();
 
   const videoRef = storage().ref(`profileVideos/${userid}/profileVideo.mp4`);
-  const { t } = useTranslation('global');
+  const {t} = useTranslation('global');
 
   const dispatch = useDispatch();
   const errorUpload = t('pages.onboarding.components.uploadVideo.errorUpload');
 
-  const onErrorUpload = (error) => {
-    if (error.code !== 'storage/canceled') displayToast(errorUpload, 'error');
+  const onErrorUpload = error => {
+    if (error.code !== 'storage/canceled') {
+      displayToast(errorUpload, 'error');
+    }
   };
 
   const onSuccessfullLoad = async () => {
     const downloadUrl = await videoRef.getDownloadURL();
     dispatch(setVideo(downloadUrl));
+    setNewVideo(downloadUrl);
     const userUpdated = {
       urlVideoCoach: downloadUrl,
-      id: user.mongoID
+      id: user.mongoID,
     };
     await callEndpoint(updateCoach(userUpdated));
     // await auth().currentUser.updateProfile({ photoURL: downloadUrl,  });
   };
 
-  const uploadVideo = async (uri) => {
+  const uploadVideo = async uri => {
     const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
     setUploading(true);
     const task = videoRef.putFile(uploadUri);
     // set progress state
     task.on(
       'state_changed',
-      (snapshot) => {
+      snapshot => {
         setUploading(true);
         const progressTemp =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -75,7 +81,7 @@ export default function ChangeVideo({ isOpen, onClose }) {
         }
       },
       onErrorUpload,
-      onSuccessfullLoad
+      onSuccessfullLoad,
     );
     try {
       await task;
@@ -94,11 +100,11 @@ export default function ChangeVideo({ isOpen, onClose }) {
         mediaType: 'video',
         storageOptions: {
           skipBackup: true,
-          path: 'videos'
+          path: 'videos',
         },
-        includeBase64: true
+        includeBase64: true,
       },
-      (response) => {
+      response => {
         if (response.errorCode) {
           console.log(response.errorMessage);
         } else if (response.didCancel) {
@@ -107,7 +113,7 @@ export default function ChangeVideo({ isOpen, onClose }) {
           const uri = response.assets[0].uri;
           setVideoState(uri);
         }
-      }
+      },
     );
   };
 
@@ -117,11 +123,11 @@ export default function ChangeVideo({ isOpen, onClose }) {
         mediaType: 'video',
         title: 'Seleccionar un video',
         storageOptions: {
-          skipBackup: true
+          skipBackup: true,
         },
-        includeBase64: true
+        includeBase64: true,
       },
-      (response) => {
+      response => {
         if (response.errorCode) {
           console.log(response.errorMessage);
         } else if (response.didCancel) {
@@ -131,8 +137,33 @@ export default function ChangeVideo({ isOpen, onClose }) {
           setVideoState(uri);
           uploadVideo(uri);
         }
-      }
+      },
     );
+  };
+
+  const [playing, setPlaying] = useState(false);
+
+  const onStateChange = useCallback(state => {
+    if (state === 'ended') {
+      setPlaying(false);
+      Alert.alert('video has finished playing!');
+    }
+  }, []);
+
+  const togglePlaying = useCallback(() => {
+    setPlaying(prev => !prev);
+  }, []);
+
+  const extractVideoIdFromUrl = url => {
+    // Expresión regular para extraer el ID del video de una URL de YouTube
+    const regex = /[?&]v=([^&#]*)/;
+    const match = url.match(regex);
+    if (match && match[1]) {
+      return match[1];
+    } else {
+      // Si la URL no coincide con el formato esperado, puedes manejar el caso aquí
+      return null;
+    }
   };
 
   const handleSubmit = async () => {
@@ -158,14 +189,12 @@ export default function ChangeVideo({ isOpen, onClose }) {
         animationType="slide"
         transparent={true}
         visible={isOpen}
-        style={tw.style('justify-center items-center')}
-      >
+        style={tw.style('justify-center items-center')}>
         <View style={tw.style('flex-1 justify-center bg-[#000000af] ')}>
           <View
             style={tw.style(
-              'px-6 py-8 m-6 bg-white justify-center shadow-md rounded-3xl'
-            )}
-          >
+              'px-6 py-8 m-6 bg-white justify-center shadow-md rounded-3xl',
+            )}>
             <Text style={tw.style('text-[#707070] text-center text-sm')}>
               Por favor presiona en el icono para tomar tu video. Este video
               será parte de tu perfil público.
@@ -178,9 +207,8 @@ export default function ChangeVideo({ isOpen, onClose }) {
                   fill={progress}
                   tintColor="#00e0ff"
                   onAnimationComplete={() => console.log('onAnimationComplete')}
-                  backgroundColor="#3d5875"
-                >
-                  {(fill) => (
+                  backgroundColor="#3d5875">
+                  {fill => (
                     <Text style="px-6 py-6">
                       Subiendo video: {progress.toFixed(2)}%
                     </Text>
@@ -191,23 +219,59 @@ export default function ChangeVideo({ isOpen, onClose }) {
               <TouchableOpacity onPress={takeVideo} style={tw.style('mt-5')}>
                 {user?.video !== 'pending' ? (
                   <>
-                    <Video
-                      source={{
-                        uri: image !== IMAGE_DEFAULT ? image : user.video
-                      }}
-                      paused={false}
-                      controls={false}
-                      resizeMode={'contain'}
-                      nVideoBuffer={() => setVideoLoading(false)}
-                      onLoadStart={() => setVideoLoading(true)}
-                      onVideoLoad={() => setVideoLoading(false)}
-                      onLoad={() => setVideoLoading(false)}
-                      style={tw.style(
-                        `${
-                          videoLoading && 'hidden'
-                        } w-full h-50 mt-6 rounded-3xl bg-[#b3b8bc]`
-                      )}
-                    />
+                    {newVideo &&
+                    newVideo.startsWith(
+                      'https://firebasestorage.googleapis.com',
+                    ) ? (
+                      <Video
+                        source={{
+                          uri: image !== IMAGE_DEFAULT ? image : newVideo,
+                        }}
+                        paused={false}
+                        controls={false}
+                        resizeMode={'contain'}
+                        nVideoBuffer={() => setVideoLoading(false)}
+                        onLoadStart={() => setVideoLoading(true)}
+                        onVideoLoad={() => setVideoLoading(false)}
+                        onLoad={() => setVideoLoading(false)}
+                        style={tw.style(
+                          `${
+                            videoLoading && 'hidden'
+                          } w-full h-50 mt-6 rounded-3xl bg-[#b3b8bc]`,
+                        )}
+                      />
+                    ) : user.video.startsWith(
+                        'https://firebasestorage.googleapis.com',
+                      ) ? (
+                      <Video
+                        source={{
+                          uri: image !== IMAGE_DEFAULT ? image : user.video,
+                        }}
+                        paused={false}
+                        controls={false}
+                        resizeMode={'contain'}
+                        nVideoBuffer={() => setVideoLoading(false)}
+                        onLoadStart={() => setVideoLoading(true)}
+                        onVideoLoad={() => setVideoLoading(false)}
+                        onLoad={() => setVideoLoading(false)}
+                        style={tw.style(
+                          `${
+                            videoLoading && 'hidden'
+                          } w-full h-50 mt-6 rounded-3xl bg-[#b3b8bc]`,
+                        )}
+                      />
+                    ) : (
+                      <View style={tw.style('mt-8 text-base ml-2')}>
+                        <YoutubePlayer
+                          height={300}
+                          play={playing}
+                          videoId={extractVideoIdFromUrl(user?.video)}
+                          onChangeState={onStateChange}
+                          webViewStyle={{opacity: 0.99}}
+                        />
+                      </View>
+                    )}
+
                     {videoLoading && (
                       <View style={tw.style('my-6')}>
                         <Loading title="Video esta cargando" isFull={false} />
@@ -220,7 +284,7 @@ export default function ChangeVideo({ isOpen, onClose }) {
                     style={{
                       alignSelf: 'center',
                       height: 200,
-                      width: 200
+                      width: 200,
                     }}
                   />
                 )}
@@ -228,8 +292,9 @@ export default function ChangeVideo({ isOpen, onClose }) {
             )}
             <TouchableOpacity onPress={selectImage} style={tw.style('mt-3')}>
               <Text
-                style={tw.style('text-[#707070] text-center text-lg underline')}
-              >
+                style={tw.style(
+                  'text-[#707070] text-center text-lg underline',
+                )}>
                 O selecciona un video de tu galería
               </Text>
             </TouchableOpacity>

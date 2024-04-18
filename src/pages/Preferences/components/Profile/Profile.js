@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState, useCallback} from 'react';
 import tw from 'twrnc';
@@ -14,6 +15,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import {useDispatch, useSelector} from 'react-redux';
 import {Input} from '@rneui/themed';
 import {PrimaryButton} from '../../../../components/Buttons';
+import Video from 'react-native-video';
 import {Formik, useFormik} from 'formik';
 import {updateCoach} from '../../../../services/coach.service';
 import displayToast from '../../../../utilities/toast.utility';
@@ -33,17 +35,14 @@ export default function Profile({navigation}) {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenVideo, setIsOpenVideo] = useState(false);
   const [videoLoading, setVideoLoading] = useState(false);
+  const [newVideo, setNewVideo] = useState(null);
   const {name, lastname, photo, video, role, email, phone, address} = user;
   const dispatch = useDispatch();
   const isCoach = role === 'coach';
 
   const {t} = useTranslation('global');
 
-  useEffect(() => {
-    if (user.video !== 'pending') {
-      setVideoLoading(false);
-    }
-  }, [video, photo, user]);
+  useEffect(() => {}, [video, photo, user]);
 
   const initialValuesCoach = {
     emailpaypal: user.emailpaypal || '',
@@ -75,8 +74,11 @@ export default function Profile({navigation}) {
           ...formValues,
           id: user.mongoID,
         };
-        if (isCoach) await callEndpoint(updateCoach(userUpdated));
-        else await callEndpoint(updateCoachee(userUpdated));
+        if (isCoach) {
+          await callEndpoint(updateCoach(userUpdated));
+        } else {
+          await callEndpoint(updateCoachee(userUpdated));
+        }
         dispatch(modifyUser(formValues));
         displayToast('Datos cambiados con éxito', 'success');
         navigation.navigate('Profile');
@@ -116,7 +118,12 @@ export default function Profile({navigation}) {
       <ScrollView style={tw.style('bg-[#E4EFF8e8] px-5 px-6')}>
         <View style={tw.style('my-10')}>
           <ChangeImage isOpen={isOpen} onClose={setIsOpen} />
-          <ChangeVideo isOpen={isOpenVideo} onClose={setIsOpenVideo} />
+          <ChangeVideo
+            isOpen={isOpenVideo}
+            onClose={setIsOpenVideo}
+            newVideo={newVideo}
+            setNewVideo={setNewVideo}
+          />
 
           <Formik>
             <>
@@ -263,24 +270,66 @@ export default function Profile({navigation}) {
               )}
 
               {isCoach && (
-                <View>
+                <View style={tw.style('mb-4')}>
                   {user.video !== 'pending' ? (
                     <>
-                      <View style={tw.style('mt-8 text-base ml-2')}>
-                        <YoutubePlayer
-                          height={300}
-                          play={playing}
-                          videoId={extractVideoIdFromUrl(user?.video)}
-                          onChangeState={onStateChange}
-                          webViewStyle={{opacity: 0.99}}
+                      {newVideo &&
+                      newVideo.startsWith(
+                        'https://firebasestorage.googleapis.com',
+                      ) ? (
+                        <Video
+                          source={{uri: newVideo}}
+                          paused={true}
+                          controls={true}
+                          resizeMode={'contain'}
+                          nVideoBuffer={() => setVideoLoading(false)}
+                          onLoadStart={() => setVideoLoading(true)}
+                          onVideoLoad={() => setVideoLoading(false)}
+                          onLoad={() => setVideoLoading(false)}
+                          onPictureInPictureStatusChanged={isActive =>
+                            console.log(isActive)
+                          }
+                          style={tw.style(
+                            `${
+                              videoLoading && 'hidden'
+                            } w-full h-50 mt-6 rounded-3xl bg-[#b3b8bc]`,
+                          )}
                         />
-                        {/* <Button
-                          title={playing ? 'pause' : 'play'}
-                          onPress={togglePlaying}
-                        /> */}
-                      </View>
+                      ) : user.video.startsWith(
+                          'https://firebasestorage.googleapis.com',
+                        ) ? (
+                        <Video
+                          source={{uri: user.video}}
+                          paused={true}
+                          controls={true}
+                          resizeMode={'contain'}
+                          nVideoBuffer={() => setVideoLoading(false)}
+                          onLoadStart={() => setVideoLoading(true)}
+                          onVideoLoad={() => setVideoLoading(false)}
+                          onLoad={() => setVideoLoading(false)}
+                          onPictureInPictureStatusChanged={isActive =>
+                            console.log(isActive)
+                          }
+                          style={tw.style(
+                            `${
+                              videoLoading && 'hidden'
+                            } w-full h-50 mt-6 rounded-3xl bg-[#b3b8bc]`,
+                          )}
+                        />
+                      ) : (
+                        <View style={tw.style('mt-8 text-base ml-2')}>
+                          <YoutubePlayer
+                            height={300}
+                            play={playing}
+                            videoId={extractVideoIdFromUrl(user?.video)}
+                            onChangeState={onStateChange}
+                            webViewStyle={{opacity: 0.99}}
+                          />
+                        </View>
+                      )}
+
                       {videoLoading && (
-                        <View style={tw.style('my-1')}>
+                        <View style={tw.style('my-6')}>
                           <Loading
                             title={t('pages.preferences.profile.loadingVideo')}
                             isFull={false}
