@@ -1,18 +1,20 @@
-import { find } from 'lodash';
-import React, { useEffect, useState } from 'react';
-import { Image, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import {find} from 'lodash';
+import React, {useEffect, useState} from 'react';
+import {Image, Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import tw from 'twrnc';
 import FocusAreaItem from '../../../../components/FocusAreaItem';
-import { mongoDateToLongDate } from '../../../../utilities';
+import {mongoDateToLongDate} from '../../../../utilities';
 
-function SessionInfoHeader({ session, coachee }) {
+function SessionInfoHeader({session, coachee}) {
   const [focusAreas, setFocusAreas] = useState(coachee.focusAreas);
-  const { coachees } = useSelector((state) => state.user);
+  const {coachees} = useSelector(state => state.user);
 
   const checkForFocusAreas = () => {
-    if (coachee?.focusAreas[0]?.focusArea) return;
-    const newCoachee = find(coachees, { _id: coachee._id });
+    if (coachee?.focusAreas[0]?.focusArea) {
+      return;
+    }
+    const newCoachee = find(coachees, {_id: coachee._id});
     setFocusAreas(newCoachee.focusAreas);
   };
 
@@ -35,7 +37,7 @@ function SessionInfoHeader({ session, coachee }) {
           <View style={tw.style('items-center')}>
             <Image
               style={tw.style('w-30 h-30 rounded-full')}
-              source={{ uri: coachee.urlImgCoachee }}
+              source={{uri: coachee.urlImgCoachee}}
             />
             <View style={tw.style('mt-6 text-center items-center mb-6')}>
               <Text style={tw.style('font-normal text-[#7F7C82]')}>
@@ -62,7 +64,7 @@ function SessionInfoHeader({ session, coachee }) {
               <FocusAreaItem key={`focus-${index}`} focusArea={focusArea} />
             ))
           ) : (
-            <Text></Text>
+            <Text />
           )}
           <></>
         </View>

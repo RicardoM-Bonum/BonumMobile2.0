@@ -1,20 +1,48 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {useSelector} from 'react-redux';
 import SessionEvaluationContext from './SessionEvaluationContext';
+import {useTranslation} from 'react-i18next';
 
 function SessionEvaluationContextWrapper({children}) {
   const {role} = useSelector(state => state.user);
   const [questions, setQuestions] = useState([]);
+
+  const {t} = useTranslation('global');
+
   const questionCoachee = [
-    {id: 1, title: 'Califica tu sesión de coaching', ratingValue: 0},
-    {id: 2, title: 'Califica a tu coach', ratingValue: 0},
-    {id: 3, title: '¿Cómo estuvo la calidad de la llamada?', ratingValue: 0},
+    {
+      id: 1,
+      title: t('pages.sessionEvaluation.coachee.rateCoachingSession'),
+      ratingValue: 0,
+    },
+    {
+      id: 2,
+      title: t('pages.sessionEvaluation.coachee.rateCoach'),
+      ratingValue: 0,
+    },
+    {
+      id: 3,
+      title: t('pages.sessionEvaluation.coachee.callQuality'),
+      ratingValue: 0,
+    },
   ];
 
   const questionCoach = [
-    {id: 1, title: 'Califica tu sesión de coaching', ratingValue: 0},
-    {id: 2, title: 'Califica el compromiso de tu coachee', ratingValue: 0},
-    {id: 3, title: '¿Cómo estuvo la calidad de la llamada?', ratingValue: 0},
+    {
+      id: 1,
+      title: t('pages.sessionEvaluation.coach.callQuality'),
+      ratingValue: 0,
+    },
+    {
+      id: 2,
+      title: t('pages.sessionEvaluation.coach.rateCoachee'),
+      ratingValue: 0,
+    },
+    {
+      id: 3,
+      title: t('pages.sessionEvaluation.coach.callQuality'),
+      ratingValue: 0,
+    },
   ];
 
   const resetQuestions = () => {

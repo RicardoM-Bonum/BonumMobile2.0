@@ -11,7 +11,6 @@ export default function Tabs(props) {
     routes,
     style,
     scrollEnabled = false,
-    center = false,
     header = (
       <>
         <Text />
@@ -30,15 +29,12 @@ export default function Tabs(props) {
         'text-black font-semibold capitalize text-center text-12px',
       )}
       style={{
-        ...tw.style(
-          'bg-white shadow-md rounded-xl text-black mb-4 py-2 flex-1',
-        ),
-        ...(center ? {alignItems: 'center', justifyContent: 'center'} : {}),
+        ...tw.style('bg-white shadow-md rounded-xl text-black mb-4 py-2'),
         ...style,
       }}
       activeColor={'#299eff'}
       indicatorContainerStyle={tw.style('')}
-      tabStyle={tw.style(`${scrollEnabled && 'w-auto'} p-5px flex-1`)}
+      tabStyle={tw.style(`${scrollEnabled && 'w-auto'} p-5px`)}
       renderIndicator={indicatorProps => {
         const width = indicatorProps.getTabWidth(0) - 10;
         return (
