@@ -94,7 +94,7 @@ export default function Calendars({navigation}) {
               </View>
               {group.map(calendar => (
                 <SavedCalendar
-                  key={calendar.id}
+                  key={calendar._id}
                   calendar={calendar}
                   group={index}
                   calendars={calendars}
