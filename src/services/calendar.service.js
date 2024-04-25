@@ -246,3 +246,20 @@ export const deleteCoachCalendar = calendar => {
     controller,
   };
 };
+
+export const getValidEventsCalendars = mongoID => {
+  const data = {
+    user: {_id: mongoID},
+  };
+
+  const controller = loadAbort();
+
+  return {
+    call: () =>
+      axios.get(`${mongo}/validUserEventCalendars/`, {
+        signal: controller.signal,
+        params: data,
+      }),
+    controller,
+  };
+};
