@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 const user = {
   name: '',
@@ -29,6 +29,10 @@ export const userSlice = createSlice({
       ...state,
       userLoading: action.payload,
     }),
+    modifyUserEventCalendar: (state, action) => ({
+      ...state,
+      calendar: action.payload,
+    }),
   },
 });
 
@@ -38,6 +42,7 @@ export const {
   resetUser,
   modifySessions,
   setLoadingUser,
+  modifyUserEventCalendar,
 } = userSlice.actions;
 
 export default userSlice.reducer;

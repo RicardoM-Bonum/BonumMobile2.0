@@ -10,7 +10,11 @@ import {LogLevel, OneSignal} from 'react-native-onesignal';
 import AlternateCallModals from './src/pages/AlternateCall';
 import {useUserUtilities} from './src/hooks';
 import Config from 'react-native-config';
-import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
+import Toast, {
+  ErrorToast,
+  InfoToast,
+  SuccessToast,
+} from 'react-native-toast-message';
 
 const App = () => {
   //@ts-ignore
@@ -73,8 +77,9 @@ const App = () => {
   }, []);
 
   const toastConfig = {
-    success: props => <BaseToast {...props} text1NumberOfLines={6} />,
+    success: props => <SuccessToast {...props} text1NumberOfLines={6} />,
     error: props => <ErrorToast {...props} text1NumberOfLines={6} />,
+    info: props => <InfoToast {...props} text1NumberOfLines={6} />,
   };
 
   return (

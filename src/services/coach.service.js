@@ -134,3 +134,14 @@ export const translateText = data => {
     controller,
   };
 };
+export const updateCoachEventsCalendar = data => {
+  const controller = loadAbort();
+
+  return {
+    call: () =>
+      axios.put(`${coachUrl}/updateEventsCalendar/${data.coach}`, data, {
+        signal: controller.signal,
+      }),
+    controller,
+  };
+};
