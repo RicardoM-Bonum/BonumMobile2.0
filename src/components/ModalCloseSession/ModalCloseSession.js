@@ -20,6 +20,7 @@ import {AlertDialog, Button} from 'native-base';
 import {useTranslation} from 'react-i18next';
 import {updateCoachee, updateNoShowAcc} from '../../services/user.service';
 import {Text} from 'react-native';
+import RedButton from '../Buttons/RedButton';
 
 function ModalCloseSession({session, showModal, setShowModal, navigation}) {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -273,12 +274,9 @@ function ModalCloseSession({session, showModal, setShowModal, navigation}) {
                   isLoading={loading}>
                   {t('pages.mySessions.components.session.cancel')}
                 </Button>
-                <Button
-                  colorScheme="danger"
-                  isLoading={loading}
-                  onPress={handleCloseSession}>
+                <RedButton onPress={handleCloseSession} isLoading={loading}>
                   {t('components.menu.closeSession')}
-                </Button>
+                </RedButton>
               </Button.Group>
             </View>
           </AlertDialog.Body>
