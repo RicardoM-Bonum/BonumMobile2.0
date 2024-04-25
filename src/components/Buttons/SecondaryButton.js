@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@rneui/base';
+import {Button} from '@rneui/base';
 
 function SecondaryButton({
   loading = false,
@@ -7,7 +7,7 @@ function SecondaryButton({
   title = 'Click',
   disabled = false,
   style,
-  titleStyle
+  titleStyle,
 }) {
   return (
     <Button
@@ -19,12 +19,12 @@ function SecondaryButton({
         borderColor: 'transparent',
         borderWidth: 0,
         borderRadius: 30,
-        padding: 10,
-        paddingVertical: 12,
-        ...style
+        padding: 6,
+        paddingVertical: 8,
+        ...style,
       }}
       disabled={disabled}
-      titleStyle={{ ...titleStyle }}
+      titleStyle={{...titleStyle}}
     />
   );
 }

@@ -13,6 +13,7 @@ import {PrimaryButton, SecondaryButton} from '../Buttons';
 import {useTranslation} from 'react-i18next';
 import {updateCoachee, updateNoShowAcc} from '../../services/user.service';
 import displayToast from '../../utilities/toast.utility';
+import tw from 'twrnc';
 
 function CoacheeAssistModal({coacheeModal, setCoacheeModal, navigation}) {
   const {t} = useTranslation('global');
@@ -101,7 +102,7 @@ function CoacheeAssistModal({coacheeModal, setCoacheeModal, navigation}) {
   return (
     <>
       <Modal isVisible={coacheeModal} setVisible={setCoacheeModal}>
-        <View>
+        <View style={tw.style('mt-2 mb-2')}>
           <View>
             <Text>
               {t('pages.mySessions.components.session.theCoachee')}{' '}
