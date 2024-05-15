@@ -150,7 +150,7 @@ export default function AgendarCoach({navigation}) {
     }
     if (lastSession) {
       const lastSessionDatePlusTenDays = DateTime.fromISO(lastSession.date)
-        .plus({days: 10})
+        .plus({days: 5})
         .toISODate();
 
       if (isoDate <= lastSessionDatePlusTenDays) {
