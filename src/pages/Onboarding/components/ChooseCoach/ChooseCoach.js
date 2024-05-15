@@ -25,7 +25,7 @@ export default function ChooseCoach({
   const getCoaches = async () => {
     try {
       const coachesData = await callEndpoint(
-        getCoachesByFocusAreas(focusAreas, languages),
+        getCoachesByFocusAreas(focusAreas, languages, user?.mongoID),
       );
       setCoaches(coachesData.data.data);
     } catch (error) {

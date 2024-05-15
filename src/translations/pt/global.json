@@ -424,10 +424,11 @@
       "thanks": "Obrigada! {{ name }}",
       "title": "E então",
       "subtitle": "Como foi?",
-      "placeholder": "Alguma sugestão para o seu {{ type }} ?",
+      "placeholder": "O que você tira da sessão?",
       "button": "Mandar",
       "close": "Sair",
       "warningModal": "Por favor preencha todos os campos",
+      "focusAreas": "Quais áreas de foco foram trabalhadas nesta sessão?",
       "coach": {
         "rateCoachingSession": "Avalie sua sessão de coaching",
         "rateCoachee": "Avalie o comprometimento do seu coachee",

@@ -1,30 +1,30 @@
 import adaptedSession from '../../../../adapters/sessionsAdapter.adapter';
 import Modal from '../../../../components/Modal';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { alternateCallSocket } from '../../../../utilities/alternateCall.utility';
-import { View, Text, Image, Linking } from 'react-native';
+import React, {useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {alternateCallSocket} from '../../../../utilities/alternateCall.utility';
+import {View, Text, Image, Linking} from 'react-native';
 import CheckedIcon from '../../../../assets/img/alerta.png';
-import { PrimaryButton, SecondaryButton } from '../../../../components/Buttons';
+import {PrimaryButton, SecondaryButton} from '../../../../components/Buttons';
 
-function AlternateCoacheeModal({ user, navigation }) {
+function AlternateCoacheeModal({user, navigation}) {
   const [showModal, setShowModal] = useState(false);
   const [alternateCallEnded, setAlternateCallEnded] = useState(false);
   const [data, setData] = useState({});
   const dispatch = useDispatch();
 
-  alternateCallSocket.on('alternate-call', ({ coachee, link, session }) => {
+  alternateCallSocket.on('alternate-call', ({coachee, link, session}) => {
     if (user.mongoID === coachee) {
-      setData({ coachee, link, session });
+      setData({coachee, link, session});
 
       alternateCallSocket.emit('alternate-call-received', {
-        coach: user.coach._id
+        coach: user.coach._id,
       });
       setShowModal(true);
     }
   });
 
-  alternateCallSocket.on('alternate-call-ended', ({ session, coachee }) => {
+  alternateCallSocket.on('alternate-call-ended', ({session, coachee}) => {
     setAlternateCallEnded(true);
     setShowModal(true);
     if (user.mongoID === coachee) {
@@ -62,12 +62,11 @@ function AlternateCoacheeModal({ user, navigation }) {
         style={{
           flex: 1,
           justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
+          alignItems: 'center',
+        }}>
         <Image
           source={CheckedIcon}
-          style={{ width: 64, height: 64, marginTop: 100 }}
+          style={{width: 64, height: 64, marginTop: 100}}
         />
         {alternateCallEnded ? (
           <AlternateCallEnded setShowModal={setShowModal} />
@@ -79,12 +78,12 @@ function AlternateCoacheeModal({ user, navigation }) {
   );
 }
 
-function AlternateCallStarted({ data, setShowModal }) {
-  const { link = 'www.google.com' } = data;
+function AlternateCallStarted({data, setShowModal}) {
+  const {link = 'www.google.com'} = data;
 
   const handleOpenlink = async () => {
     let url = link;
-    if (!url.match(/^https?:\/\//i)) {
+    if (!url?.match(/^https?:\/\//i)) {
       url = 'https://' + url;
     }
     await Linking.openURL(url);
@@ -94,26 +93,23 @@ function AlternateCallStarted({ data, setShowModal }) {
     <View
       style={{
         marginTop: 25,
-        padding: 10
-      }}
-    >
+        padding: 10,
+      }}>
       <Text
         style={{
           fontWeight: 'bold',
           fontSize: 18,
           textAlign: 'center',
-          marginBottom: 10
-        }}
-      >
+          marginBottom: 10,
+        }}>
         Tu coach ha decidido realizar tu sesión via llamada alterna
       </Text>
       <Text
         style={{
           fontSize: 14,
           textAlign: 'center',
-          marginBottom: 10
-        }}
-      >
+          marginBottom: 10,
+        }}>
         Puedes copiar el siguiente link y pegarlo en tu navegador o puedes dar
         click en el boton de ir a llamada alterna
       </Text>
@@ -125,16 +121,15 @@ function AlternateCallStarted({ data, setShowModal }) {
           textAlign: 'center',
           marginBottom: 10,
           textDecorationLine: 'underline',
-          color: 'blue'
-        }}
-      >
+          color: 'blue',
+        }}>
         {link}
       </Text>
 
-      <View style={{ flex: 1, marginTop: 10 }}>
+      <View style={{flex: 1, marginTop: 10}}>
         <PrimaryButton
           title="Ir a llamada alterna"
-          style={{ marginBottom: 10 }}
+          style={{marginBottom: 10}}
           onPress={handleOpenlink}
         />
         <SecondaryButton title="Cancelar" onPress={() => setShowModal(false)} />
@@ -143,37 +138,34 @@ function AlternateCallStarted({ data, setShowModal }) {
   );
 }
 
-function AlternateCallEnded({ setShowModal }) {
+function AlternateCallEnded({setShowModal}) {
   return (
     <View
       style={{
         flex: 1,
         marginTop: 25,
-        padding: 10
-      }}
-    >
+        padding: 10,
+      }}>
       <Text
         style={{
           fontWeight: 'bold',
           fontSize: 18,
           textAlign: 'center',
-          marginBottom: 10
-        }}
-      >
+          marginBottom: 10,
+        }}>
         Tu coach ha cerrado la sesión
       </Text>
       <Text
         style={{
           fontSize: 14,
           textAlign: 'center',
-          marginBottom: 10
-        }}
-      >
+          marginBottom: 10,
+        }}>
         Tu coach cerró la sesión debido a que se realizó por llamada alterna, se
         te redirigirá para evaluar la sesión
       </Text>
 
-      <View style={{ flex: 1, marginTop: 10 }}>
+      <View style={{flex: 1, marginTop: 10}}>
         {/* <PrimaryButton
           title="Ir a llamada alterna"
           style={{ marginBottom: 10 }}
@@ -212,7 +204,7 @@ function AlternateCallEnded({ setShowModal }) {
 // function ModalFooter({ loading, setModal, data }) {
 //   const handleAlternateCallClick = () => {
 //     let url = data.link;
-//     if (!url.match(/^https?:\/\//i)) {
+//     if (!url?.match(/^https?:\/\//i)) {
 //       url = 'https://' + url;
 //     }
 //     window.open(url, '_blank');

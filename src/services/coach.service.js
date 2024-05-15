@@ -47,7 +47,7 @@ export const updateCoachOnboarding = (onboarding, user) => {
   };
 };
 
-export const getCoachesByFocusAreas = (focusAreas, languages) => {
+export const getCoachesByFocusAreas = (focusAreas, languages, coacheeId) => {
   const controller = loadAbort();
   return {
     call: () =>
@@ -55,6 +55,7 @@ export const getCoachesByFocusAreas = (focusAreas, languages) => {
         params: {
           focusAreas: focusAreas.map(focusArea => focusArea.id),
           languages,
+          coacheeId,
         },
         paramsSerializer: params => {
           return QueryString.stringify(params, {arrayFormat: 'brackets'});

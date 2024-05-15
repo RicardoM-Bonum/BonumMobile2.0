@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import {View, Text} from 'react-native';
-import {Rating} from '@rneui/themed';
+import {Rating} from 'react-native-ratings';
 import tw from 'twrnc';
 import SessionEvaluationContext from '../../context/SessionEvaluationContext';
 
@@ -10,7 +10,9 @@ function EvaluationRate({question}) {
   const onRate = rating => {
     setQuestions(prev => {
       const newQuestions = prev.map(oldQuestion => {
-        if (question.id !== oldQuestion.id) return oldQuestion;
+        if (question.id !== oldQuestion.id) {
+          return oldQuestion;
+        }
         return {...oldQuestion, ratingValue: rating};
       });
       return newQuestions;

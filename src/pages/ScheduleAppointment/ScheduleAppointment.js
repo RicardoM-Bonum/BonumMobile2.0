@@ -62,7 +62,7 @@ function ScheduleAppointment({navigation}) {
         return;
       }
       const newMinDate = DateTime.fromISO(lastSession.date)
-        .plus({days: 11})
+        .plus({days: 5})
         .toJSDate();
 
       const today = DateTime.now().toJSDate();
