@@ -121,6 +121,18 @@ export default function MyCoach({navigation}) {
     }
   }
 
+  const extractVideoIdFromUrl = url => {
+    // Expresión regular para extraer el ID del video de una URL de YouTube
+    const regex = /[?&]v=([^&#]*)/;
+    const match = url?.match(regex);
+    if (match && match[1]) {
+      return match[1];
+    } else {
+      // Si la URL no coincide con el formato esperado, puedes manejar el caso aquí
+      return null;
+    }
+  };
+
   return (
     <ScrollView>
       <View style={tw.style('bg-[#E4EFF8e8] px-8 py-8')}>
@@ -175,17 +187,33 @@ export default function MyCoach({navigation}) {
         {hasVideoUrl && coach?.urlVideoCoach && (
           <>
             <View>
-              <YoutubePlayer
-                height={300}
-                play={playing}
-                videoId={obtenerVideoId(coach?.urlVideoCoach)}
-                onChangeState={onStateChange}
-                webViewStyle={{opacity: 0.99}}
-              />
-              <Button
-                title={playing ? 'pause' : 'play'}
-                onPress={togglePlaying}
-              />
+              {coach?.urlVideoCoach.startsWith('https://firebasestorage.googleapis.com',) ? ( <Video
+                          source={{uri: coach.urlVideoCoach}}
+                          paused={true}
+                          controls={true}
+                          resizeMode={'contain'}
+                          nVideoBuffer={() => setVideoLoading(false)}
+                          onLoadStart={() => setVideoLoading(true)}
+                          onVideoLoad={() => setVideoLoading(false)}
+                          onLoad={() => setVideoLoading(false)}
+                          onPictureInPictureStatusChanged={isActive =>
+                            console.log(isActive)
+                          }
+                          style={tw.style(
+                            `${
+                              videoLoading && 'hidden'
+                            } w-full h-50 mt-6 rounded-3xl bg-[#b3b8bc]`,
+                          )}
+                        />) : (<View style={tw.style('mt-8 text-base ml-2')}>
+                        <YoutubePlayer
+                          height={300}
+                          play={playing}
+                          videoId={extractVideoIdFromUrl(coach.urlVideoCoach)}
+                          onChangeState={onStateChange}
+                          webViewStyle={{opacity: 0.99}}
+                        />
+                      </View>)
+                    }
             </View>
           </>
         )}
