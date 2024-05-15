@@ -261,7 +261,7 @@
           },
           "titleCoachee": "Selecciona {{coacheeAreasByProgram}} áreas de foco",
           "titleCoach": "Selecciona tus areas de foco",
-          "subtitleCoachee": "Usaremos estas áreas de foco para encontrar a tu coach ideal",
+          "subtitleCoachee": "Estas áreas de foco serán una guía para tu coach",
           "subtitleCoach": "Usaremos estas areas de foco para que los coachees te encuentren",
           "button": "Siguiente"
         },
