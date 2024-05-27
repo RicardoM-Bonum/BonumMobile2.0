@@ -64,6 +64,7 @@
     "react-native-immersive-mode": "2.0.1",
     "react-native-item-select": "^0.4.2",
     "react-native-keep-awake": "4.0.0",
+    "react-native-modal": "^13.0.1",
     "react-native-modern-datepicker": "^1.0.0-beta.91",
     "react-native-multiple-select": "^0.5.12",
     "react-native-onesignal": "^5.0.5",

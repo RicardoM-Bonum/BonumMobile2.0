@@ -506,9 +506,13 @@
           "myCoach": "Meu Coach",
           "myCalendar": "Meu Calendario",
           "myEvaluations": "Meus Avaliações",
-          "myCourses": "Cursos de coaches",
+          "myCourses": "Recursos",
           "mySessions": "Meus Aessões",
           "myAssignations": "Meus Atribuições"
+        },
+        "resources": {
+          "initial": "Modelo de Avaliação Inicial",
+          "final": "Modelo de Avaliação Final"
         }
       }
     },
@@ -610,7 +614,18 @@
   },
   "lastTranslations": {
     "sessions": {
-      "noSessions": "O coachee ainda não tem sessões"
+      "noSessions": "O coachee ainda não tem sessões",
+      "AddAlignmentSession": "Adicionar sessão de alinhamento",
+      "AlignmentSessionTitle": "Sessão de alinhamento",
+      "initialAlignment": "do alinhamento inicial",
+      "finalAlignment": "do alinhamento final",
+      "InitialEvaluation": "Avaliação inicial",
+      "FinalEvaluation": "Avaliação final",
+      "AlignmentSessionMessage": "Você está prestes a adicionar uma sessão de alinhamento",
+      "AlignmentSessionDate": "para este dia",
+      "AlignmentSessionButton": "Adicionar sessão",
+      "alreadyInitial": "Você já tem uma sessão de formação inicial",
+      "alreadyFinal": "Ya tienes una sesión de alineacion final"
     },
     "cancelModal": {
       "alternateCall": "A chamada foi feita por chamada alternativa",
