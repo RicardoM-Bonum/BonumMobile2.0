@@ -3,6 +3,7 @@ import {loadAbort} from './../utilities';
 import Config from 'react-native-config';
 
 const sessionsURL = `${Config.SESSIONS_URL}/api/session`;
+const alignmentSessionsURL = `${Config.SESSIONS_URL}/api/alignmentSession`;
 
 export const createSession = data => {
   const controller = loadAbort();
@@ -144,6 +145,29 @@ export const resetSessionNumber = ({id}) => {
   return {
     call: () =>
       axios.put(`${sessionsURL}/resetSessionNumber/${id}`, {
+        signal: controller.signal,
+      }),
+    controller,
+  };
+};
+
+export const getAllAlignmentSessionCoachee = id => {
+  const controller = loadAbort();
+  return {
+    call: () =>
+      axios.get(`${alignmentSessionsURL}/coachee/${id}`, {
+        signal: controller.signal,
+      }),
+    controller,
+  };
+};
+
+export const coachAddAlignmentSession = data => {
+  const controller = loadAbort();
+
+  return {
+    call: () =>
+      axios.post(`${alignmentSessionsURL}/coachAddAlignmentSession`, data, {
         signal: controller.signal,
       }),
     controller,

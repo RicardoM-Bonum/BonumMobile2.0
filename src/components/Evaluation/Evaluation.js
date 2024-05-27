@@ -1,36 +1,34 @@
-import { View, Text, ScrollView } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import {View, Text, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import EvaluationArea from '../EvaluationArea';
 import NoData from '../NoData/NoData';
 import tw from 'twrnc';
-import { useFetchAndLoad } from '../../hooks';
-import { useTranslation } from 'react-i18next';
+import {useFetchAndLoad} from '../../hooks';
+import {useTranslation} from 'react-i18next';
 import {
   getAutoEvaluationByCoacheeId,
-  getEvaluation360ByCoacheeId
+  getEvaluation360ByCoacheeId,
 } from '../../services/evaluations.service';
 import displayToast from '../../utilities/toast.utility';
-import { find, findIndex, findLastIndex, forEach, map, size } from 'lodash';
+import {find, findIndex, findLastIndex, forEach, map, size} from 'lodash';
 import Loading from '../Loading';
-import { mongoDateToShortDate } from '../../utilities';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {mongoDateToShortDate} from '../../utilities';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export default function Evaluation(props) {
   const [evaluations, setEvaluations] = useState([]);
   const [focusAreas, setFocusAreas] = useState([]);
-  const { loading, callEndpoint } = useFetchAndLoad();
+  const {loading, callEndpoint} = useFetchAndLoad();
   const [finalEvaluationIndex, setFinalEvaluationIndex] = useState(0);
 
-  const { t } = useTranslation('global');
+  const {t} = useTranslation('global');
   const errorGet = t('components.evaluation.errorGet');
   const error360 = t('components.evaluation.error360');
-  const { title, type, coachee } = props;
+  const {title, type, coachee} = props;
 
   const getAutoevaluations = async () => {
     try {
-      const { data } = await callEndpoint(
-        getAutoEvaluationByCoacheeId(coachee)
-      );
+      const {data} = await callEndpoint(getAutoEvaluationByCoacheeId(coachee));
       setEvaluations(data.data);
     } catch (error) {
       displayToast(errorGet, 'error');
@@ -39,7 +37,7 @@ export default function Evaluation(props) {
 
   const getEvaluations360 = async () => {
     try {
-      const { data } = await callEndpoint(getEvaluation360ByCoacheeId(coachee));
+      const {data} = await callEndpoint(getEvaluation360ByCoacheeId(coachee));
       setEvaluations(data.data);
     } catch (error) {
       displayToast(error360, 'error');
@@ -50,22 +48,21 @@ export default function Evaluation(props) {
     setFinalEvaluationIndex(
       findLastIndex(
         evaluations,
-        (evaluation) => evaluation.evaluationType === 'final'
-      )
+        evaluation => evaluation.evaluationType === 'final',
+      ),
     );
   };
 
   const getAnswersGroupedByFocusAreas = () => {
     const focusAreasTemp = [];
 
-    console.log();
-    forEach(evaluations, (evaluation) => {
+    forEach(evaluations, evaluation => {
       const isInitialEvaluation = evaluation.evaluationType === 'initial';
 
-      forEach(evaluation?.answers, (answer) => {
+      forEach(evaluation?.answers, answer => {
         const indexOfFocusArea = findIndex(
           focusAreasTemp,
-          (focusArea) => focusArea?._id === answer?.question?.focusArea?._id
+          focusArea => focusArea?._id === answer?.question?.focusArea?._id,
         );
 
         if (indexOfFocusArea < 0) {
@@ -80,13 +77,13 @@ export default function Evaluation(props) {
                 initialEvaluation: isInitialEvaluation ? answer.value : 0,
                 finalEvaluation: !isInitialEvaluation ? answer.value : 0,
                 initialAnswers: isInitialEvaluation ? 1 : 0,
-                finalAnswers: !isInitialEvaluation ? 1 : 0
-              }
+                finalAnswers: !isInitialEvaluation ? 1 : 0,
+              },
             ],
             totalInitialEvaluation: isInitialEvaluation ? answer.value : 0,
             totalFinalEvaluation: !isInitialEvaluation ? answer.value : 0,
             totalInitialAnswers: isInitialEvaluation ? 1 : 0,
-            totalFinalAnswers: !isInitialEvaluation ? 1 : 0
+            totalFinalAnswers: !isInitialEvaluation ? 1 : 0,
           });
         } else {
           if (isInitialEvaluation) {
@@ -101,7 +98,7 @@ export default function Evaluation(props) {
 
           const question = find(
             focusAreasTemp[indexOfFocusArea].questions,
-            (savedQuestion) => savedQuestion._id === answer.question._id
+            savedQuestion => savedQuestion._id === answer.question._id,
           );
 
           if (!question) {
@@ -111,7 +108,7 @@ export default function Evaluation(props) {
               initialEvaluation: isInitialEvaluation ? answer.value : 0,
               finalEvaluation: !isInitialEvaluation ? answer.value : 0,
               initialAnswers: isInitialEvaluation ? 1 : 0,
-              finalAnswers: !isInitialEvaluation ? 1 : 0
+              finalAnswers: !isInitialEvaluation ? 1 : 0,
             });
 
             return;
@@ -119,7 +116,7 @@ export default function Evaluation(props) {
 
           focusAreasTemp[indexOfFocusArea].questions = map(
             focusAreasTemp[indexOfFocusArea].questions,
-            (savedQuestion) => {
+            savedQuestion => {
               if (savedQuestion._id !== answer.question._id) {
                 return savedQuestion;
               }
@@ -137,9 +134,9 @@ export default function Evaluation(props) {
                   : savedQuestion.initialAnswers,
                 finalAnswers: !isInitialEvaluation
                   ? savedQuestion.finalAnswers + 1
-                  : savedQuestion.finalAnswers
+                  : savedQuestion.finalAnswers,
               };
-            }
+            },
           );
         }
       });
@@ -165,10 +162,12 @@ export default function Evaluation(props) {
     getFinalEvaluation();
   }, [evaluations]);
 
-  if (loading) return <Loading title={t('components.evaluation.loading')} />;
+  if (loading) {
+    return <Loading title={t('components.evaluation.loading')} />;
+  }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{flex: 1}}>
       {focusAreas.length > 0 && (
         <View style={tw.style('mb-6')}>
           <View style={tw.style('flex-row justify-between mb-4')}>
@@ -187,7 +186,7 @@ export default function Evaluation(props) {
               <Text style={tw.style('text-[#299eff]')}>
                 {finalEvaluationIndex >= 0
                   ? mongoDateToShortDate(
-                      evaluations[finalEvaluationIndex]?.dateSended
+                      evaluations[finalEvaluationIndex]?.dateSended,
                     )
                   : 'dd-mm-yyy'}
               </Text>
@@ -200,7 +199,7 @@ export default function Evaluation(props) {
       )}
 
       {focusAreas.length > 0 ? (
-        focusAreas.map((focusArea) => (
+        focusAreas.map(focusArea => (
           <EvaluationArea focusArea={focusArea} key={focusArea._id} />
         ))
       ) : (

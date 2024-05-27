@@ -1,12 +1,12 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import HomeButton from '../HomeButton/HomeButton';
 import tw from 'twrnc';
 import auth from '@react-native-firebase/auth';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
-export default function CoachButtons({ navigation }) {
-  const { t } = useTranslation('global');
+export default function CoachButtons({navigation}) {
+  const {t} = useTranslation('global');
 
   const logout = async () => {
     try {
@@ -34,7 +34,9 @@ export default function CoachButtons({ navigation }) {
           {t('pages.home.components.buttons.myEvaluations')}
         </Text>
       </HomeButton>
-      <HomeButton style={tw.style('bg-[#dddddd]')}>
+      <HomeButton
+        onPress={() => navigation.navigate('Resources')}
+        style={tw.style('text-[#60636A]')}>
         <Text style={tw.style('text-center text-[#60636A]')}>
           {t('pages.home.components.buttons.myCourses')}
         </Text>
