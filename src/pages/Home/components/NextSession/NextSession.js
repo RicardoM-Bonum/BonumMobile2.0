@@ -221,9 +221,9 @@ export default function NextSession({user, navigation}) {
     return focusHandler;
   }, [navigation]);
 
-  useEffect(() => {
-    getNextSession(sessions);
-  }, [sessions]);
+  // useEffect(() => {
+  //   getNextSession(sessions);
+  // }, [sessions]);
 
   const callAlternal = async () => {
     makeAlternateCall(user, nextSession);
@@ -241,16 +241,19 @@ export default function NextSession({user, navigation}) {
   };
 
   const getNextSession = async allSessions => {
-    const sessions = filter(allSessions, {status: false, canceled: false});
+    const filteredSessions = filter(allSessions, {
+      status: false,
+      canceled: false,
+    });
 
-    if (sessions.length < 1) {
+    if (filteredSessions.length < 1) {
       setNextSession(null);
       return null;
     }
 
     let closestSession = null;
-    for (let i = 0; i < sessions.length; i++) {
-      const session = sessions[i];
+    for (let i = 0; i < filteredSessions.length; i++) {
+      const session = filteredSessions[i];
       const sessionDate = DateTime.fromISO(session?.date).toUnixInteger();
       const today = DateTime.now().minus({hours: 12}).toUnixInteger();
       const isLowerThanToday = sessionDate < today;
@@ -291,9 +294,9 @@ export default function NextSession({user, navigation}) {
 
   const getSessions = async () => {
     try {
-      const sessions = await refreshSessions();
+      const sessionsFetch = await refreshSessions();
 
-      const session = await getNextSession(sessions);
+      const session = await getNextSession(sessionsFetch);
       if (isCoachee && session) {
         socket.emit('connect-session', {room: session._id});
         socket.on('AcceptCallCoach', ({session}) => {
