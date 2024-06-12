@@ -1,19 +1,24 @@
-import { View, ScrollView } from 'react-native';
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import {View, ScrollView} from 'react-native';
+import React, {useEffect} from 'react';
+import {useSelector} from 'react-redux';
 import tw from 'twrnc';
-import { useCheckForCalendar, useCheckUpdate } from '../../hooks';
+import {
+  useCheckForCalendar,
+  useCheckUpdate,
+  useUserUtilities,
+} from '../../hooks';
 
 import NextSession from './components/NextSession';
 import CoachButtons from './components/CoachButtons';
 import CoacheeButtons from './components/CoacheeButtons';
 import Welcome from './components/Welcome';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 
-export default function HomeNew({ navigation }) {
-  const user = useSelector((state) => state.user);
-  const { checkForCalendar } = useCheckForCalendar(user, navigation);
-  const { checkVersionUpdate } = useCheckUpdate();
+export default function HomeNew({navigation}) {
+  const user = useSelector(state => state.user);
+  const {checkForCalendar} = useCheckForCalendar(user, navigation);
+  const {checkVersionUpdate} = useCheckUpdate();
+  const {refreshSessions} = useUserUtilities();
 
   const checkForVerifications = () => {
     if (
@@ -30,8 +35,6 @@ export default function HomeNew({ navigation }) {
       user?.onboardingCompleted &&
       (!user?.languages || user?.languages?.length < 1)
     ) {
-      console.log('navigating to languages');
-      console.log(user.languages);
       navigation.navigate('UpdateLanguages');
       return;
     }
@@ -42,7 +45,7 @@ export default function HomeNew({ navigation }) {
   useFocusEffect(
     React.useCallback(() => {
       checkForVerifications();
-    }, [user.onboardingCompleted, user])
+    }, [user.onboardingCompleted, user]),
   );
 
   useEffect(() => {
