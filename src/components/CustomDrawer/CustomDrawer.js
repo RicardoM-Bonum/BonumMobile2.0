@@ -51,7 +51,7 @@ function CustomDrawer(props) {
         borderRadius={25}>
         <View
           style={{
-            width: '100%',
+            width: '200',
             flexDirection: 'row',
             justifyContent: 'flex-end',
             paddingRight: 15,

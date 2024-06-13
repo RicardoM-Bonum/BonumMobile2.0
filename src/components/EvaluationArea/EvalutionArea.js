@@ -1,8 +1,8 @@
-import { View, Text } from 'react-native';
+import {View, Text} from 'react-native';
 import React from 'react';
 import Accordion from './components/Accordion';
 
-export default function EvalutionArea({ focusArea }) {
+export default function EvalutionArea({focusArea}) {
   const finalTotalScore = (
     focusArea.totalFinalEvaluation / focusArea.totalFinalAnswers
   ).toFixed(1);

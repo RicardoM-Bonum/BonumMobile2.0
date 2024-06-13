@@ -261,7 +261,7 @@
           },
           "titleCoachee": "Select {{coacheeAreasByProgram}} focus areas",
           "titleCoach": "Select your focus areas",
-          "subtitleCoachee": "We will use these focus areas to find your ideal coach",
+          "subtitleCoachee": "These focus areas will be a guide for your coach",
           "subtitleCoach": "We will use these focus areas for coachees to find you",
           "button": "Next"
         },
@@ -424,10 +424,11 @@
       "thanks": "Thank you {{ name }} !",
       "title": "And so",
       "subtitle": "How did it go?",
-      "placeholder": "Any suggestions for your {{ type }} ?",
+      "placeholder": "What do you take away from the session?",
       "button": "Send",
       "close": "Close",
       "warningModal": "Please fill in all the fields",
+      "focusAreas": "What focus areas were worked on in this session?",
       "coach": {
         "rateCoachingSession": "Rate your coaching session",
         "rateCoachee": "Rate your coachee's commitment",
@@ -506,9 +507,13 @@
           "myCoach": "My Coach",
           "myCalendar": "My Calendar",
           "myEvaluations": "My Evaluations",
-          "myCourses": "Coach courses",
+          "myCourses": "Resources",
           "mySessions": "My Sessions",
           "myAssignations": "My Assignments"
+        },
+        "resources": {
+          "initial": "Initial Evaluation Template",
+          "final": "Final Evaluation Template"
         }
       }
     },
@@ -610,7 +615,18 @@
   },
   "lastTranslations": {
     "sessions": {
-      "noSessions": "El coachee aún no tiene sesiones"
+      "noSessions": "Coachee has no sessions yet",
+      "AddAlignmentSession": "Add alignment session",
+      "AlignmentSessionTitle": "Alignment Session",
+      "initialAlignment": "of initial alignment",
+      "finalAlignment": "of final alignment",
+      "InitialEvaluation": "Initial Evaluation",
+      "FinalEvaluation": "Final Evaluation",
+      "AlignmentSessionMessage": "You are about to add an alignment session",
+      "AlignmentSessionDate": "for the day",
+      "AlignmentSessionButton": "Add Session",
+      "alreadyInitial": "You already have an initial alignment session",
+      "alreadyFinal": "You already have an final alignment session"
     },
     "cancelModal": {
       "alternateCall": "The call was made by alternate call",

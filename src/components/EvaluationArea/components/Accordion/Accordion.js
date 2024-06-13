@@ -27,6 +27,7 @@ function Accordion({content = 'content', focusArea}) {
 
   const finalTotalScore = (totalFinalEvaluation / totalFinalAnswers).toFixed(1);
   const isTotalNaN = isNaN(finalTotalScore);
+  const [translatedTitle, setTranslatedTitle] = useState(focusArea.title);
 
   const toggleExpand = () => {
     setExpanded(!expanded);
@@ -50,19 +51,25 @@ function Accordion({content = 'content', focusArea}) {
     }
   };
 
-  useEffect(() => {
-    // Traduce los títulos de los temas (topic.title)
-    const translateTopicTitles = async () => {
-      const translatedTitles = await Promise.all(
-        focusArea.questions.map(async topic => {
-          const translatedTitle = await translate(topic.title);
-          return translatedTitle;
-        }),
-      );
-      setTranslatedTopicTitles(translatedTitles);
-    };
+  const translateTitle = async () => {
+    const title = await translate(focusArea.title);
+    setTranslatedTitle(title);
+  };
 
+  // Traduce los títulos de los temas (topic.title)
+  const translateTopicTitles = async () => {
+    const translatedTitles = await Promise.all(
+      focusArea.questions.map(async topic => {
+        const translatedTitle = await translate(topic.title);
+        return translatedTitle;
+      }),
+    );
+    setTranslatedTopicTitles(translatedTitles);
+  };
+
+  useEffect(() => {
     translateTopicTitles();
+    translateTitle();
   }, [focusArea, i18n.language]);
 
   useEffect(() => {
@@ -104,7 +111,7 @@ function Accordion({content = 'content', focusArea}) {
             style={tw.style('w-9 h-8 mx-2')}
           />
           <Text style={tw.style('text-[#9a9a9a] w-[50%]')}>
-            {translatedText}
+            {translatedTitle}
           </Text>
         </View>
         <View style={tw.style('flex-row justify-between')}>

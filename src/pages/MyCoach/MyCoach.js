@@ -5,39 +5,39 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-  Button
+  Button,
 } from 'react-native';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import tw from 'twrnc';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import ViewCoachCalendar from '../../components/ViewCoachCalendar';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import displayToast from '../../utilities/toast.utility';
 import FocusAreaItem from '../../components/FocusAreaItem';
-import { PrimaryButton } from '../../components/Buttons';
+import {PrimaryButton} from '../../components/Buttons';
 import Video from 'react-native-video';
 import CoachStars from '../../components/CoachStars';
 import Loading from '../../components/Loading';
-import { translateText } from '../../services/coach.service';
-import { useFetchAndLoad } from '../../hooks';
+import {translateText} from '../../services/coach.service';
+import {useFetchAndLoad} from '../../hooks';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
-export default function MyCoach({ navigation }) {
+export default function MyCoach({navigation}) {
   const [videoLoading, setVideoLoading] = useState(false);
-  const { coach } = useSelector((state) => state.user);
+  const {coach} = useSelector(state => state.user);
   const [viewCalendar, setViewCalendar] = useState(false);
-  const { t, i18n } = useTranslation('global');
-  const { loading, callEndpoint } = useFetchAndLoad();
+  const {t, i18n} = useTranslation('global');
+  const {loading, callEndpoint} = useFetchAndLoad();
   const [translatedHowWork, setTranslatedHowWork] = useState(coach?.howWork);
   const [translatedResume, setTranslatedResume] = useState(coach?.resume);
 
-  const translate = async (text) => {
+  const translate = async text => {
     try {
-      const { data } = await callEndpoint(
+      const {data} = await callEndpoint(
         translateText({
           targetLanguage: i18n.language,
-          text: text
-        })
+          text: text,
+        }),
       );
 
       return data.data;
@@ -93,7 +93,7 @@ export default function MyCoach({ navigation }) {
 
   const [playing, setPlaying] = useState(false);
 
-  const onStateChange = useCallback((state) => {
+  const onStateChange = useCallback(state => {
     if (state === 'ended') {
       setPlaying(false);
       Alert.alert('video has finished playing!');
@@ -101,7 +101,7 @@ export default function MyCoach({ navigation }) {
   }, []);
 
   const togglePlaying = useCallback(() => {
-    setPlaying((prev) => !prev);
+    setPlaying(prev => !prev);
   }, []);
 
   function obtenerVideoId(url) {
@@ -110,7 +110,7 @@ export default function MyCoach({ navigation }) {
       /(?:[?&]v=|\/embed\/|\/v\/|\/youtu\.be\/|\/watch\?v=|\/embed\/videoseries\?list=)([^&\s]+)/;
 
     // Use the pattern to search for the video ID in the URL.
-    const match = url.match(pattern);
+    const match = url?.match(pattern);
 
     // If a match is found, return the video ID (the first captured group).
     if (match && match[1]) {
@@ -120,6 +120,18 @@ export default function MyCoach({ navigation }) {
       return null;
     }
   }
+
+  const extractVideoIdFromUrl = url => {
+    // Expresión regular para extraer el ID del video de una URL de YouTube
+    const regex = /[?&]v=([^&#]*)/;
+    const match = url?.match(regex);
+    if (match && match[1]) {
+      return match[1];
+    } else {
+      // Si la URL no coincide con el formato esperado, puedes manejar el caso aquí
+      return null;
+    }
+  };
 
   return (
     <ScrollView>
@@ -133,7 +145,7 @@ export default function MyCoach({ navigation }) {
           <View style={tw.style('items-center')}>
             <Image
               source={{
-                uri: coach?.urlImgCoach
+                uri: coach?.urlImgCoach,
               }}
               style={tw.style('w-50 h-50 rounded-full')}
             />
@@ -157,7 +169,7 @@ export default function MyCoach({ navigation }) {
                 {coach &&
                   Array.isArray(coach.focusAreas) &&
                   coach.focusAreas.length > 1 &&
-                  coach.focusAreas.map((area) => (
+                  coach.focusAreas.map(area => (
                     <FocusAreaItem focusArea={area} key={area._id} />
                   ))}
               </View>
@@ -175,17 +187,33 @@ export default function MyCoach({ navigation }) {
         {hasVideoUrl && coach?.urlVideoCoach && (
           <>
             <View>
-              <YoutubePlayer
-                height={300}
-                play={playing}
-                videoId={obtenerVideoId(coach?.urlVideoCoach)}
-                onChangeState={onStateChange}
-                webViewStyle={{ opacity: 0.99 }}
-              />
-              <Button
-                title={playing ? 'pause' : 'play'}
-                onPress={togglePlaying}
-              />
+              {coach?.urlVideoCoach.startsWith('https://firebasestorage.googleapis.com',) ? ( <Video
+                          source={{uri: coach.urlVideoCoach}}
+                          paused={true}
+                          controls={true}
+                          resizeMode={'contain'}
+                          nVideoBuffer={() => setVideoLoading(false)}
+                          onLoadStart={() => setVideoLoading(true)}
+                          onVideoLoad={() => setVideoLoading(false)}
+                          onLoad={() => setVideoLoading(false)}
+                          onPictureInPictureStatusChanged={isActive =>
+                            console.log(isActive)
+                          }
+                          style={tw.style(
+                            `${
+                              videoLoading && 'hidden'
+                            } w-full h-50 mt-6 rounded-3xl bg-[#b3b8bc]`,
+                          )}
+                        />) : (<View style={tw.style('mt-8 text-base ml-2')}>
+                        <YoutubePlayer
+                          height={300}
+                          play={playing}
+                          videoId={extractVideoIdFromUrl(coach.urlVideoCoach)}
+                          onChangeState={onStateChange}
+                          webViewStyle={{opacity: 0.99}}
+                        />
+                      </View>)
+                    }
             </View>
           </>
         )}
@@ -193,7 +221,7 @@ export default function MyCoach({ navigation }) {
           onPress={() => setViewCalendar(true)}
           title={t('pages.myCoach.viewCalendar')}
           style={{
-            marginTop: 20
+            marginTop: 20,
           }}
         />
       </View>

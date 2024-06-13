@@ -104,7 +104,7 @@ export default function Profile({navigation}) {
   const extractVideoIdFromUrl = url => {
     // Expresión regular para extraer el ID del video de una URL de YouTube
     const regex = /[?&]v=([^&#]*)/;
-    const match = url.match(regex);
+    const match = url?.match(regex);
     if (match && match[1]) {
       return match[1];
     } else {
@@ -274,7 +274,7 @@ export default function Profile({navigation}) {
                   {user.video !== 'pending' ? (
                     <>
                       {newVideo &&
-                      newVideo.startsWith(
+                      newVideo?.startsWith(
                         'https://firebasestorage.googleapis.com',
                       ) ? (
                         <Video
@@ -295,7 +295,7 @@ export default function Profile({navigation}) {
                             } w-full h-50 mt-6 rounded-3xl bg-[#b3b8bc]`,
                           )}
                         />
-                      ) : user.video.startsWith(
+                      ) : user.video?.startsWith(
                           'https://firebasestorage.googleapis.com',
                         ) ? (
                         <Video

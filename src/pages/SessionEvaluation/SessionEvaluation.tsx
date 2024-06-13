@@ -7,6 +7,8 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
+  Alert,
+  StyleSheet,
 } from 'react-native';
 import React, {useContext, useEffect} from 'react';
 import tw from 'twrnc';
@@ -29,6 +31,9 @@ import {PrimaryButton} from '../../components/Buttons';
 import displayToast from '../../utilities/toast.utility';
 import {size} from 'lodash';
 import CoacheeAssistModal from '../../components/coacheeAssistModal/CoacheeAssistModal';
+import {getProgramById} from '../../services/program.service';
+import ReactNativeItemSelect from 'react-native-item-select';
+import FocusAreaItem from './components/FocusAreaItem';
 
 export default function SessionEvaluation({navigation}) {
   const {t} = useTranslation('global');
@@ -42,6 +47,8 @@ export default function SessionEvaluation({navigation}) {
   const {questions, resetQuestions} = useContext(SessionEvaluationContext);
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 80 : 0;
   const [coacheeModal, setCoacheeModal] = useState(true);
+  const [focusAreas, setFocusAreas] = useState([]);
+  const [selectedFocusAreas, setSelectedFocusAreas] = useState([]);
 
   const dispatch = useDispatch();
   const handleServicesCoachee = async () => {
@@ -107,6 +114,7 @@ export default function SessionEvaluation({navigation}) {
           ratingCoachSessions: questions[0].ratingValue,
           commentCoach: suggestion,
           evaluatedByCoach: true,
+          treatedFocusAreas: selectedFocusAreas,
         }),
       );
 
@@ -146,9 +154,29 @@ export default function SessionEvaluation({navigation}) {
     }
   };
 
-  const backScreen = () => {
-    navigation.navigate('Home');
+  const getCoachingProgram = async () => {
+    if (session?.coachee.coachingProgram) {
+      const {data} = await callEndpoint(
+        getProgramById(session.coachee.coachingProgram),
+      );
+      setFocusAreas(data.data[0].focusAreas);
+    }
+    return null;
   };
+
+  const handleFocusAreasClick = focusArea => {
+    if (selectedFocusAreas.includes(focusArea._id)) {
+      setSelectedFocusAreas(
+        selectedFocusAreas.filter(area => area !== focusArea._id),
+      );
+    } else {
+      setSelectedFocusAreas([...selectedFocusAreas, focusArea._id]);
+    }
+  };
+
+  useEffect(() => {
+    getCoachingProgram();
+  }, []);
 
   if (loading) {
     return <Loading title={'LOADING...'} />;
@@ -201,6 +229,25 @@ export default function SessionEvaluation({navigation}) {
             )}
           />
 
+          {isCoach && focusAreas.length > 0 && (
+            <View style={styles.focusAreasContainer}>
+              <Text style={styles.focusAreasTitle}>
+                {t('pages.sessionEvaluation.focusAreas')}
+              </Text>
+
+              <View style={styles.focusAreasWrapper}>
+                {focusAreas.map(focusArea => (
+                  <FocusAreaItem
+                    key={focusArea._id}
+                    focusArea={focusArea}
+                    selected={selectedFocusAreas.includes(focusArea._id)}
+                    onClick={handleFocusAreasClick}
+                  />
+                ))}
+              </View>
+            </View>
+          )}
+
           <FinalModal
             isOpen={showModal}
             title={finalModal}
@@ -221,3 +268,26 @@ export default function SessionEvaluation({navigation}) {
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  focusAreasContainer: {
+    borderRadius: 20,
+    shadowRadius: 10,
+    backgroundColor: 'white',
+    padding: 10,
+    color: 'black',
+    marginTop: 20,
+  },
+
+  focusAreasTitle: {
+    fontSize: 16,
+    color: 'black',
+    marginBottom: 10,
+  },
+
+  focusAreasWrapper: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+});

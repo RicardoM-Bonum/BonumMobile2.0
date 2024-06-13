@@ -261,7 +261,7 @@
           },
           "titleCoachee": "Selecciona {{coacheeAreasByProgram}} áreas de foco",
           "titleCoach": "Selecciona tus areas de foco",
-          "subtitleCoachee": "Usaremos estas áreas de foco para encontrar a tu coach ideal",
+          "subtitleCoachee": "Estas áreas de foco serán una guía para tu coach",
           "subtitleCoach": "Usaremos estas areas de foco para que los coachees te encuentren",
           "button": "Siguiente"
         },
@@ -424,10 +424,11 @@
       "thanks": "¡Gracias! {{ name }}",
       "title": "Y entoncesss",
       "subtitle": "¿Cómo te fue?",
-      "placeholder": "¿Alguna sugerencia para tu {{ type }} ?",
+      "placeholder": "¿Qué te llevas de la sesión?",
       "button": "Enviar",
       "close": "Cerrar",
       "warningModal": "Por favor llena todos los campos",
+      "focusAreas": "¿Qué áreas de foco se trabajaron en esta sesión?",
       "coach": {
         "rateCoachingSession": "Califica tu sesión de coaching",
         "rateCoachee": "Califica el compromiso de tu coachee",
@@ -506,9 +507,13 @@
           "myCoach": "Coach",
           "myCalendar": "Calendario",
           "myEvaluations": "Evaluaciones",
-          "myCourses": "Cursos para coaches",
+          "myCourses": "Recursos",
           "mySessions": "Sesiones",
           "myAssignations": "Asignaciones"
+        },
+        "resources": {
+          "initial": "Plantilla Evaluación Inicial",
+          "final": "Plantilla Evaluación Final"
         }
       }
     },
@@ -610,7 +615,18 @@
   },
   "lastTranslations": {
     "sessions": {
-      "noSessions": "El coachee aún no tiene sesiones"
+      "noSessions": "El coachee aún no tiene sesiones",
+      "AddAlignmentSession": "Agregar sesion de alineacion",
+      "AlignmentSessionTitle": "Sesión de Alineación",
+      "initialAlignment": "de alineacion Inicial",
+      "finalAlignment": "de alineacion final",
+      "InitialEvaluation": "Evaluación Inicial",
+      "FinalEvaluation": "Evaluación Final",
+      "AlignmentSessionMessage": "Estás por agregar una sesión de alineación",
+      "AlignmentSessionDate": "para el día",
+      "AlignmentSessionButton": "Agregar Sesión",
+      "alreadyInitial": "Ya tienes una sesión de alineacion inicial",
+      "alreadyFinal": "Ya tienes una sesión de alineacion final"
     },
     "cancelModal": {
       "alternateCall": "La llamada se hizo por llamada alterna",

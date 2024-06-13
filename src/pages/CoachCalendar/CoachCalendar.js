@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { ScrollView, TouchableOpacity, View, Image, Text } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, TouchableOpacity, View, Image, Text} from 'react-native';
 import Advice from './components/Advice';
 import tw from 'twrnc';
 import Calendar from './components/Calendar';
-import { useSelector } from 'react-redux';
-import { useFetchAndLoad } from '../../hooks';
+import {useSelector} from 'react-redux';
+import {useFetchAndLoad} from '../../hooks';
 import {
   getUserBlockSchedule,
-  getUserWorkingHours
+  getUserWorkingHours,
 } from '../../services/calendar.service';
 import WorkingHours from './components/WorkingHours';
-import { PrimaryButton } from '../../components/Buttons';
+import {PrimaryButton} from '../../components/Buttons';
 import displayToast from '../../utilities/toast.utility';
 import BlockSchedule from './components/BlockSchedule/BlockSchedule';
 import Sessions from './components/Sessions';
-import { forEach } from 'lodash';
-import { DateTime } from 'luxon';
-import { useTranslation } from 'react-i18next';
+import {forEach} from 'lodash';
+import {DateTime} from 'luxon';
+import {useTranslation} from 'react-i18next';
 
-function CoachCalendar({ navigation }) {
-  const { mongoID, sessions } = useSelector((state) => state.user);
-  const { callEndpoint } = useFetchAndLoad();
+function CoachCalendar({navigation}) {
+  const {mongoID, sessions} = useSelector(state => state.user);
+  const {callEndpoint} = useFetchAndLoad();
   const [schedules, setSchedules] = useState();
   const [blockedSchedules, setBlockedSchedules] = useState();
   const [displayWorkingHours, setDisplayWorkingHours] = useState(false);
@@ -28,11 +28,11 @@ function CoachCalendar({ navigation }) {
   const [date, setDate] = useState(new Date().toString());
   const [sessionsToDisplay, setSessionsToDisplay] = useState([]);
 
-  const { t } = useTranslation('global');
+  const {t} = useTranslation('global');
 
   const getWorkingHours = async () => {
     try {
-      const { data } = await callEndpoint(getUserWorkingHours(mongoID));
+      const {data} = await callEndpoint(getUserWorkingHours(mongoID));
       setSchedules(data.data);
     } catch (error) {
       console.log('Working Hours Error');
@@ -41,7 +41,7 @@ function CoachCalendar({ navigation }) {
 
   const getBlockedSchedule = async () => {
     try {
-      const { data } = await callEndpoint(getUserBlockSchedule(mongoID));
+      const {data} = await callEndpoint(getUserBlockSchedule(mongoID));
       setBlockedSchedules(data.data);
     } catch (error) {
       displayToast('Error obteniendo los horarios bloqueados', 'error');
@@ -51,9 +51,9 @@ function CoachCalendar({ navigation }) {
   const getSessionsToDisplay = () => {
     const sessionsTemp = [];
 
-    forEach(sessions, (session) => {
+    forEach(sessions, session => {
       const selectedDate = DateTime.fromJSDate(date, {
-        zone: 'utc'
+        zone: 'utc',
       }).toISODate();
 
       const sessionDate = DateTime.fromISO(session?.date).toISODate();
@@ -75,10 +75,12 @@ function CoachCalendar({ navigation }) {
   }, [displayBlockSchedule]);
 
   useEffect(() => {
-    if (date) getSessionsToDisplay();
+    if (date) {
+      getSessionsToDisplay();
+    }
   }, [date]);
 
-  if (displayWorkingHours)
+  if (displayWorkingHours) {
     return (
       <WorkingHours
         setDisplayWorkingHours={setDisplayWorkingHours}
@@ -86,8 +88,9 @@ function CoachCalendar({ navigation }) {
         schedules={schedules}
       />
     );
+  }
 
-  if (displayBlockSchedule)
+  if (displayBlockSchedule) {
     return (
       <BlockSchedule
         setDisplayBlockSchedule={setDisplayBlockSchedule}
@@ -95,14 +98,14 @@ function CoachCalendar({ navigation }) {
         blockedSchedules={blockedSchedules}
       />
     );
+  }
 
   return (
     <ScrollView>
       <View
         style={tw.style(
-          'flex h-full justify-center bg-[#E4EFF8e8] px-8 py-8 mt--5'
-        )}
-      >
+          'flex h-full justify-center bg-[#E4EFF8e8] px-8 py-8 mt--5',
+        )}>
         <Advice />
 
         <PrimaryButton
@@ -122,7 +125,7 @@ function CoachCalendar({ navigation }) {
             onDayPress={setDate}
             value={date}
           />
-          <View style={{ marginTop: 15 }}>
+          <View style={{marginTop: 15}}>
             {sessionsToDisplay?.length > 0 && date && (
               <Sessions date={date} sessionsToDisplay={sessionsToDisplay} />
             )}
