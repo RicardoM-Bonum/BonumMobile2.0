@@ -1,16 +1,7 @@
 import {View, Text, Modal, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
 import {useFetchAndLoad, useUserUtilities} from '../../../../hooks';
-import {
-  cancelSession,
-  updateSession,
-  updateSessionNoShow,
-  updateSessionNumber,
-} from '../../../../services/sessions.service';
-import {
-  updateCoachee,
-  updateNoShowAcc,
-} from '../../../../services/user.service';
+import {cancelSession} from '../../../../services/sessions.service';
 import adaptedSession from '../../../../adapters/sessionsAdapter.adapter';
 import {Alert, Pressable} from 'native-base';
 
@@ -22,76 +13,13 @@ function CancelModal({showModal, setShowModal, navigation, session, hours}) {
     navigation.navigate('ReagendarCoachee', {session});
   };
 
-  const handleNavigation = async () => {
-    navigation.navigate('Home');
-  };
-
   const cancelMySession = async id => {
     try {
-      if (hours < 12) {
-        await callEndpoint(
-          updateSessionNumber({
-            id: session._id || session.id,
-            coacheeId: session?.coachee?._id,
-          }),
-        );
-
-        await callEndpoint(
-          updateCoachee(session?.coachee?._id, {noShow: true}),
-        );
-
-        await callEndpoint(
-          updateNoShowAcc(session?.coachee?._id, {
-            noShowAcc: session.coachee.noShowAcc + 1,
-            coacheeName: session.coachee.name,
-            coacheeLastName: session.coachee.lastname,
-            coacheeEmail: session.coachee.email,
-          }),
-        );
-      }
-
       const adaptSession = adaptedSession(session);
       await callEndpoint(cancelSession(adaptSession));
       await refreshSessions();
       setShowModal(false);
       await handleReschedule();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const finishMySession = async () => {
-    try {
-      const adaptSession = adaptedSession(session);
-
-      await callEndpoint(updateSession({...adaptSession, status: true}));
-
-      await callEndpoint(
-        updateSessionNumber({
-          id: session._id || session.id,
-          coacheeId: session?.coachee?._id,
-        }),
-      );
-
-      await callEndpoint(
-        updateSessionNoShow({
-          id: session._id || session.id,
-        }),
-      );
-
-      await callEndpoint(
-        updateNoShowAcc(session?.coachee?._id, {
-          noShowAcc: session.coachee.noShowAcc + 1,
-          coacheeName: session.coachee.name,
-          coacheeLastName: session.coachee.lastname,
-          coacheeEmail: session.coachee.email,
-        }),
-      );
-
-      await refreshSessions();
-      // setShowModal(false)
-      console.log('ASDASD(ASJG(*ASDJGADs');
-      await handleNavigation();
     } catch (error) {
       console.log(error);
     }
@@ -123,19 +51,11 @@ function CancelModal({showModal, setShowModal, navigation, session, hours}) {
           )}
 
           <View style={styles.buttons}>
-            {session.coachee.noShow === true && hours < 12 ? (
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => finishMySession()}>
-                <Text style={styles.textStyle}>Aceptar</Text>
-              </Pressable>
-            ) : (
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => cancelMySession(session.id)}>
-                <Text style={styles.textStyle}>Aceptar</Text>
-              </Pressable>
-            )}
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => cancelMySession(session.id)}>
+              <Text style={styles.textStyle}>Aceptar</Text>
+            </Pressable>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setShowModal(!showModal)}>

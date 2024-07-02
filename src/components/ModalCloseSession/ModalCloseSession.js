@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
 import {useFetchAndLoad, useUserUtilities} from '../../hooks';
 import {
+  cancelSession,
   cancelSessionByCoach,
   EndSession,
   updateSession,
-  updateSessionNoShow,
-  updateSessionNumber,
 } from '../../services/sessions.service';
 import displayToast from '../../utilities/toast.utility';
 import {useDispatch, useSelector} from 'react-redux';
@@ -18,7 +17,6 @@ import {CheckBox} from '@rneui/base';
 import {PrimaryButton, SecondaryButton} from '../Buttons';
 import {AlertDialog, Button} from 'native-base';
 import {useTranslation} from 'react-i18next';
-import {updateCoachee, updateNoShowAcc} from '../../services/user.service';
 import {Text} from 'react-native';
 import RedButton from '../Buttons/RedButton';
 
@@ -48,13 +46,6 @@ function ModalCloseSession({session, showModal, setShowModal, navigation}) {
 
         await callEndpoint(EndSession({_id: session._id || session.id}));
 
-        await callEndpoint(
-          updateSessionNumber({
-            id: session._id || session.id,
-            coacheeId: session?.coachee?._id,
-          }),
-        );
-
         endByAlternatecall(
           {...session, status: true},
           mongoID,
@@ -83,62 +74,14 @@ function ModalCloseSession({session, showModal, setShowModal, navigation}) {
       if (selectedIndex === 1) {
         //El coachee no se presentará
 
-        // si el coachee tiene noShow === true
-        if (session?.coachee?.noShow) {
-          // finaliza la sesion
-          await callEndpoint(
-            updateSession({
-              ...session,
-              status: true,
-              evaluatedByCoachee: true,
-            }),
-          );
-
-          await callEndpoint(
-            updateSessionNoShow({
-              id: session._id || session.id,
-            }),
-          );
-
-          await callEndpoint(
-            updateNoShowAcc(session?.coachee?._id, {
-              noShowAcc: session?.coachee?.noShowAcc + 1,
-              coacheeName: session?.coachee?.name,
-              coacheeLastName: session?.coachee?.lastname,
-              coacheeEmail: session?.coachee?.email,
-            }),
-          );
-        } else {
-          // si el coachee tiene noShow === false
-          // cancela la sesion
-          await callEndpoint(updateSession({...session, canceled: true}));
-
-          await callEndpoint(
-            updateCoachee(session?.coachee?._id, {noShow: true}),
-          );
-          await callEndpoint(
-            updateNoShowAcc(session?.coachee?._id, {
-              noShowAcc: session?.coachee?.noShowAcc + 1,
-              coacheeName: session?.coachee?.name,
-              coacheeLastName: session?.coachee?.lastname,
-              coacheeEmail: session?.coachee?.email,
-            }),
-          );
-        }
-
         await callEndpoint(
-          updateSessionNumber({
+          cancelSession({
+            ...session,
             id: session._id || session.id,
-            coacheeId: session?.coachee?._id,
+            noShow: true,
           }),
         );
       }
-
-      await callEndpoint(
-        updateSessionNoShow({
-          id: session._id || session.id,
-        }),
-      );
 
       if (selectedIndex === 2) {
         // Validación de cancelReason
@@ -158,13 +101,6 @@ function ModalCloseSession({session, showModal, setShowModal, navigation}) {
 
         //cancelada por el coach
         await callEndpoint(cancelSessionByCoach(updatedSession));
-
-        await callEndpoint(
-          updateSessionNumber({
-            id: session._id || session.id,
-            coacheeId: session?.coachee?._id,
-          }),
-        );
       }
 
       await refreshSessions();
