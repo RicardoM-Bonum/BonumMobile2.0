@@ -18,6 +18,8 @@ import useScheduleContext from './hooks/useScheduleContext';
 import {useTranslation} from 'react-i18next';
 import RescheduleCalendar from './components/Calendar/RescheduleCalendar';
 import {mongoDateToLongDate} from '../../utilities';
+import NoData from '../../components/NoData/NoData';
+import {SecondaryButton} from '../../components/Buttons';
 
 function RescheduleAppointment({navigation, route}) {
   const user = useSelector(state => state.user);
@@ -201,6 +203,25 @@ function RescheduleAppointment({navigation, route}) {
     return (
       <View>
         <Scheduled navigation={navigation} setScheduled={setScheduled} />
+      </View>
+    );
+  }
+
+  if (sessionToReschedule && sessionToReschedule?.noShow) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          paddingHorizontal: 30,
+          marginBottom: 50,
+        }}>
+        <NoData title={t('pages.reschedule.noShow')} />
+        <SecondaryButton
+          title={t('pages.reschedule.goBack')}
+          onPress={() => navigation.navigate('MySessions')}
+          loading={loading}
+        />
       </View>
     );
   }
