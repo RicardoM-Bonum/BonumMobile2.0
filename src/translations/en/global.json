@@ -394,6 +394,8 @@
       "noData": "There is no session to reschedule",
       "noSchedule": "No schedule available on this date.",
       "timeLimit": "You cannot schedule a session less than 24 hours in advance.",
+      "noShow": "We are sorry, this session has not complied with our cancellation policies so it cannot be rescheduled.",
+      "goBack": "Go Back",
       "components": {
         "advice": {
           "today": "Today",

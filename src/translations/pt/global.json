@@ -392,6 +392,8 @@
       "available": "Horas disponíveis",
       "handleSchedule": "Agendar",
       "noData": "Não há sessão para reagendar",
+      "noShow": "Lamentamos, mas esta sessão não cumpriu as nossas políticas de cancelamento e por isso não pode ser remarcada.",
+      "goBack": "Retornar",
       "noSchedule": "nenhuma programação disponível nesta data.",
       "timeLimit": "Não é possível agendar uma sessão com menos de 24 horas de antecedéncia",
       "components": {
