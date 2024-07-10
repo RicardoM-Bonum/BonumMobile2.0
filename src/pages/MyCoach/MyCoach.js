@@ -1,18 +1,9 @@
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  Alert,
-  Button,
-} from 'react-native';
+import {View, Text, Image, ScrollView, Alert} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import tw from 'twrnc';
 import {useSelector} from 'react-redux';
 import ViewCoachCalendar from '../../components/ViewCoachCalendar';
 import {useTranslation} from 'react-i18next';
-import displayToast from '../../utilities/toast.utility';
 import FocusAreaItem from '../../components/FocusAreaItem';
 import {PrimaryButton} from '../../components/Buttons';
 import Video from 'react-native-video';
@@ -187,33 +178,38 @@ export default function MyCoach({navigation}) {
         {hasVideoUrl && coach?.urlVideoCoach && (
           <>
             <View>
-              {coach?.urlVideoCoach.startsWith('https://firebasestorage.googleapis.com',) ? ( <Video
-                          source={{uri: coach.urlVideoCoach}}
-                          paused={true}
-                          controls={true}
-                          resizeMode={'contain'}
-                          nVideoBuffer={() => setVideoLoading(false)}
-                          onLoadStart={() => setVideoLoading(true)}
-                          onVideoLoad={() => setVideoLoading(false)}
-                          onLoad={() => setVideoLoading(false)}
-                          onPictureInPictureStatusChanged={isActive =>
-                            console.log(isActive)
-                          }
-                          style={tw.style(
-                            `${
-                              videoLoading && 'hidden'
-                            } w-full h-50 mt-6 rounded-3xl bg-[#b3b8bc]`,
-                          )}
-                        />) : (<View style={tw.style('mt-8 text-base ml-2')}>
-                        <YoutubePlayer
-                          height={300}
-                          play={playing}
-                          videoId={extractVideoIdFromUrl(coach.urlVideoCoach)}
-                          onChangeState={onStateChange}
-                          webViewStyle={{opacity: 0.99}}
-                        />
-                      </View>)
-                    }
+              {coach?.urlVideoCoach.startsWith(
+                'https://firebasestorage.googleapis.com',
+              ) ? (
+                <Video
+                  source={{uri: coach.urlVideoCoach}}
+                  paused={true}
+                  controls={true}
+                  resizeMode={'contain'}
+                  nVideoBuffer={() => setVideoLoading(false)}
+                  onLoadStart={() => setVideoLoading(true)}
+                  onVideoLoad={() => setVideoLoading(false)}
+                  onLoad={() => setVideoLoading(false)}
+                  onPictureInPictureStatusChanged={isActive =>
+                    console.log(isActive)
+                  }
+                  style={tw.style(
+                    `${
+                      videoLoading && 'hidden'
+                    } w-full h-50 mt-6 rounded-3xl bg-[#b3b8bc]`,
+                  )}
+                />
+              ) : (
+                <View style={tw.style('mt-8 text-base ml-2')}>
+                  <YoutubePlayer
+                    height={300}
+                    play={playing}
+                    videoId={extractVideoIdFromUrl(coach.urlVideoCoach)}
+                    onChangeState={onStateChange}
+                    webViewStyle={{opacity: 0.99}}
+                  />
+                </View>
+              )}
             </View>
           </>
         )}

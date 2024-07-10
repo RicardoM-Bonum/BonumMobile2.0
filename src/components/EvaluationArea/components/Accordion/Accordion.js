@@ -3,15 +3,11 @@ import {useTranslation} from 'react-i18next';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import tw from 'twrnc';
-import {useFetchAndLoad} from '../../../../hooks';
-import {translateText} from '../../../../services/coach.service';
 import NoData from '../../../NoData/NoData';
+import translateFocusArea from '../../../../utilities/translateFocusArea.utility';
 
 function Accordion({content = 'content', focusArea}) {
-  const {loading, callEndpoint} = useFetchAndLoad();
-
   const {t, i18n} = useTranslation('global');
-  const [translatedText, setTranslatedText] = useState('');
 
   const {
     image,
@@ -35,24 +31,8 @@ function Accordion({content = 'content', focusArea}) {
 
   const [translatedTopicTitles, setTranslatedTopicTitles] = useState([]);
 
-  const translate = async text => {
-    try {
-      const {data} = await callEndpoint(
-        translateText({
-          targetLanguage: i18n.language,
-          text: text,
-        }),
-      );
-
-      return data.data;
-    } catch (error) {
-      console.error('Error translating text:', error);
-      return '';
-    }
-  };
-
   const translateTitle = async () => {
-    const title = await translate(focusArea.title);
+    const title = await translateFocusArea(focusArea);
     setTranslatedTitle(title);
   };
 
@@ -60,7 +40,7 @@ function Accordion({content = 'content', focusArea}) {
   const translateTopicTitles = async () => {
     const translatedTitles = await Promise.all(
       focusArea.questions.map(async topic => {
-        const translatedTitle = await translate(topic.title);
+        const translatedTitle = await translateFocusArea(topic);
         return translatedTitle;
       }),
     );
@@ -71,27 +51,6 @@ function Accordion({content = 'content', focusArea}) {
     translateTopicTitles();
     translateTitle();
   }, [focusArea, i18n.language]);
-
-  useEffect(() => {
-    const fetchTranslation = async () => {
-      try {
-        const {data} = await callEndpoint(
-          translateText({
-            targetLanguage: i18n.language,
-            text: focusArea.focusArea,
-          }),
-        );
-        setTranslatedText(data.data);
-      } catch (error) {
-        console.error('Error translating text:', error);
-        setTranslatedText('');
-      }
-    };
-
-    if (focusArea.focusArea) {
-      fetchTranslation();
-    }
-  }, [focusArea.focusArea, i18n.language, callEndpoint]);
 
   return (
     <View style={tw.style('shadow-md bg-[#f8f8f8] mb-4 rounded-2xl px-2 py-4')}>

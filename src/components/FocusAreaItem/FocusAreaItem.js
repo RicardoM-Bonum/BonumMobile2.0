@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
 import tw from 'twrnc';
 import {useTranslation} from 'react-i18next';
-import {translateText} from '../../services/coach.service';
 import {useFetchAndLoad} from '../../hooks';
+import translateFocusArea from '../../utilities/translateFocusArea.utility';
 
 export default function FocusAreaItem({focusArea}) {
   const {t, i18n} = useTranslation('global');
@@ -12,13 +12,7 @@ export default function FocusAreaItem({focusArea}) {
 
   const fetchTranslation = async () => {
     try {
-      const {data} = await callEndpoint(
-        translateText({
-          targetLanguage: i18n.language,
-          text: focusArea.focusArea,
-        }),
-      );
-      setTranslatedText(data.data);
+      setTranslatedText(translateFocusArea(focusArea));
     } catch (error) {
       console.error('Error translating text:', error);
       setTranslatedText('');
