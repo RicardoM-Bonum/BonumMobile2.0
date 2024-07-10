@@ -45,8 +45,6 @@ export default function Sessions() {
 
   const {t, i18n} = useTranslation('global');
 
-  console.log('YAHALLO3');
-
   const getUserSessions = async () => {
     try {
       const {data} = await callEndpoint(getCoacheeSessions(coachee._id));
