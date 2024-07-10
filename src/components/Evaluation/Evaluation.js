@@ -70,10 +70,14 @@ export default function Evaluation(props) {
             _id: answer?.question?.focusArea?._id,
             title: answer?.question?.focusArea?.focusArea,
             image: answer?.question?.focusArea?.urlImgFocusArea,
+            en: answer?.question?.focusArea?.en,
+            pt: answer?.question?.focusArea?.pt,
             questions: [
               {
                 _id: answer.question._id,
                 title: answer.question.question,
+                en: answer.question.en,
+                pt: answer.question.pt,
                 initialEvaluation: isInitialEvaluation ? answer.value : 0,
                 finalEvaluation: !isInitialEvaluation ? answer.value : 0,
                 initialAnswers: isInitialEvaluation ? 1 : 0,
@@ -105,6 +109,8 @@ export default function Evaluation(props) {
             focusAreasTemp[indexOfFocusArea].questions.push({
               _id: answer.question._id,
               title: answer.question.question,
+              en: answer.question.en,
+              pt: answer.question.pt,
               initialEvaluation: isInitialEvaluation ? answer.value : 0,
               finalEvaluation: !isInitialEvaluation ? answer.value : 0,
               initialAnswers: isInitialEvaluation ? 1 : 0,
