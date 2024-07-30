@@ -3,11 +3,8 @@ import {
   Text,
   TextInput,
   ScrollView,
-  TouchableOpacity,
-  Image,
   KeyboardAvoidingView,
   Platform,
-  Alert,
   StyleSheet,
 } from 'react-native';
 import React, {useContext, useEffect} from 'react';
@@ -17,7 +14,7 @@ import EvaluationRate from './components/EvaluationRate';
 import {FinalModal} from './components/FinalModal';
 import {useDispatch, useSelector} from 'react-redux';
 import {updateEvaluationCoach} from '../../services/coach.service';
-import {updateSession} from '../../services/sessions.service';
+import {getSessionByID, updateSession} from '../../services/sessions.service';
 import {updateStreaming} from '../../services/streaming.service';
 import useFetchAndLoad from '../../hooks/useFetchAndLoad';
 import adaptedSession from '../../adapters/sessionsAdapter.adapter';
@@ -26,13 +23,11 @@ import {useTranslation} from 'react-i18next';
 import {updateEvaluationCoachee} from '../../services/coachee.service';
 import SessionEvaluationContext from './context/SessionEvaluationContext';
 import Loading from '../../components/Loading';
-import {useUserUtilities} from '../../hooks';
 import {PrimaryButton} from '../../components/Buttons';
 import displayToast from '../../utilities/toast.utility';
 import {size} from 'lodash';
 import CoacheeAssistModal from '../../components/coacheeAssistModal/CoacheeAssistModal';
 import {getProgramById} from '../../services/program.service';
-import ReactNativeItemSelect from 'react-native-item-select';
 import FocusAreaItem from './components/FocusAreaItem';
 
 export default function SessionEvaluation({navigation}) {
@@ -174,9 +169,43 @@ export default function SessionEvaluation({navigation}) {
     }
   };
 
+  const checkforNPS = async () => {
+    if (isCoach) {
+      return;
+    }
+    if (!session) {
+      return;
+    }
+
+    if (!navigation.isFocused()) {
+      return;
+    }
+
+    const {data} = await callEndpoint(getSessionByID(session?._id));
+    const {sessionNumber} = data.data;
+    if (!sessionNumber) {
+      return;
+    }
+
+    const MID_NPS_SESSION = user?.cohort?.program / 2;
+    const FINAL_NPS_SESSIONS = user?.cohort?.program - 1;
+
+    if (MID_NPS_SESSION === sessionNumber) {
+      navigation.navigate('Nps', {mid: true, sessionId: session._id});
+    }
+
+    if (FINAL_NPS_SESSIONS === sessionNumber) {
+      navigation.navigate('Nps', {final: true, sessionId: session._id});
+    }
+  };
+
   useEffect(() => {
     getCoachingProgram();
   }, []);
+
+  useEffect(() => {
+    checkforNPS();
+  }, [user.sessions, session]);
 
   if (loading) {
     return <Loading title={'LOADING...'} />;
