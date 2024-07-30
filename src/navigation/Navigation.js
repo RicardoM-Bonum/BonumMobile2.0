@@ -39,6 +39,7 @@ import Preferences from '../pages/Preferences';
 import Icon from 'react-native-vector-icons/Entypo';
 import {View} from 'react-native';
 import {useTranslation} from 'react-i18next';
+import Nps from '../pages/Nps';
 
 const Drawer = createDrawerNavigator();
 
@@ -243,6 +244,14 @@ function Navigation() {
                 options={{
                   drawerItemStyle: {display: 'none'},
                   headerShown: false,
+                }}
+              />
+
+              <Drawer.Screen
+                name="Nps"
+                component={Nps}
+                options={{
+                  drawerItemStyle: {display: 'none'},
                 }}
               />
 

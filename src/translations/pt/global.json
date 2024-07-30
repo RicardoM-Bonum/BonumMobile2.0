@@ -613,6 +613,18 @@
         "finalAlignment": "do alinhamento final",
         "noShow": "Não compareceu"
       }
+    },
+    "midnps": {
+      "recomendation": "Você recomendaria o Bonum Coaching para um colega/colaborador/companheiro?",
+      "usefulAspect": "Existe algum aspecto do programa que você acha útil, mas que acredita que poderia ser melhorado?",
+      "obstacles": "Existem obstáculos ou problemas técnicos no programa que dificultam seu processo de coaching? Se sim, você pode descrevê-los?"
+    },
+    "finalnps": {
+      "coachValoration": "Em uma escala de 1 a 5, como você avaliaria o seu coach?",
+      "feelingsAboutCareer": "Como você se sentia em relação à sua carreira profissional antes de iniciar no Bonum Coaching?",
+      "feelingsAboutBonum": "O que você mais apreciou no processo de coaching? Como você se sente agora?",
+      "aboutCoach": "O que você pode nos dizer sobre a experiência com seu coach? O que você diria a outros participantes que gostariam de escolher seu coach?",
+      "programFeedback": "Você tem algum feedback sobre o programa de coaching?"
     }
   },
   "lastTranslations": {
