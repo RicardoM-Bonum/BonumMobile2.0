@@ -52,7 +52,6 @@ import striptags from 'striptags';
 import {decode} from 'html-entities';
 
 export default function Chat({navigation}) {
-  console.log('yahallo4');
   const [roomHash, setRoomHash] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -61,7 +60,6 @@ export default function Chat({navigation}) {
   const [lastVisibleMessage, setLastVisibleMessage] = useState(undefined);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  console.log('messages', messages);
 
   const {
     handleFilePicker,
