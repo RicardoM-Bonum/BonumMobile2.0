@@ -48,6 +48,8 @@ import ImageMessage from './components/ImageMessage/ImageMessage';
 import {OneSignal} from 'react-native-onesignal';
 import {useFetchAndLoad} from '../../../../hooks';
 import {sendChatMessage} from '../../../../services/user.service';
+import striptags from 'striptags';
+import {decode} from 'html-entities';
 
 export default function Chat({navigation}) {
   const [roomHash, setRoomHash] = useState('');
@@ -57,6 +59,7 @@ export default function Chat({navigation}) {
   const [selectedViewImage, setSelectedViewImage] = useState('');
   const [lastVisibleMessage, setLastVisibleMessage] = useState(undefined);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
 
   const {
     handleFilePicker,
@@ -218,10 +221,21 @@ export default function Chat({navigation}) {
     };
   }, []);
 
+  // Función para limpiar el contenido del mensaje
+  const cleanMessageContent = content => {
+    // Decodificar entidades HTML y eliminar etiquetas
+    const decodedContent = decode(content);
+    return striptags(decodedContent);
+  };
+
   const appendMessages = useCallback(
     messages => {
+      const decodedMessages = messages.map(message => ({
+        ...message,
+        text: cleanMessageContent(decodeURIComponent(message.text)),
+      }));
       setMessages(previousMessages =>
-        GiftedChat.append(previousMessages, messages),
+        GiftedChat.append(previousMessages, decodedMessages),
       );
     },
     [messages],
