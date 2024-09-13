@@ -1,15 +1,19 @@
-import { View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
-import React, { useContext, useEffect, useState } from 'react';
+import {View, Text, Image, TouchableOpacity, TextInput} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
 import tw from 'twrnc';
 import Modal from './Modal';
 import SessionInfoContext from '../../context/SessionInfoContext';
-import { useFetchAndLoad } from '../../../../../../hooks';
+import {useFetchAndLoad} from '../../../../../../hooks';
 import {
   createPointSesion,
-  editPointSesion
+  editPointSesion,
 } from '../../../../../../services/sessionPoints.service';
 import NoData from '../../../../../../components/NoData/NoData';
-import { PrimaryButton } from '../../../../../../components/Buttons';
+import {PrimaryButton} from '../../../../../../components/Buttons';
+import {
+  createAlignmentPointSesion,
+  editAlignmentPointSesion,
+} from '../../../../../../services/alignmentSessionPoints.service';
 
 export default function Points() {
   const [showModal, setShowModal] = useState(false);
@@ -17,47 +21,68 @@ export default function Points() {
   const [pointSessionText, setPointSessionText] = useState('');
   const [action, setAction] = useState('save');
   const [pointSessionToEdit, setPointSessionToEdit] = useState({});
-  const { selectedSession: session, setSelectedSession } =
+  const {selectedSession: session, setSelectedSession} =
     useContext(SessionInfoContext);
 
-  const { callEndpoint } = useFetchAndLoad();
+  const {callEndpoint} = useFetchAndLoad();
+
+  const isNormalSession = session?.type ? false : true;
 
   const addNewPointSession = async () => {
     try {
-      const { data } = await callEndpoint(
-        createPointSesion({
-          title: pointSessionText,
-          session: session.id
-        })
-      );
+      const response = isNormalSession
+        ? await callEndpoint(
+            createPointSesion({
+              title: pointSessionText,
+              session: session.id,
+            }),
+          )
+        : await callEndpoint(
+            createAlignmentPointSesion({
+              title: pointSessionText,
+              session: session._id,
+            }),
+          );
 
+      const {data} = response;
       setSelectedSession({
         ...session,
-        pointsSession: [...session.pointsSession, data.data]
+        pointsSession: [...session.pointsSession, data.data],
       });
     } catch (error) {
       console.log(error);
     }
   };
 
-  const editPoint = async (pointSession) => {
+  const editPoint = async pointSession => {
     try {
-      const { data } = await callEndpoint(
-        editPointSesion({
-          ...pointSession,
-          id: pointSession._id,
-          title: pointSessionText
-        })
-      );
+      const response = isNormalSession
+        ? await callEndpoint(
+            editPointSesion({
+              ...pointSession,
+              id: pointSession._id,
+              title: pointSessionText,
+            }),
+          )
+        : await callEndpoint(
+            editAlignmentPointSesion({
+              ...pointSession,
+              id: pointSession._id,
+              title: pointSessionText,
+            }),
+          );
+
+      const {data} = response;
 
       setSelectedSession({
         ...session,
-        pointsSession: session?.pointsSession.map((point) => {
-          if (point._id === pointSession._id)
-            return { ...data.data, title: pointSessionText };
+        pointsSession: session?.pointsSession.map(point => {
+          if (point._id === pointSession._id) {
+            return {...data.data, title: pointSessionText};
+          }
 
           return point;
-        })
+        }),
       });
     } catch (error) {
       console.log(error);
@@ -65,12 +90,16 @@ export default function Points() {
   };
 
   const handleAction = () => {
-    if (action === 'save') addNewPointSession();
-    if (action === 'edit') editPoint(pointSessionToEdit);
+    if (action === 'save') {
+      addNewPointSession();
+    }
+    if (action === 'edit') {
+      editPoint(pointSessionToEdit);
+    }
     setShowModal(false);
   };
 
-  const editAction = (pointSession) => {
+  const editAction = pointSession => {
     setAction('edit');
     setPointSessionText(pointSession.title);
     setPointSessionToEdit(pointSession);
@@ -84,7 +113,9 @@ export default function Points() {
   };
 
   useEffect(() => {
-    if (session?.pointsSession) setPoints(session.pointsSession);
+    if (session?.pointsSession) {
+      setPoints(session.pointsSession);
+    }
   }, [session]);
 
   return (
@@ -98,10 +129,9 @@ export default function Points() {
           points.map((point, index) => (
             <View
               style={tw.style(
-                'flex-row justify-between items-center flex-wrap'
+                'flex-row justify-between items-center flex-wrap',
               )}
-              key={point._id}
-            >
+              key={point._id}>
               <View style={tw.style('flex-row')}>
                 <Image
                   source={require('../../../../../../assets/img/icons/points.png')}
@@ -123,13 +153,11 @@ export default function Points() {
         )}
         <TouchableOpacity
           onPress={() => saveAction()}
-          style={tw.style('flex-row mt-4')}
-        >
+          style={tw.style('flex-row mt-4')}>
           <Text
             style={tw.style(
-              'underline font-light text-[#1E2843] text-base mr-4'
-            )}
-          >
+              'underline font-light text-[#1E2843] text-base mr-4',
+            )}>
             Agregar puntos tratados
           </Text>
           <Image
@@ -141,21 +169,20 @@ export default function Points() {
       <Modal isVisible={showModal} setVisible={setShowModal}>
         <View style={tw.style('py-8 px-4')}>
           <Text
-            style={tw.style('text-black text-[20px] font-light text-center')}
-          >
+            style={tw.style('text-black text-[20px] font-light text-center')}>
             {action === 'save'
               ? 'Agregue aqui un punto tratado de esta sesión'
               : 'Edite aqui una punto tratado de esta sesión'}
           </Text>
           <TextInput
             style={tw.style(
-              'text-black bg-white px-8 py-2 rounded-2xl mt- shadow-md text-base mt-6'
+              'text-black bg-white px-8 py-2 rounded-2xl mt- shadow-md text-base mt-6',
             )}
             multiline={true}
             numberOfLines={6}
             value={pointSessionText}
             textAlignVertical="top"
-            onChangeText={(e) => setPointSessionText(e)}
+            onChangeText={e => setPointSessionText(e)}
             placeholder="Punto tratado"
             placeholderTextColor={'#60636A'}
           />
@@ -163,9 +190,8 @@ export default function Points() {
             <TouchableOpacity
               onPress={handleAction}
               style={tw.style(
-                'bg-[#173969] px-2 py-2 rounded-full mt-10 shadow-md'
-              )}
-            >
+                'bg-[#173969] px-2 py-2 rounded-full mt-10 shadow-md',
+              )}>
               <Text style={tw.style('text-white text-center text-xl')}>
                 Guardar
               </Text>
@@ -173,9 +199,8 @@ export default function Points() {
             <TouchableOpacity
               onPress={() => setShowModal(false)}
               style={tw.style(
-                'bg-[#299EFF] px-2 py-2 rounded-full mt-5 shadow-md'
-              )}
-            >
+                'bg-[#299EFF] px-2 py-2 rounded-full mt-5 shadow-md',
+              )}>
               <Text style={tw.style('text-white text-center text-xl')}>
                 Cerrar
               </Text>
