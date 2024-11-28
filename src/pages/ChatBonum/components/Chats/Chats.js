@@ -7,10 +7,8 @@ import {useSelector} from 'react-redux';
 //Contacts
 import ChatColors from '../../constants/chatColors';
 import ListItem from '../ListItems/ListItem';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export default function Chats({navigation}) {
-  console.log('yahallo3');
   const [loading, setLoading] = useState(true);
   const {coachees, role, coach, email, lastname, photo} = useSelector(
     state => state.user,

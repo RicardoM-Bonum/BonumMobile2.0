@@ -5,8 +5,6 @@ import auth from '@react-native-firebase/auth';
 import displayToast from '../../../utilities/toast.utility';
 import {useTranslation} from 'react-i18next';
 import {
-  Dimensions,
-  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -16,12 +14,12 @@ import {
 } from 'react-native';
 import tw from 'twrnc';
 import Logo from '../../../assets/icons/bonum-logo.png';
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 import {PrimaryButton} from '../../Buttons';
+import {useFetchAndLoad} from '../../../hooks';
+import {resetPassword} from '../../../services/user.service';
 
 function ForgotPassword({setLogin}) {
-  const [loading, setLoading] = useState(false);
+  const {callEndpoint, loading} = useFetchAndLoad();
   const {t} = useTranslation('global');
 
   const validationSchema = Yup.object({
@@ -40,16 +38,13 @@ function ForgotPassword({setLogin}) {
       validationSchema,
       onSubmit: async ({email}) => {
         try {
-          setLoading(true);
-          await auth().sendPasswordResetEmail(email);
+          await callEndpoint(resetPassword(email.toLowerCase()));
           displayToast(
             'Enviamos un correo con el enlace para que reestablezcas tu contraseña',
             'success',
           );
           setLogin(true);
-          setLoading(false);
         } catch (error) {
-          setLoading(false);
           displayToast('Ups! tenemos un error, contacta a soporte', 'error');
         }
       },

@@ -4,6 +4,7 @@ import store from '../redux/store';
 
 const updateRequestWithFirebaseToken = async request => {
   try {
+    if (request?.url.includes('sendResetPasswordLink')) return request;
     const {token} = await auth().currentUser.getIdTokenResult();
     request.headers = {
       ...request.headers,

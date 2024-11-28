@@ -84,3 +84,19 @@ export const sendChatMessage = data => {
     controller,
   };
 };
+
+export const resetPassword = email => {
+  const controller = loadAbort();
+
+  return {
+    call: () =>
+      axios.post(
+        `${usersURL}/userRol/sendResetPasswordLink`,
+        {email},
+        {
+          signal: controller.signal,
+        },
+      ),
+    controller,
+  };
+};

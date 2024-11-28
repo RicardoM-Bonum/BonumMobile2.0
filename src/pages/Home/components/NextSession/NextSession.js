@@ -317,6 +317,8 @@ export default function NextSession({user, navigation}) {
     const timeDifference = sessionTime.getTime() - currentTime.getTime();
     const minutesDifference = Math.ceil(timeDifference / (1000 * 60));
 
+    return true;
+
     if (minutesDifference <= 5) {
       // Si faltan 5 minutos o menos, se cumple la tolerancia
       return true;

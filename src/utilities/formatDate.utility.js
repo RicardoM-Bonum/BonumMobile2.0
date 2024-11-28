@@ -17,11 +17,15 @@ const mongoDateToLongDate = unformatedDate => {
 };
 
 const mongoDateToShortDate = unformatedDate => {
-  const formatedDate = DateTime.fromISO(unformatedDate);
+  const store = useStore();
+  const {user} = store.getState();
+  const formatedDate = DateTime.fromISO(unformatedDate, {zone: user.timezone});
   return formatedDate.toFormat('dd-MM-yyyy', {locale: 'es'});
 };
 const mongoDateToShortDateYearFirst = unformatedDate => {
-  const formatedDate = DateTime.fromISO(unformatedDate);
+  const store = useStore();
+  const {user} = store.getState();
+  const formatedDate = DateTime.fromISO(unformatedDate, {zone: user.timezone});
   return formatedDate.toFormat('yyyy-MM-dd');
 };
 const dateToShortDateYearFirst = unformatedDate => {
@@ -30,7 +34,9 @@ const dateToShortDateYearFirst = unformatedDate => {
 };
 
 const mongoDateToTime = unformatedDate => {
-  const formatedDate = DateTime.fromISO(unformatedDate);
+  const store = useStore();
+  const {user} = store.getState();
+  const formatedDate = DateTime.fromISO(unformatedDate, {zone: user.timezone});
   return formatedDate.toFormat('hh:mma');
 };
 const jsDateToTimeISO = unformatedDate => {
@@ -43,12 +49,18 @@ const dateToHour = unformatedDate => {
   return formatedDate.toFormat('HH:mm');
 };
 const mongoDateToHour = unformatedDate => {
-  const formatedDate = DateTime.fromISO(unformatedDate);
+  const store = useStore();
+  const {user} = store.getState();
+  const formatedDate = DateTime.fromISO(unformatedDate, {zone: user.timezone});
   return formatedDate.toFormat('HH:mm');
 };
 
 const mongoDateToTimePlusOneHour = unformatedDate => {
-  const formatedDate = DateTime.fromISO(unformatedDate).plus({hours: 1});
+  const store = useStore();
+  const {user} = store.getState();
+  const formatedDate = DateTime.fromISO(unformatedDate, {
+    zone: user.timezone,
+  }).plus({hours: 1});
   return formatedDate.toFormat('hh:mma');
 };
 
